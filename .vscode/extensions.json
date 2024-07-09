@@ -3,6 +3,8 @@
         "octref.vetur",
         "vue.volar",
         "ms-vscode.vscode-typescript-next",
-        "equinusocio.vsc-material-theme-icons"
+        "equinusocio.vsc-material-theme-icons",
+        "mhutchie.git-graph",
+        "eamodio.gitlens"
     ]
 }
