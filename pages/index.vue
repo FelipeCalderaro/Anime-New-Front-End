@@ -12,10 +12,11 @@ const { data } = await useAsyncGql({
 </script>
 
 <template>
-    <div>
+    <div
+        class="fit row wrap justify-between">
         <div
-          id="cards-div"
-          class=".col col-md-auto q-ma-md"
+          id="card-div" 
+          class="q-ma-md"
           v-for="animes in  data.Page?.media"
           :key="animes?.id"
         >
@@ -23,21 +24,19 @@ const { data } = await useAsyncGql({
             class="card-border"
             :id=" 'div-' + animes?.id "
           >
-            <!-- flat
-              bordered
-              @mouseover="onCardHover(animes.id)"
-              @mouseleave="onCardHoverStop(animes.id)" -->
-            <q-card class="card">
+            <q-card 
+                style="width: 500px; height: 300px;"
+                dark
+            >
               <q-card-section horizontal>
-                <q-card-section>
+                <q-card-section class="col-grow">
                   <div class="txt">
-                    <q-scroll-area :style="{height: '150px'}">
+                    <q-scroll-area :style="{height: '200px'}">
                       <div class="text-area">
-                        <p class="text-title font-extra-bold text-area">
+                        <h6 class="text-title font-extra-bold text-area">
                           {{ animes?.title?.romaji}}
-                        </p>
+                        </h6>
                       </div>
-
                       <div v-html="animes?.description" class="text-description font-regular"></div>
                     </q-scroll-area>
 
@@ -68,17 +67,17 @@ const { data } = await useAsyncGql({
                 </q-card-section>
 
                 <q-img
-                  height="265px"
-                  width="185px"
-                  :style="{cursor: 'pointer'}"
-                  :src="animes?.coverImage?.extraLarge ?? '-'"
+                    class="col-5"
+                    fit="cover"
+                    :style="{cursor: 'pointer'}"
+                    :src="animes?.coverImage?.extraLarge ?? '-'"
                 >
                   <div
                     v-if="animes?.nextAiringEpisode !== null"
                     class="items-end absolute-bottom text-center"
                     style="height: 60px"
                   >
-                    <p class="text-bold" style="width: 145px">
+                    <p class="text-bold">
                       {{ 'Episódio ' + animes?.nextAiringEpisode?.episode + ' em:' }}
                       <br>
                       {{ timeToAirCountDown(animes?.nextAiringEpisode?.airingAt) }}
