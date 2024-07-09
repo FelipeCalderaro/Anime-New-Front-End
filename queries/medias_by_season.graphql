@@ -1,0 +1,42 @@
+query mediaBySeason($season: MediaSeason, $year: Int){
+    Page(perPage: 100, page: 1){
+        media(season: $season, seasonYear: $year, format: TV, sort: POPULARITY_DESC, isAdult: false){
+            title {
+                romaji
+                english
+            }
+            nextAiringEpisode{
+                id
+                airingAt
+                timeUntilAiring
+                episode
+                mediaId
+            }
+            description
+            id
+            startDate {
+                day
+                month
+                year
+            }
+            bannerImage
+            coverImage{
+                extraLarge
+                large
+                medium
+            }
+            studios{
+                nodes{
+                    name
+                    id
+                }
+            }
+            genres
+            type
+            format
+            status
+            episodes
+            duration
+        }
+    }
+}

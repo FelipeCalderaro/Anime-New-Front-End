@@ -1,0 +1,36 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "graphql": {
+    "schema": "https://graphql.anilist.co",
+    "documents": "**/*.{graphql,js,ts,jsx,tsx}"
+  },
+  "dependencies": {
+    "@nuxtjs/eslint-module": "^4.1.0",
+    "@nuxtjs/html-validator": "^1.8.2",
+    "@nuxtjs/robots": "^3.0.0",
+    "@pinia/nuxt": "^0.5.1",
+    "@quasar/extras": "^1.16.12",
+    "nuxt": "^3.12.3",
+    "nuxt-graphql-client": "^0.2.35",
+    "nuxt-quasar-ui": "^2.1.3",
+    "quasar": "^2.16.5",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@nuxt/typescript-build": "^3.0.2",
+    "@nuxtjs/i18n": "^9.0.0-alpha.1",
+    "typescript": "^5.5.3"
+  },
+  "overrides": {
+    "vue": "latest"
+  }
+}
