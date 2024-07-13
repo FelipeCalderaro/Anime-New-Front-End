@@ -7,13 +7,11 @@
 
 <template>
     <div class="DefaultLayout">
-        <!-- Component import example
-        <Example 
-            title="Example title" 
-            message="This is an example usage message"
-            :on-click="() => console.log('Example Click')"
-        /> -->
-        
+        <!-- Component import example -->
+        <!-- <Example title="Example title" message="This is an example usage message"
+            :on-click="() => console.log('Example Click')" /> -->
+
+        <Navbar />
         <main>
             <NuxtPage />
         </main>
