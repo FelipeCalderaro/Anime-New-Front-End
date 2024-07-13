@@ -1515,7 +1515,7 @@
     which "^3.0.1"
     ws "^8.17.1"
 
-"@nuxt/kit@^3.0.0", "@nuxt/kit@^3.10.3", "@nuxt/kit@^3.11.2", "@nuxt/kit@^3.12.2", "@nuxt/kit@^3.5.0", "@nuxt/kit@^3.9.1", "@nuxt/kit@3.12.3":
+"@nuxt/kit@^3.0.0", "@nuxt/kit@^3.10.3", "@nuxt/kit@^3.11.1", "@nuxt/kit@^3.11.2", "@nuxt/kit@^3.12.2", "@nuxt/kit@^3.5.0", "@nuxt/kit@^3.9.1", "@nuxt/kit@3.12.3":
   version "3.12.3"
   resolved "https://registry.npmjs.org/@nuxt/kit/-/kit-3.12.3.tgz"
   integrity sha512-5R8FZLDxBKlkDWYsqwU1tctGJ5vwMA96WBrNkpQ0LznB2/p+3MWWTO6vz+0P0F9xvZZfkk/KKyZ3uUhnG9VJOA==
@@ -1711,6 +1711,17 @@
   dependencies:
     "@nuxt/kit" "^3.0.0"
     h3 "^1.0.1"
+
+"@nuxtjs/strapi@^1.12.0":
+  version "1.12.0"
+  resolved "https://registry.npmjs.org/@nuxtjs/strapi/-/strapi-1.12.0.tgz"
+  integrity sha512-pysxYW5SPQaB6H7G72wO2qz4Rl7DakuPUthNweEvL3ERK5O3qMZ97mIm+Pdwvb3/H0ntFDJSjx08YRWjjuV7hg==
+  dependencies:
+    "@nuxt/kit" "^3.11.1"
+    defu "^6.1.4"
+    graphql "^16.8.1"
+    qs "^6.12.0"
+    ufo "^1.5.3"
 
 "@parcel/watcher-wasm@^2.4.1":
   version "2.4.1"
@@ -3165,6 +3176,17 @@ cac@^6.7.14:
   resolved "https://registry.npmjs.org/cac/-/cac-6.7.14.tgz"
   integrity sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==
 
+call-bind@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/call-bind/-/call-bind-1.0.7.tgz"
+  integrity sha512-GHTSNSYICQ7scH7sZ+M2rFopRoLh8t2bLSW6BbgrtLsahOIB5iyAVJf9GjWK3cYTDaMj4XdBpM1cA6pIS0Kv2w==
+  dependencies:
+    es-define-property "^1.0.0"
+    es-errors "^1.3.0"
+    function-bind "^1.1.2"
+    get-intrinsic "^1.2.4"
+    set-function-length "^1.2.1"
+
 callsites@^3.0.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/callsites/-/callsites-3.1.0.tgz"
@@ -3809,6 +3831,15 @@ defaults@^1.0.3:
   dependencies:
     clone "^1.0.2"
 
+define-data-property@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.npmjs.org/define-data-property/-/define-data-property-1.1.4.tgz"
+  integrity sha512-rBMvIzlpA8v6E+SJZoo++HAYqsLrkg7MSfIinMPFhmkorw7X+dOXVJQs+QT69zGkzMyfDnIMN2Wid1+NbL3T+A==
+  dependencies:
+    es-define-property "^1.0.0"
+    es-errors "^1.3.0"
+    gopd "^1.0.1"
+
 define-lazy-prop@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/define-lazy-prop/-/define-lazy-prop-2.0.0.tgz"
@@ -4021,6 +4052,18 @@ error-stack-parser-es@^0.1.1, error-stack-parser-es@^0.1.4:
   version "0.1.4"
   resolved "https://registry.npmjs.org/error-stack-parser-es/-/error-stack-parser-es-0.1.4.tgz"
   integrity sha512-l0uy0kAoo6toCgVOYaAayqtPa2a1L15efxUMEnQebKwLQX2X0OpS6wMMQdc4juJXmxd9i40DuaUHq+mjIya9TQ==
+
+es-define-property@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.0.tgz"
+  integrity sha512-jxayLKShrEqqzJ0eumQbVhTYQM27CfT1T35+gCgDFoL82JLsXqTJ76zv6A0YLOgEnLUMvLzsDsGIrl8NFpT2gQ==
+  dependencies:
+    get-intrinsic "^1.2.4"
+
+es-errors@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz"
+  integrity sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==
 
 es-module-lexer@^1.2.1:
   version "1.5.4"
@@ -4611,6 +4654,17 @@ get-caller-file@^2.0.1, get-caller-file@^2.0.5:
   resolved "https://registry.npmjs.org/get-caller-file/-/get-caller-file-2.0.5.tgz"
   integrity sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==
 
+get-intrinsic@^1.1.3, get-intrinsic@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.2.4.tgz"
+  integrity sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==
+  dependencies:
+    es-errors "^1.3.0"
+    function-bind "^1.1.2"
+    has-proto "^1.0.1"
+    has-symbols "^1.0.3"
+    hasown "^2.0.0"
+
 get-port-please@^3.1.2:
   version "3.1.2"
   resolved "https://registry.npmjs.org/get-port-please/-/get-port-please-3.1.2.tgz"
@@ -4803,6 +4857,13 @@ globby@^14.0.1, globby@^14.0.2:
     slash "^5.1.0"
     unicorn-magic "^0.1.0"
 
+gopd@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/gopd/-/gopd-1.0.1.tgz"
+  integrity sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==
+  dependencies:
+    get-intrinsic "^1.1.3"
+
 graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11, graceful-fs@^4.2.4, graceful-fs@^4.2.9:
   version "4.2.11"
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz"
@@ -4845,7 +4906,7 @@ graphql-ws@^5.14.0:
   resolved "https://registry.npmjs.org/graphql-ws/-/graphql-ws-5.16.0.tgz"
   integrity sha512-Ju2RCU2dQMgSKtArPbEtsK5gNLnsQyTNIo/T7cZNp96niC1x0KdJNZV0TIoilceBPQwfb5itrGl8pkFeOUMl4A==
 
-graphql@*, "graphql@^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "graphql@^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "graphql@^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "graphql@^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "graphql@^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "graphql@^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", graphql@^16.7.1, "graphql@>=0.11 <=16", "graphql@14 - 16":
+graphql@*, "graphql@^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "graphql@^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "graphql@^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "graphql@^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "graphql@^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "graphql@^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", graphql@^16.7.1, graphql@^16.8.1, "graphql@>=0.11 <=16", "graphql@14 - 16":
   version "16.9.0"
   resolved "https://registry.npmjs.org/graphql/-/graphql-16.9.0.tgz"
   integrity sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==
@@ -4883,6 +4944,23 @@ has-flag@^4.0.0:
   resolved "https://registry.npmjs.org/has-flag/-/has-flag-4.0.0.tgz"
   integrity sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==
 
+has-property-descriptors@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/has-property-descriptors/-/has-property-descriptors-1.0.2.tgz"
+  integrity sha512-55JNKuIW+vq4Ke1BjOTjM2YctQIvCT7GFzHwmfZPGo5wnrgkid0YQtnAleFSqumZm4az3n2BS+erby5ipJdgrg==
+  dependencies:
+    es-define-property "^1.0.0"
+
+has-proto@^1.0.1:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/has-proto/-/has-proto-1.0.3.tgz"
+  integrity sha512-SJ1amZAJUiZS+PhsVLf5tGydlaVB8EdFpaSO4gmiUKUOxk8qzn5AIy4ZeJUmh22znIdk/uMAUT2pl3FxzVUH+Q==
+
+has-symbols@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/has-symbols/-/has-symbols-1.0.3.tgz"
+  integrity sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A==
+
 has-unicode@^2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/has-unicode/-/has-unicode-2.0.1.tgz"
@@ -4893,7 +4971,7 @@ hash-sum@^2.0.0:
   resolved "https://registry.npmjs.org/hash-sum/-/hash-sum-2.0.0.tgz"
   integrity sha512-WdZTbAByD+pHfl/g9QSsBIIwy8IT+EsPiKDs0KNX+zSHhdDLFKdZu0BQHljvO+0QI/BasbMSUa8wYNCZTvhslg==
 
-hasown@^2.0.2:
+hasown@^2.0.0, hasown@^2.0.2:
   version "2.0.2"
   resolved "https://registry.npmjs.org/hasown/-/hasown-2.0.2.tgz"
   integrity sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==
@@ -6246,6 +6324,11 @@ object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   resolved "https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz"
   integrity sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==
 
+object-inspect@^1.13.1:
+  version "1.13.2"
+  resolved "https://registry.npmjs.org/object-inspect/-/object-inspect-1.13.2.tgz"
+  integrity sha512-IRZSRuzJiynemAXPYtPe5BoI/RESNYR7TYm50MC5Mqbd3Jmw5y790sErYw3V6SryFJD64b74qQQs9wn5Bg/k3g==
+
 ofetch@^1.3.3, ofetch@^1.3.4:
   version "1.3.4"
   resolved "https://registry.npmjs.org/ofetch/-/ofetch-1.3.4.tgz"
@@ -6871,6 +6954,13 @@ pvutils@^1.1.3:
   resolved "https://registry.npmjs.org/pvutils/-/pvutils-1.1.3.tgz"
   integrity sha512-pMpnA0qRdFp32b1sJl1wOJNxZLQ2cbQx+k6tjNtZ8CpvVhNqEPRgivZ2WOUev2YMajecdH7ctUPDvEe87nariQ==
 
+qs@^6.12.0:
+  version "6.12.3"
+  resolved "https://registry.npmjs.org/qs/-/qs-6.12.3.tgz"
+  integrity sha512-AWJm14H1vVaO/iNZ4/hO+HyaTehuy9nRqVdkTqlJt0HWvBiBIEXFmb4C0DGeYo3Xes9rrEW+TxHsaigCbN5ICQ==
+  dependencies:
+    side-channel "^1.0.6"
+
 quasar@^2.16.5, quasar@^2.8.0:
   version "2.16.5"
   resolved "https://registry.npmjs.org/quasar/-/quasar-2.16.5.tgz"
@@ -7280,6 +7370,18 @@ set-blocking@^2.0.0:
   resolved "https://registry.npmjs.org/set-blocking/-/set-blocking-2.0.0.tgz"
   integrity sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==
 
+set-function-length@^1.2.1:
+  version "1.2.2"
+  resolved "https://registry.npmjs.org/set-function-length/-/set-function-length-1.2.2.tgz"
+  integrity sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg==
+  dependencies:
+    define-data-property "^1.1.4"
+    es-errors "^1.3.0"
+    function-bind "^1.1.2"
+    get-intrinsic "^1.2.4"
+    gopd "^1.0.1"
+    has-property-descriptors "^1.0.2"
+
 setimmediate@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/setimmediate/-/setimmediate-1.0.5.tgz"
@@ -7306,6 +7408,16 @@ shell-quote@^1.7.3, shell-quote@^1.8.1:
   version "1.8.1"
   resolved "https://registry.npmjs.org/shell-quote/-/shell-quote-1.8.1.tgz"
   integrity sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==
+
+side-channel@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/side-channel/-/side-channel-1.0.6.tgz"
+  integrity sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==
+  dependencies:
+    call-bind "^1.0.7"
+    es-errors "^1.3.0"
+    get-intrinsic "^1.2.4"
+    object-inspect "^1.13.1"
 
 signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.7:
   version "3.0.7"

@@ -23,11 +23,11 @@ export function getCurrentSeason(): MediaSeason {
 
 export function timeToAirCountDown(airingAt?: number): string {
     if (airingAt === null) return '-'
-    var now = new Date().getTime()
-    var distance = (airingAt! * 1000) - now
-    var days = Math.floor(distance / (1000 * 3600 * 24))
-    var hours = Math.floor((distance % (1000 * 3600 * 24)) / (1000 * 3600))
-    var minutes = Math.floor((distance % (1000 * 3600)) / (1000 * 60))
+    const now: number = new Date().getTime()
+    const distance: number = (airingAt! * 1000) - now
+    const days: number = Math.floor(distance / (1000 * 3600 * 24))
+    const hours: number = Math.floor((distance % (1000 * 3600 * 24)) / (1000 * 3600))
+    const minutes: number = Math.floor((distance % (1000 * 3600)) / (1000 * 60))
 
     if (days < 1) {
         if (hours < 1) {
