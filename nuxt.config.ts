@@ -41,6 +41,7 @@ export default defineNuxtConfig({
     "nuxt-graphql-client",
     "@nuxtjs/strapi",
     "@nuxtjs/tailwindcss",
+    "@nuxtjs/eslint-config-typescript",
   ],
   runtimeConfig: {
     public: {
