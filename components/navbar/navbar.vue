@@ -6,14 +6,16 @@
     <q-header elevated class="header font-exo">
       <div class="header-content row">
         <div class="header-logo-container">
-          <img class="header-logo" src="../../assets/logo.png" />
+          <a href="https://animenew.com.br">
+            <img class="header-logo" src="../../assets/logo.png" />
+          </a>
         </div>
         <div class="button-bar">          
-          <q-btn flat class="button font-semibold" label="ANIMES" />
-          <q-btn flat class="button font-semibold" label="MANGAS" />
-          <q-btn flat class="button font-semibold" label="GAMES" />
-          <q-btn flat class="button font-semibold" label="CINEMA" />
-          <q-btn flat class="button font-semibold" label="LIVE ACTION" />
+          <q-btn flat class="button font-semibold" label="ANIMES" href="https://animenew.com.br/noticias/animes/" />
+          <q-btn flat class="button font-semibold" label="MANGAS" href="https://animenew.com.br/noticias/mangas/" />
+          <q-btn flat class="button font-semibold" label="GAMES" href="https://animenew.com.br/noticias/games/#" />
+          <q-btn flat class="button font-semibold" label="CINEMA" href="https://animenew.com.br/noticias/cinema/#" />
+          <q-btn flat class="button font-semibold" label="LIVE ACTION" href="https://animenew.com.br/noticias/live-action/" />
         </div>
       </div>
     </q-header>
