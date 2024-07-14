@@ -7,6 +7,7 @@
         "mhutchie.git-graph",
         "eamodio.gitlens",
         "hossaini.quasar-intellisense",
-        "graphql.vscode-graphql-syntax"
+        "graphql.vscode-graphql-syntax",
+        "bradlc.vscode-tailwindcss"
     ]
 }
