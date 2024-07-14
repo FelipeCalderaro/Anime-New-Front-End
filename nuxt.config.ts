@@ -33,10 +33,15 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
+  css: [
+    '~/assets/css/main.css'
+  ],
   modules: [
     "nuxt-quasar-ui",
     "nuxt-graphql-client",
-    "@nuxtjs/strapi"
+    "@nuxtjs/strapi",
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/eslint-config-typescript",
   ],
   runtimeConfig: {
     public: {
