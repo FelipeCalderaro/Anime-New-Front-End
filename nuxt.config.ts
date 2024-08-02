@@ -50,7 +50,8 @@ export default defineNuxtConfig({
       }
     },
     strapi: {
-      devtools: true
+      devtools: true,
+      url: process.env.STRAPI_URL || 'http://localhost:1337'
     }
   }
 })
