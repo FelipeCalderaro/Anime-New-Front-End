@@ -78,7 +78,6 @@
 
 .header-logo {
   display: flex;
-  padding: 12px 0px;
   align-items: center;
   gap: 12px;
 }

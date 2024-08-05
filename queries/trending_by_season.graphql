@@ -1,0 +1,122 @@
+
+query trendingBySeason (
+  $year: Int,
+  $perPage: Int = 1,
+  $format: MediaFormat,
+  $excludeFormat: MediaFormat,
+  $status: MediaStatus,
+  $minEpisodes: Int,
+  $page: Int,
+  $sort: [MediaSort]
+)  {
+  Winter: Page(page: $page, perPage: $perPage) {
+    media(
+      seasonYear: $year,
+      season: WINTER,
+      format: $format,
+      format_not: $excludeFormat,
+      status: $status,
+      episodes_greater: $minEpisodes,
+      type: ANIME,
+      sort: $sort,
+      isAdult: false
+    ) {
+      ...MediaFields
+    }
+  }
+  Spring: Page(page: $page, perPage: $perPage) {
+    media(
+      seasonYear: $year,
+      season: SPRING,
+      format: $format,
+      format_not: $excludeFormat,
+      status: $status,
+      episodes_greater: $minEpisodes,
+      type: ANIME,
+      sort: $sort,
+      isAdult: false
+    ) {
+      ...MediaFields
+    }
+  }
+  Summer: Page(page: $page, perPage: $perPage) {
+    media(
+      seasonYear: $year,
+      season: SUMMER,
+      format: $format,
+      format_not: $excludeFormat,
+      status: $status,
+      episodes_greater: $minEpisodes,
+      type: ANIME,
+      sort: $sort,
+      isAdult: false
+    ) {
+      ...MediaFields
+    }
+  }
+  Fall: Page(page: $page, perPage: $perPage) {
+    media(
+      seasonYear: $year,
+      season: FALL,
+      format: $format,
+      format_not: $excludeFormat,
+      status: $status,
+      episodes_greater: $minEpisodes,
+      type: ANIME,
+      sort: $sort,
+      isAdult: false
+    ) {
+      ...MediaFields
+    }
+  }
+}
+
+fragment MediaFields on Media {
+    id
+    idMal
+    season
+    seasonInt
+    title {
+        romaji
+        native
+        english
+        userPreferred
+    }
+    startDate {
+        year
+        month
+        day
+    }
+    endDate {
+        year
+        month
+        day
+    }
+    status
+    season
+    format
+    genres
+    synonyms
+    duration
+    popularity
+    episodes
+    source(version: 2)
+    countryOfOrigin
+    hashtag
+    averageScore
+    siteUrl
+    description
+    bannerImage
+    isAdult
+    coverImage {
+        extraLarge
+        large
+        color
+    }
+    airingSchedule(notYetAired: true, perPage: 2) {
+        nodes {
+            episode
+            airingAt
+        }
+    }
+}

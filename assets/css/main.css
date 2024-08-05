@@ -140,3 +140,34 @@
 .font-exo {
   font-family: 'Exo 2', sans-serif;
 }
+
+/* Add this to your CSS file (e.g., styles.css) */
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbar for Webkit browsers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #00000000; /* Background color of the track */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #2d3748; /* Color of the scroll thumb */
+  border-radius: 6px; /* Rounded corners of the scroll thumb */
+  border: 0px solid #00000000; /* Padding around the scroll thumb */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: azure; /* Color when hovering over the scroll thumb */
+}

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { MediaSeason } from '#gql/default';
+import { MediaFormat, MediaSeason, MediaSort } from '#gql/default';
 
-const { data } = await useAsyncGql({
+const currentDate = new Date();
+const mediaBySeasonData  = await useAsyncGql({
     operation: 'mediaBySeason',
     variables: {
-        season: MediaSeason.SUMMER,
-        year: 2024
+      season: MediaSeason.SUMMER,
+      year: currentDate.getFullYear()
     }
 });
 
@@ -13,83 +14,49 @@ const { data } = await useAsyncGql({
 </script>
 
 <template>
-  <div class="fit row wrap justify-between">
+<div>
+  <home-banner />
+  <div class="mt-6 text-center text-neutral-50 text-6xl font-medium leading-[60px]">
+    Guia de Temporadas de Anime do AnimeNew
+  </div>
+  
+  <div class="mt-4 text-center text-neutral-50 text-[22px] font-normal leading-[33.60px]">
+    Explore as Temporadas de Anime no AnimeNew: Lançamentos, Horários e Resumos
+  </div>
 
-    <div
-      id="card-div" 
-      class="q-ma-md"
-      v-for="animes in  data.Page?.media"
-      :key="animes?.id"
-    >
-      <div
-        class="card-border"
-        :id=" 'div-' + animes?.id "
-      >
-        <q-card 
-            style="width: 500px; height: 300px;"
-            dark
-        >
-          <q-card-section horizontal>
-            <q-card-section class="col-grow">
-              <div class="txt">
-                <q-scroll-area :style="{height: '200px'}">
-                  <div class="text-area">
-                    <h6 class="text-title font-extra-bold text-area">
-                      {{ animes?.title?.romaji}}
-                    </h6>
-                  </div>
-                  <div v-html="animes?.description" class="text-description font-regular"></div>
-                </q-scroll-area>
+  <div class="w-full h-[60px] my-8 flex flex-row gap-4 justify-center text-white">
+    <season-button :selected="false" label="Inverno 2024" :on-click="()=> {}" />
+    <season-button :selected="false" label="Outono 2024" :on-click="()=> {}" />
+    <season-button :selected="true" label="Verão 2024" :on-click="()=> {}" />
+    <season-button :selected="false" label="Primavera 2024" :on-click="()=> {}" />    
+  </div>
 
-                <div class="producer-container">
-                  <p class="q-ma-xs font-regular">
-                    {{ animes?.studios?.nodes?.at(0)?.name ?? '-' }}
-                  </p>
-                </div>
-
-                <q-separator
-                  class="separator-color"
-                  style="height:1px; background: #c6c6c6"
-                />
-                <div class="row q-py-xs">
-                  <div class="col col-md-12">
-                    <q-chip
-                      v-for="genre in (animes?.genres?.slice(0, 3))"
-                      :key="'genre-' + genre "
-                      class="chips font-bold"
-                      size="9px"
-                    >
-                      {{ genre }}
-                    </q-chip>
-                  </div>
-                </div>
-
-              </div>
-            </q-card-section>
-
-            <q-img
-                class="col-5"
-                fit="cover"
-                :style="{cursor: 'pointer'}"
-                :src="animes?.coverImage?.extraLarge ?? '-'"
-            >
-              <div
-                v-if="animes?.nextAiringEpisode !== null"
-                class="items-end absolute-bottom text-center"
-                style="height: 60px"
-              >
-                <p class="text-bold">
-                  {{ 'Episódio ' + animes?.nextAiringEpisode?.episode + ' em:' }}
-                  <br>
-                  {{ timeToAirCountDown(animes?.nextAiringEpisode?.airingAt) }}
-                  <!-- {{ animes?.nextAiringEpisode?.airingAt }} -->
-                </p>
-              </div>
-            </q-img>
-          </q-card-section>
-        </q-card>
-      </div>
+  <div class="relative justify-center mb-8 w-full h-[90px] flex">
+    <div class="left-0 right-0 w-[720px] h-[90px] bg-indigo-500">
+      ANUNCIO
     </div>
-    <!-- <NuxtWelcome /> -->
+  </div>
+
+  <div class="fit row wrap justify-between px-60">
+    <div
+      id="card-div"
+      class="q-ma-md"
+      v-for="anime in mediaBySeasonData.data.value.Page?.media"
+      :key="anime?.id"
+    >
+    
+      <season-cards 
+        :id="anime?.id ?? 0"
+        :title="anime?.title?.romaji ?? '-'"
+        :image-url="anime?.coverImage?.large ?? '-'"
+        :description="anime?.description ?? '-'"
+        :next-episode="anime?.nextAiringEpisode?.episode"
+        :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
+        :episodes="anime?.episodes"
+        :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
+        :genres="anime?.genres"
+      />
+    </div>
+  </div>
 </div>
 </template>
