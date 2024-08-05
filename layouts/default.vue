@@ -10,7 +10,7 @@
         <!-- Component import example -->
         <!-- <Example title="Example title" message="This is an example usage message"
             :on-click="() => console.log('Example Click')" /> -->
-        <q-layout style="background-color: #151515;">
+        <q-layout class="bg-background">
             <Navbar />
             <main>
                 <NuxtPage />
