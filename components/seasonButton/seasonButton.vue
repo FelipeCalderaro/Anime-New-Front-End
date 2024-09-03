@@ -2,7 +2,7 @@
     <q-btn 
         flat 
         @click="onClick" 
-        class="w-[130px] py-1 px-2 text-sm font-normal leading-5" 
+        class="w-[130px] py-1 px-2 text-sm font-normal leading-5 cursor-pointer" 
         :class="selected ? 'bg-primary-09': 'bg-card-component'"
     >
       <div class="flex flex-col items-center">

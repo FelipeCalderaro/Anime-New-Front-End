@@ -36,7 +36,7 @@ let autoplay = useState<boolean>(() => true);
             transition-prev="slide-right"
             transition-next="slide-left"
             :padding="false"
-            class="bg-background p-0 m-0 h-[420px]"
+            class="bg-background p-0 m-0 h-[540px] lg:h-[420px]"
             @mouseenter="autoplay = false"
             @mouseleave="autoplay = true"
         >
@@ -56,9 +56,9 @@ let autoplay = useState<boolean>(() => true);
                     class="p-0" 
                     :src="media?.bannerImage ?? 'https://picsum.photos/200'" 
                 >
-                    <div id="banner-content" class="absolute-full no-bg-color">
+                    <div id="banner-content" class="flex absolute-full no-bg-color">
                         <div class="absolute-full bg-gradient-to-r from-background via-background-55 via-20%">
-                            <div class="ml-64 text-white w-[700px] h-[264px] mt-[110px]">
+                            <div class="m-2 lg:ml-60 text-white w-full lg:w-[700px] h-[264px] mt-[200px] lg:mt-[110px]">
                                 <h2 class="text-neutral-50 text-2xl font-bold">{{ media?.title?.english }}</h2>
                                 <p class="text-full-white text-base font-medium mb-3">Top 1 {{ media?.season }}</p>
                                 <div class="h-1/6 justify-start items-center gap-2 inline-flex wrap"> 
@@ -71,8 +71,8 @@ let autoplay = useState<boolean>(() => true);
                                     </div>
                                 </div>
                                 
-                                <div class="overflow-hidden text-wrap truncate text-ellipsis text-xs h-[100px] font-normal leading-[18px] text-neutral-04 my-4 bg-card-component rounded-md bg-opacity-45 p-3" v-html="media?.description"></div>
-                                <q-btn no-caps label="Saiba mais" class="w-[300px] bg-primary-09 text-white rounded-lg px-4 py-3" />    
+                                <div class="mr-4 overflow-y-scroll text-wrap text-xs h-[100px] font-normal leading-[18px] text-neutral-04 my-4 bg-card-component rounded-md bg-opacity-45 p-3" v-html="media?.description"></div>
+                                <q-btn no-caps label="Saiba mais" class="w-[300px] bg-primary-09 text-white rounded-lg px-4 py-2" @click="console.log(media?.id)" />    
                             </div>
                         </div>
                     </div>                
