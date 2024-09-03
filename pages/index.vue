@@ -89,7 +89,7 @@ function handleSeasonChange(season: MediaSeason, year: number) {
       >
         <season-cards
           :id="anime?.id ?? 0"
-          :title="anime?.title?.romaji ?? '-'"
+          :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
           :image-url="anime?.coverImage?.large ?? '-'"
           :description="anime?.description ?? '-'"
           :next-episode="anime?.nextAiringEpisode?.episode"

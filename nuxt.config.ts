@@ -1,16 +1,24 @@
+import { APP_CONFIGS } from "./constants";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: true,
+  nitro: {
+    externals: {
+      inline: ['vue', '@vue/server-renderer']
+    }
+  },
   app: {
     head: {
-      title: "AnimeNew - Noticias de Anime e Mangá, Games, Light Novels e Mais",
+      title: APP_CONFIGS.title,
       meta: [
         {
           name: "description",
-          content: "As últimas notícias do universo de animes e mangá. bem-vindo ao AnimeNew, seu destino definitivo de notícias sobre o que assistir de anime."
+          content: APP_CONFIGS.description
         },
         {
           name: 'google-site-verification',
-          content: "XIaB1el2AJjHC60LMud2pAxV2P6M0Ur3_eDBxXxgOII",
+          content: APP_CONFIGS.googleSiteVerification,
         },
         {
           name: 'twitter:card',
@@ -22,7 +30,7 @@ export default defineNuxtConfig({
         },
         {
           name: "google-adsense-platform-account",
-          content: "ca-host-pub-2644536267352236"
+          content: APP_CONFIGS.googleAdsensePlatformAccount
         },
         {
           name: "google-adsense-platform-domain",
@@ -44,10 +52,13 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      GQL_HOST: 'https://graphql.anilist.co', // overwritten by process.env.GQL_HOST
+      GQL_HOST: APP_CONFIGS.externalGql, // overwritten by process.env.GQL_HOST
       strapi: {
         devtools: true,
-      }
+      },
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://animenew.com.br',
+      siteName: "AnimeNew - Noticias de Anime e Mangá, Games, Light Novels e Mais",
+      language: 'pt-BR',
     },
     strapi: {
       devtools: true

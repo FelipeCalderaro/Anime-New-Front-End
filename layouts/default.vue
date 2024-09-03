@@ -6,6 +6,12 @@
 function hijackFilter(url: string) {
   return /^https:\/\/graphql\.anilist\.co/.test(url);
 }
+
+const route = useRoute();
+
+useHead({
+  meta: [{ property: "og:title", content: `AnimeNew - ${route.meta.title}` }],
+});
 </script>
 
 <template>

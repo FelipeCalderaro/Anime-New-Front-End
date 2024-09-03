@@ -27,17 +27,11 @@
         <div
           class="h-1/6 mt-1 justify-start items-center gap-2 inline-flex wrap"
         >
-          <div
-            class="px-3 py-1 bg-primary-10 rounded-md justify-center items-center flex"
+          <GenreChip
+            :genre="genre ?? ''"
             v-for="genre in genres?.slice(0, 3)"
             :key="'genre-' + genre"
-          >
-            <div
-              class="text-neutral-50 text-[10px] font-medium leading-[13px] py-1"
-            >
-              {{ genre }}
-            </div>
-          </div>
+          />
         </div>
       </q-card-section>
 
@@ -80,7 +74,7 @@ interface SeasonCardsProps {
   episodes?: number | null;
 }
 
-const props = defineProps<SeasonCardsProps>();
+defineProps<SeasonCardsProps>();
 </script>
 
 <style>
