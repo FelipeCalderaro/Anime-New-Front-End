@@ -78,4 +78,7 @@ defineProps<SeasonCardsProps>();
 </script>
 
 <style>
+.q-img__content > div {
+  @apply py-3;
+}
 </style>
