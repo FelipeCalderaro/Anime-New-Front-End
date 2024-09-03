@@ -1,0 +1,29 @@
+name: Update PR Description
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch or the branches you want to trigger on
+
+jobs:
+  update-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get the list of commits
+        id: get_commits
+        run: |
+          # Get the list of commits from the last push to the current HEAD
+          commits=$(git log --oneline --no-merges HEAD^..HEAD)
+          echo "commits=$commits" >> $GITHUB_ENV
+
+      - name: Update PR description
+        uses: peter-evans/update-pull-request@v3
+        with:
+          pull-request-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## Commits
+            ${{ env.commits }}

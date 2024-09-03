@@ -21,14 +21,16 @@ export function getCurrentSeason(): MediaSeason {
     }
 }
 
-export function timeToAirCountDown(airingAt?: number): string {
+export function timeToAirCountDown(airingAt?: number): string | null {
     if (airingAt === null) return '-'
     const now: number = new Date().getTime()
     const distance: number = (airingAt! * 1000) - now
     const days: number = Math.floor(distance / (1000 * 3600 * 24))
     const hours: number = Math.floor((distance % (1000 * 3600 * 24)) / (1000 * 3600))
     const minutes: number = Math.floor((distance % (1000 * 3600)) / (1000 * 60))
-
+    if (Number.isNaN(days) || Number.isNaN(hours) || Number.isNaN(minutes)) {
+        return '';
+    }
     if (days < 1) {
         if (hours < 1) {
             return minutes + ' minutos'
