@@ -64,7 +64,8 @@ query mediaInfo($id: Int, $isAdult: Boolean = false) {
         node {
           id
           title {
-            userPreferred
+            romaji
+            english
           }
           format
           type
@@ -72,6 +73,7 @@ query mediaInfo($id: Int, $isAdult: Boolean = false) {
           bannerImage
           coverImage {
             large
+            medium
           }
         }
       }

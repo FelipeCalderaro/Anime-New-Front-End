@@ -2,7 +2,7 @@
   <q-card
     :id="'div-' + id"
     class="bg-card-component text-white w-full h-[280px] cursor-pointer"
-    v-on:click="async () => await navigateTo(`media/${id}`)"
+    v-on:click="async () => await navigateTo(`/media/${id}`)"
   >
     <q-card-section horizontal class="flex" style="height: inherit">
       <q-card-section class="flex-1 py-4 px-6" style="height: inherit">
