@@ -80,14 +80,18 @@ console.log(convertRating(data.value.Media?.averageScore ?? 0));
     </q-img>
 
     <div class="mx-64">
-      <div id="related-content" v-if="data.Media?.relations?.edges?.length">
+      <div
+        id="related-content"
+        class="mt-8"
+        v-if="data.Media?.relations?.edges?.length"
+      >
         <div class="text-white text-2xl font-semibold">
           Conteúdo relacionado
         </div>
 
         <div class="flex flex-row mt-6 h-[160px] overflow-x-scroll">
           <q-card
-            class="bg-card-component w-[280px] h-full mr-4 overflow-clip"
+            class="bg-card-component w-[280px] h-full mr-4 overflow-clip cursor-pointer"
             flat
             bordered
             v-for="media in data.Media?.relations?.edges"
@@ -124,14 +128,14 @@ console.log(convertRating(data.value.Media?.averageScore ?? 0));
         </div>
       </div>
 
-      <div id="watch" class="mt-4" v-if="data.Media?.streamingEpisodes?.length">
+      <div id="watch" class="mt-8" v-if="data.Media?.streamingEpisodes?.length">
         <div class="text-white text-2xl font-semibold">Assista</div>
 
         <div
-          class="flex no-wrap overflow-x-auto space-x-4 scrollbar-always-visible"
+          class="flex no-wrap overflow-x-auto space-x-4 scrollbar-always-visible my-6"
         >
           <q-img
-            class="flex-shrink-0 rounded-sm w-[340px] rounded-bl mb-4"
+            class="flex-shrink-0 rounded-sm w-[340px] rounded-bl mb-4 cursor-pointer"
             :src="`${episode?.thumbnail}`"
             v-for="episode in data.Media.streamingEpisodes"
             :key="`${episode?.url}`"
