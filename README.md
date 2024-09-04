@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/be2b5bcd-2301-4e30-80f9-d62d07bfd4cf/deploy-status)](https://app.netlify.com/sites/animenew-seasons/deploys)
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.

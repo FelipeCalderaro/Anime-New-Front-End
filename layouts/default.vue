@@ -6,6 +6,12 @@
 function hijackFilter(url: string) {
   return /^https:\/\/graphql\.anilist\.co/.test(url);
 }
+
+const route = useRoute();
+
+useHead({
+  meta: [{ property: "og:title", content: `AnimeNew - ${route.meta.title}` }],
+});
 </script>
 
 <template>
@@ -22,13 +28,16 @@ function hijackFilter(url: string) {
     />
     <q-layout class="bg-background">
       <Navbar />
+      <div v-if="!route.path.includes('media')">
+        <div class="absolute top-1/3 left-5 w-[200px] h-[630px] max-2xl:hidden">
+          <div class="w-full h-full bg-indigo-500">ANUNCIO</div>
+        </div>
 
-      <div class="fixed top-[240px] left-5 w-[200px] h-[630px] max-2xl:hidden">
-        <div class="w-full h-full bg-indigo-500">ANUNCIO</div>
-      </div>
-
-      <div class="fixed top-[240px] right-5 w-[200px] h-[630px] max-2xl:hidden">
-        <div class="w-full h-full bg-indigo-500">ANUNCIO</div>
+        <div
+          class="absolute top-1/3 right-5 w-[200px] h-[630px] max-2xl:hidden"
+        >
+          <div class="w-full h-full bg-indigo-500">ANUNCIO</div>
+        </div>
       </div>
 
       <main>

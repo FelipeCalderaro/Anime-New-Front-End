@@ -1,13 +1,26 @@
 <script setup lang="ts">
 import { MediaSeason, type MediaBySeasonQuery } from "#gql/default";
 
+const router = useRouter(); // Get the router instance
+const route = useRoute(); // Get the current route
+
+// Function to update the query parameter
+function updatePageQuery(season: MediaSeason) {
+  router.push({
+    path: route.path, // Keep the current path
+    query: { ...route.query, season }, // Update the query with the new season
+  });
+}
+
 const currentDate = new Date();
 
 let mediaBySeasonData = ref<MediaBySeasonQuery | null>();
 let loading: Ref<boolean> = ref(true);
 let error = ref<null | Error>(null);
 let currentYear: Ref<number> = ref(currentDate.getFullYear());
-let seasonSelected: Ref<MediaSeason> = ref(getCurrentSeason());
+let seasonSelected: Ref<MediaSeason> = ref(
+  (route.query.season as MediaSeason) || getCurrentSeason()
+);
 
 async function getInitialSeason(season: MediaSeason, year: number) {
   loading.value = true;
@@ -16,10 +29,10 @@ async function getInitialSeason(season: MediaSeason, year: number) {
       season,
       year,
     });
-    console.log(season, year);
     mediaBySeasonData.value = queryData;
     currentYear.value = year;
     seasonSelected.value = season;
+    updatePageQuery(season);
   } catch (e) {
     error.value = e as Error;
   } finally {
@@ -28,6 +41,7 @@ async function getInitialSeason(season: MediaSeason, year: number) {
 }
 
 await getInitialSeason(seasonSelected.value, currentYear.value);
+updatePageQuery(seasonSelected.value);
 
 function handleSeasonChange(season: MediaSeason, year: number) {
   getInitialSeason(season, year);
@@ -75,7 +89,7 @@ function handleSeasonChange(season: MediaSeason, year: number) {
       >
         <season-cards
           :id="anime?.id ?? 0"
-          :title="anime?.title?.romaji ?? '-'"
+          :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
           :image-url="anime?.coverImage?.large ?? '-'"
           :description="anime?.description ?? '-'"
           :next-episode="anime?.nextAiringEpisode?.episode"
