@@ -53,10 +53,10 @@ export default defineNuxtConfig({
     '@nuxtjs/seo',
   ],
   robots: {
-    enabled: false,
+    enabled: process.env.NUXT_ENVIRONMENT === 'production',
   },
   sitemap: {
-    enabled: false,
+    enabled: process.env.NUXT_ENVIRONMENT === 'production',
   },
   runtimeConfig: {
     public: {
