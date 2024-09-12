@@ -18,7 +18,7 @@ let trendingMedias = [
   trendingBySeasonData.data.value.Spring?.media?.at(0),
 ];
 
-let slide = useState();
+let slide = useState("homeBannerSlide", () => 0);
 let autoplay = useState<boolean>(() => true);
 </script>
 
@@ -41,7 +41,7 @@ let autoplay = useState<boolean>(() => true);
       <template v-slot:navigation-icon="{ active, btnProps, onClick }">
         <q-btn
           v-if="active"
-          class="text-primary-09"
+          class="text-primary-01"
           size="5px"
           :icon="btnProps.icon"
           flat
@@ -70,7 +70,7 @@ let autoplay = useState<boolean>(() => true);
           fit="cover"
           style="height: inherit; width: inherit"
           class="p-0"
-          :src="media?.bannerImage ?? 'https://picsum.photos/200'"
+          :src="`${media?.bannerImage}`"
         >
           <div id="banner-content" class="flex absolute-full no-bg-color">
             <div
@@ -88,28 +88,22 @@ let autoplay = useState<boolean>(() => true);
                 <div
                   class="h-1/6 justify-start items-center gap-2 inline-flex wrap"
                 >
-                  <div
-                    class="px-3 py-1 bg-primary-10 rounded-md justify-center items-center flex"
+                  <GenreChip
+                    :genre="`${genre}`"
                     v-for="genre in media?.genres?.slice(0, 4)"
                     :key="'genre-' + genre"
-                  >
-                    <div
-                      class="text-neutral-50 text-[10px] font-medium leading-[14px] py-1"
-                    >
-                      {{ genre }}
-                    </div>
-                  </div>
+                  />
                 </div>
 
                 <div
-                  class="mr-4 overflow-y-scroll text-wrap text-xs h-[100px] font-normal leading-[18px] text-neutral-04 my-4 bg-card-component rounded-md bg-opacity-45 p-3"
+                  class="mr-4 overflow-y-scroll custom-scrollbar text-wrap text-xs h-[100px] font-normal leading-[18px] text-neutral-04 my-4 bg-card-component rounded-md bg-opacity-45 p-3"
                   v-html="media?.description"
                 ></div>
                 <q-btn
                   no-caps
                   label="Saiba mais"
-                  class="w-[300px] bg-primary-09 text-white rounded-lg px-4 py-2"
-                  @click="console.log(media?.id)"
+                  class="w-[300px] bg-primary-01 text-white rounded-lg px-4 py-2"
+                  @click="navigateTo(`/media/${media?.id}`)"
                 />
               </div>
             </div>

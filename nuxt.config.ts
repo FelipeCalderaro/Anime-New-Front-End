@@ -49,7 +49,15 @@ export default defineNuxtConfig({
     "nuxt-graphql-client",
     "@nuxtjs/strapi",
     "@nuxtjs/tailwindcss",
+    'nuxt-simple-robots',
+    '@nuxtjs/seo',
   ],
+  robots: {
+    enabled: false,
+  },
+  sitemap: {
+    enabled: false,
+  },
   runtimeConfig: {
     public: {
       GQL_HOST: APP_CONFIGS.externalGql, // overwritten by process.env.GQL_HOST
@@ -57,11 +65,12 @@ export default defineNuxtConfig({
         devtools: true,
       },
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://animenew.com.br',
-      siteName: "AnimeNew - Noticias de Anime e Mangá, Games, Light Novels e Mais",
+      siteName: APP_CONFIGS.title,
       language: 'pt-BR',
     },
     strapi: {
       devtools: true
     }
-  }
+  },
+
 })

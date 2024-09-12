@@ -33,7 +33,9 @@ function convertRating(rating: number): number {
 }
 
 const rating = convertRating(data.value.Media?.averageScore ?? 0);
-console.log(convertRating(data.value.Media?.averageScore ?? 0));
+function onEpisodeSelected(url?: string): void {
+  window.open(url);
+}
 </script>
 
 <template>
@@ -89,7 +91,7 @@ console.log(convertRating(data.value.Media?.averageScore ?? 0));
           Conteúdo relacionado
         </div>
 
-        <div class="flex flex-row mt-6 h-[160px] overflow-x-scroll">
+        <horizontal-list class="h-[180px]">
           <q-card
             class="bg-card-component w-[280px] h-full mr-4 overflow-clip cursor-pointer"
             flat
@@ -98,20 +100,24 @@ console.log(convertRating(data.value.Media?.averageScore ?? 0));
             :key="`${media?.id}`"
             @click="navigateTo(`/media/${media?.node?.id}`)"
           >
-            <q-card-section horizontal>
+            <q-card-section horizontal class="w-full h-full">
               <q-img
-                class="w-[120px]"
+                width="120px"
+                class="flex-shrink-0"
                 fit="cover"
                 :src="media?.node?.coverImage?.large ?? ''"
               />
 
-              <q-card-section class="w-[160px]">
+              <q-card-section class="flex-grow">
                 <div class="flex flex-col my-4">
                   <div class="text-neutral-50 text-base font-semibold">
                     {{ relationTypeTranslation(media?.relationType) }}
                   </div>
                   <div
                     class="text-neutral-01 text-base font-semibold my-1 line-clamp-2"
+                    :title="`${
+                      media?.node?.title?.english ?? media?.node?.title?.romaji
+                    }`"
                   >
                     {{
                       media?.node?.title?.english ?? media?.node?.title?.romaji
@@ -125,24 +131,23 @@ console.log(convertRating(data.value.Media?.averageScore ?? 0));
               </q-card-section>
             </q-card-section>
           </q-card>
-        </div>
+        </horizontal-list>
       </div>
 
       <div id="watch" class="mt-8" v-if="data.Media?.streamingEpisodes?.length">
         <div class="text-white text-2xl font-semibold">Assista</div>
-
-        <div
-          class="flex no-wrap overflow-x-auto space-x-4 scrollbar-always-visible my-6"
-        >
+        <horizontal-list class="mt-2">
           <q-img
             class="flex-shrink-0 rounded-sm w-[340px] rounded-bl mb-4 cursor-pointer"
             :src="`${episode?.thumbnail}`"
-            v-for="episode in data.Media.streamingEpisodes"
+            v-for="episode in [...data.Media.streamingEpisodes].reverse()"
             :key="`${episode?.url}`"
+            @click="if (episode?.url) onEpisodeSelected(episode?.url);"
           >
             <div class="w-full h-full text-white text-xs font-semibold">
               <div
                 class="w-full h-16 text-white text-xs absolute-bottom px-2 py-3 bg-neutral-900/40 line-clamp-2"
+                :title="`${episode?.title}`"
               >
                 <div class="text-neutral-01">
                   {{ episode?.site }}
@@ -151,12 +156,111 @@ console.log(convertRating(data.value.Media?.averageScore ?? 0));
               </div>
             </div>
           </q-img>
+        </horizontal-list>
+      </div>
+
+      <div
+        id="characters"
+        class="mt-8"
+        v-if="data.Media?.charactersPreview?.edges"
+      >
+        <div class="text-white text-2xl font-semibold">Personagens</div>
+
+        <div class="grid grid-cols-3 gap-4 mt-2">
+          <div
+            class="flex flex-row bg-card-component items-center h-[160px]"
+            v-for="character in data.Media?.charactersPreview?.edges"
+            :key="`${character?.id}`"
+          >
+            <q-img
+              class="w-[100px] qhd:w-[120px] h-full"
+              fit="cover"
+              :src="character?.node?.image?.large ?? ''"
+            />
+            <div
+              :id="`character-name-${character?.node?.name?.first}`"
+              class="text-neutral-01 text-xs mx-2 my-4"
+            >
+              <div class="font-semibold">
+                {{
+                  character?.node?.name?.userPreferred ??
+                  character?.node?.name?.full
+                }}
+              </div>
+              <div class="font-medium text-[10px] text-neutral-02">
+                {{ translateCharacterRole(character?.role) }}
+              </div>
+            </div>
+
+            <div class="flex-grow" />
+
+            <div
+              :id="`voice-actor-name-${
+                character?.voiceActors?.at(0)?.name?.first
+              }`"
+              class="flex flex-col text-neutral-01 text-xs mx-2 my-4 justify-end items-end"
+            >
+              <div class="font-semibold">
+                {{
+                  character?.voiceActors?.at(0)?.name?.userPreferred ??
+                  character?.voiceActors?.at(0)?.name?.full
+                }}
+              </div>
+              <div class="font-semibold">
+                {{ character?.voiceActors?.at(0)?.name?.native }}
+              </div>
+              <div class="font-medium text-[10px] text-neutral-02">
+                {{ character?.voiceActors?.at(0)?.language }}
+              </div>
+            </div>
+            <q-img
+              class="w-[100px] qhd:w-[120px] h-full"
+              fit="cover"
+              v-if="character?.voiceActors?.at(0)?.image?.large"
+              :src="character?.voiceActors?.at(0)?.image?.large ?? ''"
+            />
+            <div
+              class="w-[100px] h-full bg-card-countdown-bg flex flex-col justify-center"
+              v-else
+            >
+              <div class="text-neutral-02 px-2">SEM IMAGEM</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div id="characters"></div>
+      <div id="staff" class="mt-8">
+        <div class="text-white text-2xl font-semibold">Staff</div>
 
-      <div id="staff"></div>
+        <div class="grid grid-cols-4 gap-4 mt-2">
+          <div
+            class="flex flex-row bg-card-component items-center h-[160px]"
+            v-for="staff in data.Media?.staffPreview?.edges"
+            :key="`${staff?.id}`"
+          >
+            <q-img
+              class="w-[100px] qhd:w-[120px] h-full"
+              fit="cover"
+              :src="staff?.node?.image?.large ?? ''"
+            />
+            <div
+              :id="`staff-name-${staff?.node?.name?.first}`"
+              class="text-neutral-01 text-xs mx-2 my-4"
+            >
+              <div class="font-semibold">
+                {{
+                  staff?.node?.name?.userPreferred ?? staff?.node?.name?.full
+                }}
+              </div>
+              <div class="font-medium text-[10px] text-neutral-02">
+                {{ staff?.role }}
+              </div>
+            </div>
+
+            <div class="flex-grow" />
+          </div>
+        </div>
+      </div>
 
       <div class="h-[400px]"></div>
     </div>

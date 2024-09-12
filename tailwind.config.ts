@@ -60,6 +60,11 @@ export default {
       colors: {
         'background': '#0a0e19',
         'background-55': 'rgba(10, 14, 25, 0.55)',
+        'primary-01': '#ff0048',
+        'primary-02': '#E00040',
+        'primary-03': '#E00040',
+        'primary-04': '#E00040',
+        'primary-05': '#B80034',
         'primary-09': '#AD0132',
         'primary-10': '#7E0829',
         'neutral-01': '#C7C1CF',

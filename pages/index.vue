@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { MediaSeason, type MediaBySeasonQuery } from "#gql/default";
+import { APP_CONFIGS } from "~/constants";
 
 const router = useRouter(); // Get the router instance
 const route = useRoute(); // Get the current route
@@ -46,6 +47,14 @@ updatePageQuery(seasonSelected.value);
 function handleSeasonChange(season: MediaSeason, year: number) {
   getInitialSeason(season, year);
 }
+
+useSeoMeta({
+  title: APP_CONFIGS.title,
+  ogTitle: APP_CONFIGS.title,
+  description: APP_CONFIGS.description,
+  ogDescription: APP_CONFIGS.description,
+  ogUrl: process.env.NUXT_PUBLIC_SITE_URL,
+});
 </script>
 
 <template>
