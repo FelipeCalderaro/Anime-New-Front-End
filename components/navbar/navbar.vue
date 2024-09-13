@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 </script>
 
@@ -10,19 +9,24 @@
           <img class="header-logo" src="../../assets/logo.png" />
         </a>
       </div>
-      <div class="button-bar">          
-        <q-btn flat class="button font-semibold" label="ANIMES" href="https://animenew.com.br/noticias/animes/" />
-        <q-btn flat class="button font-semibold" label="MANGAS" href="https://animenew.com.br/noticias/mangas/" />
-        <q-btn flat class="button font-semibold" label="GAMES" href="https://animenew.com.br/noticias/games/#" />
-        <q-btn flat class="button font-semibold" label="CINEMA" href="https://animenew.com.br/noticias/cinema/#" />
-        <q-btn flat class="button font-semibold" label="LIVE ACTION" href="https://animenew.com.br/noticias/live-action/" />
+      <div class="button-bar">
+        <q-btn flat class="button font-semibold button-navbar" label="ANIMES"
+          href="https://animenew.com.br/noticias/animes/" />
+        <q-btn flat class="button font-semibold button-navbar" label="MANGAS"
+          href="https://animenew.com.br/noticias/mangas/" />
+        <q-btn flat class="button font-semibold button-navbar" label="GAMES"
+          href="https://animenew.com.br/noticias/games/#" />
+        <q-btn flat class="button font-semibold button-navbar" label="CINEMA"
+          href="https://animenew.com.br/noticias/cinema/#" />
+        <q-btn flat class="button font-semibold button-navbar" label="LIVE ACTION"
+          href="https://animenew.com.br/noticias/live-action/" />
       </div>
     </div>
   </q-header>
 </template>
 
 <style scoped>
-.button-bar{
+.button-bar {
   align-self: stretch;
   justify-content: flex-end;
   align-items: center;
@@ -31,10 +35,26 @@
 }
 
 .button {
-  text-align: center; 
-  color: white; 
-  font-size: 16px;  
+  text-align: center;
+  color: white;
+  font-size: 16px;
   word-wrap: normal;
+}
+
+.button-navbar {
+  transition: height 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  /* Transição suave para altura e cor */
+  background-color: transparent;
+  /* Cor padrão do botão */
+}
+
+.button-navbar:hover {
+  height: 100%;
+  /* Preencher altura da navbar */
+  background-color: rgba(173, 1, 50, 0.7);
+  /* Cor de fundo no hover */
+  color: #fafafa;
+  /* Cor do texto no hover */
 }
 
 
@@ -60,19 +80,21 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 1px; /* Height of the border */
-  background: linear-gradient(to right, #151515, #7E0829, #151515); /* Gradient colors */
+  height: 1px;
+  /* Height of the border */
+  background: linear-gradient(to right, #151515, #7E0829, #151515);
+  /* Gradient colors */
 }
 
 
 .header-content {
   width: inherit;
-  height: inherit; 
+  height: inherit;
   justify-content: space-between;
   align-items: center;
   display: inline-flex;
   margin-left: 80px;
-  margin-right: 80px;  
+  margin-right: 80px;
 }
 
 
@@ -90,5 +112,4 @@
   gap: 12px;
   display: flex;
 }
-
 </style>
