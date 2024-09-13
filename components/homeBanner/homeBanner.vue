@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { MediaSeason, MediaFormat, MediaSort } from "#gql/default";
+const localePath = useLocalePath();
+
 const trendingBySeasonData = await useAsyncGql({
   operation: "trendingBySeason",
   variables: {
@@ -83,7 +85,7 @@ let autoplay = useState<boolean>(() => true);
                   {{ media?.title?.english }}
                 </h2>
                 <p class="text-full-white text-base font-medium mb-3">
-                  Top 1 {{ media?.season }}
+                  Top 1 {{ $t(`${media?.season?.toLowerCase()}`) }}
                 </p>
                 <div
                   class="h-1/6 justify-start items-center gap-2 inline-flex wrap"
@@ -101,9 +103,9 @@ let autoplay = useState<boolean>(() => true);
                 ></div>
                 <q-btn
                   no-caps
-                  label="Saiba mais"
+                  :label="$t('button.about')"
                   class="w-[300px] bg-primary-01 text-white rounded-lg px-4 py-2"
-                  @click="navigateTo(`/media/${media?.id}`)"
+                  @click="navigateTo(localePath(`/media/${media?.id}`))"
                 />
               </div>
             </div>

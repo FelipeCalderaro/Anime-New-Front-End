@@ -83,14 +83,13 @@ const searchText: Ref<string> = ref("");
       <div
         class="mt-6 text-center text-neutral-50 text-[40px] sm:text-6xl font-medium leading-[60px]"
       >
-        Guia de Temporadas de Anime do AnimeNew
+        {{ $t("home.body.title") }}
       </div>
 
       <div
         class="mt-4 text-center text-neutral-50 text-[16px] sm:text-[22px] font-normal leading-[34px]"
       >
-        Explore as Temporadas de Anime no AnimeNew: Lançamentos, Horários e
-        Resumos
+        {{ $t("home.body.subtitle") }}
       </div>
 
       <div
@@ -100,7 +99,9 @@ const searchText: Ref<string> = ref("");
           v-for="(seasonInfo, index) in getYearBySeason()"
           :key="index"
           :selected="seasonInfo.seasonEnum === seasonSelected"
-          :label="`${seasonInfo.seasonName} ${seasonInfo.seasonYear}`"
+          :label="`${$t(seasonInfo.seasonEnum.toLowerCase())} ${
+            seasonInfo.seasonYear
+          }`"
           :on-click="
             () =>
               handleSeasonChange(seasonInfo.seasonEnum, seasonInfo.seasonYear)
@@ -147,7 +148,7 @@ const searchText: Ref<string> = ref("");
       <div
         class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2"
       >
-        TV
+        {{ $t("home.body.tv") }}
       </div>
       <div
         class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
@@ -172,7 +173,7 @@ const searchText: Ref<string> = ref("");
       <div
         class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2 mt-4"
       >
-        CURTAS DE TV
+        {{ $t("home.body.tv-shorts") }}
       </div>
       <div
         class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
@@ -197,7 +198,7 @@ const searchText: Ref<string> = ref("");
       <div
         class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2 mt-4"
       >
-        FILMES
+        {{ $t("home.body.movies") }}
       </div>
       <div
         class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
@@ -224,7 +225,7 @@ const searchText: Ref<string> = ref("");
         "
         class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2 mt-4"
       >
-        AINDA EM PROGRESSO
+        {{ $t("home.body.in-progress") }}
       </div>
       <div
         v-if="
@@ -251,7 +252,7 @@ const searchText: Ref<string> = ref("");
       <div
         class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2 mt-4"
       >
-        ESPECIAIS
+        {{ $t("home.body.specials") }}
       </div>
       <div
         class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
@@ -274,7 +275,7 @@ const searchText: Ref<string> = ref("");
       <ad-container />
 
       <div :v-if="mediaBySeasonData?.TV?.media?.length === 0">
-        Nenhum anime encontrado ainda para a temporada selecionada
+        {{ $t("home.body.nothing-found") }}
       </div>
     </div>
   </div>

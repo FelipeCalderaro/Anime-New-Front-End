@@ -8,6 +8,11 @@ function hijackFilter(url: string) {
 }
 
 const route = useRoute();
+useLocaleHead({
+  addDirAttribute: true,
+  identifierAttribute: "id",
+  addSeoAttributes: true,
+});
 
 useHead({
   meta: [{ property: "og:title", content: `AnimeNew - ${route.meta.title}` }],

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const route = useRoute();
 const router = useRouter();
+const localePath = useLocalePath();
 
 const { data, error, status } = await useAsyncGql("mediaInfo", {
   id: Number.parseInt(route.params.id as string),
@@ -75,7 +76,8 @@ function onEpisodeSelected(url?: string): void {
           <div class="w-[690px] bgc-" v-html="data.Media?.description"></div>
 
           <div class="text-neutral-50/80 text-base font-medium my-3">
-            Estudio: {{ data.Media?.studios?.edges?.at(0)?.node?.name }}
+            {{ $t("media.studio") }}:
+            {{ data.Media?.studios?.edges?.at(0)?.node?.name }}
           </div>
         </div>
       </div>
@@ -88,7 +90,7 @@ function onEpisodeSelected(url?: string): void {
         v-if="data.Media?.relations?.edges?.length"
       >
         <div class="text-white text-2xl font-semibold">
-          Conteúdo relacionado
+          {{ $t("media.related") }}
         </div>
 
         <horizontal-list class="h-[180px]">
@@ -98,7 +100,7 @@ function onEpisodeSelected(url?: string): void {
             bordered
             v-for="media in data.Media?.relations?.edges"
             :key="`${media?.id}`"
-            @click="navigateTo(`/media/${media?.node?.id}`)"
+            @click="navigateTo(localePath(`/media/${media?.node?.id}`))"
           >
             <q-card-section horizontal class="w-full h-full">
               <q-img
@@ -111,7 +113,7 @@ function onEpisodeSelected(url?: string): void {
               <q-card-section class="flex-grow">
                 <div class="flex flex-col my-4">
                   <div class="text-neutral-50 text-base font-semibold">
-                    {{ relationTypeTranslation(media?.relationType) }}
+                    {{ translateMediaRelation(media?.relationType) }}
                   </div>
                   <div
                     class="text-neutral-01 text-base font-semibold my-1 line-clamp-2"
@@ -135,7 +137,9 @@ function onEpisodeSelected(url?: string): void {
       </div>
 
       <div id="watch" class="mt-8" v-if="data.Media?.streamingEpisodes?.length">
-        <div class="text-white text-2xl font-semibold">Assista</div>
+        <div class="text-white text-2xl font-semibold">
+          {{ $t("media.watch") }}
+        </div>
         <horizontal-list class="mt-2">
           <q-img
             class="flex-shrink-0 rounded-sm w-[340px] rounded-bl mb-4 cursor-pointer"
@@ -164,7 +168,9 @@ function onEpisodeSelected(url?: string): void {
         class="mt-8"
         v-if="data.Media?.charactersPreview?.edges"
       >
-        <div class="text-white text-2xl font-semibold">Personagens</div>
+        <div class="text-white text-2xl font-semibold">
+          {{ $t("media.characters") }}
+        </div>
 
         <div class="grid grid-cols-3 gap-4 mt-2">
           <div
@@ -223,14 +229,16 @@ function onEpisodeSelected(url?: string): void {
               class="w-[100px] h-full bg-card-countdown-bg flex flex-col justify-center"
               v-else
             >
-              <div class="text-neutral-02 px-2">SEM IMAGEM</div>
+              <div class="text-neutral-02 px-2">{{ $t("media.no-image") }}</div>
             </div>
           </div>
         </div>
       </div>
 
       <div id="staff" class="mt-8">
-        <div class="text-white text-2xl font-semibold">Staff</div>
+        <div class="text-white text-2xl font-semibold">
+          {{ $t("media.staff") }}
+        </div>
 
         <div class="grid grid-cols-4 gap-4 mt-2">
           <div
