@@ -43,7 +43,7 @@
       >
         <div
           v-if="nextEpisode !== null && nextEpisode !== undefined"
-          class="items-end absolute-bottom text-center bg-card-countdown-bg bg-opacity-80"
+          class="items-end absolute-bottom text-center"
           style="height: 60px"
         >
           <p class="text-neutral-50/80 text-xs font-semibold">
@@ -79,6 +79,6 @@ defineProps<SeasonCardsProps>();
 
 <style>
 .q-img__content > div {
-  @apply py-3;
+  @apply py-3 bg-card-countdown-bg bg-opacity-80;
 }
 </style>

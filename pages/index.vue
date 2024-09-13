@@ -26,9 +26,20 @@ let seasonSelected: Ref<MediaSeason> = ref(
 
 async function getInitialSeason(season: MediaSeason, year: number) {
   loading.value = true;
+  const seasons: MediaSeason[] = [
+    MediaSeason.WINTER,
+    MediaSeason.SPRING,
+    MediaSeason.SUMMER,
+    MediaSeason.FALL,
+  ];
+  const currentSeasonIndex = seasons.findIndex((s) => s === season);
+  const previousSeasonIndex =
+    currentSeasonIndex - 1 < 0 ? seasons.length - 1 : currentSeasonIndex - 1;
+  const previousSeason: MediaSeason = seasons[previousSeasonIndex];
   try {
     const queryData = await GqlMediaBySeason({
       season,
+      previousSeason,
       year,
     });
     mediaBySeasonData.value = queryData;
@@ -63,13 +74,6 @@ const searchText: Ref<string> = ref("");
 </script>
 
 <style scoped>
-.custom-input .q-field__control {
-  @apply border-2 border-blue-500 bg-gray-100 text-gray-800 focus:border-purple-500 rounded-lg px-4 py-2;
-}
-
-.custom-input .q-field__label {
-  @apply text-sm text-blue-700;
-}
 </style>
 
 <template>
@@ -209,6 +213,37 @@ const searchText: Ref<string> = ref("");
           :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
           :genres="anime?.genres"
           v-for="anime in mediaBySeasonData?.MOVIES?.media"
+          :key="anime?.id"
+        />
+      </div>
+
+      <div
+        v-if="
+          mediaBySeasonData?.LEFTOVERS?.media?.length &&
+          seasonSelected === getCurrentSeason()
+        "
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2 mt-4"
+      >
+        AINDA EM PROGRESSO
+      </div>
+      <div
+        v-if="
+          mediaBySeasonData?.LEFTOVERS?.media?.length &&
+          seasonSelected === getCurrentSeason()
+        "
+        class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
+      >
+        <season-cards
+          :id="anime?.id ?? 0"
+          :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
+          :image-url="anime?.coverImage?.large ?? '-'"
+          :description="anime?.description ?? '-'"
+          :next-episode="anime?.nextAiringEpisode?.episode"
+          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
+          :episodes="anime?.episodes"
+          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
+          :genres="anime?.genres"
+          v-for="anime in mediaBySeasonData?.LEFTOVERS?.media"
           :key="anime?.id"
         />
       </div>
