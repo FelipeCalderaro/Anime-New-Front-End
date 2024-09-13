@@ -7,13 +7,6 @@ const { data, error, status } = await useAsyncGql("mediaInfo", {
   id: Number.parseInt(route.params.id as string),
 });
 
-function updatePagePath(mediaName?: string | null) {
-  if (mediaName === null || mediaName === undefined) return;
-  router.push({
-    path: `${route.path}/${slugify(mediaName)}`,
-  });
-}
-
 if (status.value === "success") {
   const head = constructHead({
     title: data.value.Media?.title?.english ?? data.value.Media?.title?.romaji,
