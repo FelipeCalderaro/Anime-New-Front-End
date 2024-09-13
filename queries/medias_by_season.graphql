@@ -1,42 +1,62 @@
 query mediaBySeason($season: MediaSeason, $year: Int){
-    Page(perPage: 100, page: 1){
+    TV: Page(perPage: 100, page: 1){
         media(season: $season, seasonYear: $year, format: TV, sort: POPULARITY_DESC, isAdult: false){
-            title {
-                romaji
-                english
-            }
-            nextAiringEpisode{
-                id
-                airingAt
-                timeUntilAiring
-                episode
-                mediaId
-            }
-            description
-            id
-            startDate {
-                day
-                month
-                year
-            }
-            bannerImage
-            coverImage{
-                extraLarge
-                large
-                medium
-            }
-            studios{
-                nodes{
-                    name
-                    id
-                }
-            }
-            genres
-            type
-            format
-            status
-            episodes
-            duration
+            ...MediaBySeasonFields
         }
     }
+    SHORTS: Page(perPage: 100, page: 1){
+        media(season: $season, seasonYear: $year, format: TV_SHORT, sort: POPULARITY_DESC, isAdult: false){
+            ...MediaBySeasonFields
+        }
+    }
+    MOVIES: Page(perPage: 100, page: 1){
+        media(season: $season, seasonYear: $year, format: MOVIE, sort: POPULARITY_DESC, isAdult: false){
+            ...MediaBySeasonFields
+        }
+    }
+    SPECIALS: Page(perPage: 100, page: 1){
+        media(season: $season, seasonYear: $year, format_not_in: [ TV, TV_SHORT, MOVIE ] , sort: POPULARITY_DESC, isAdult: false){
+            ...MediaBySeasonFields
+        }
+    }
+}
+
+
+fragment MediaBySeasonFields on Media {
+    title {
+        romaji
+        english
+    }
+    nextAiringEpisode{
+        id
+        airingAt
+        timeUntilAiring
+        episode
+        mediaId
+    }
+    description
+    id
+    startDate {
+        day
+        month
+        year
+    }
+    bannerImage
+    coverImage{
+        extraLarge
+        large
+        medium
+    }
+    studios{
+        nodes{
+            name
+            id
+        }
+    }
+    genres
+    type
+    format
+    status
+    episodes
+    duration
 }

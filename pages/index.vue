@@ -104,9 +104,7 @@ const searchText: Ref<string> = ref("");
         />
       </div>
 
-      <div class="justify-center w-full h-[90px] flex mb-8">
-        <div class="w-[720px] h-[90px] bg-indigo-500 mx-5">ANUNCIO</div>
-      </div>
+      <ad-container />
 
       <div class="flex flex-row justify-start px-60 mb-4 h-16 items-center">
         <img
@@ -143,6 +141,11 @@ const searchText: Ref<string> = ref("");
       </div>
 
       <div
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2"
+      >
+        TV
+      </div>
+      <div
         class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
       >
         <season-cards
@@ -155,11 +158,87 @@ const searchText: Ref<string> = ref("");
           :episodes="anime?.episodes"
           :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
           :genres="anime?.genres"
-          v-for="anime in mediaBySeasonData?.Page?.media"
+          v-for="anime in mediaBySeasonData?.TV?.media"
           :key="anime?.id"
         />
       </div>
-      <div :v-if="mediaBySeasonData?.Page?.media?.length === 0">
+
+      <ad-container />
+
+      <div
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2 mt-4"
+      >
+        CURTAS DE TV
+      </div>
+      <div
+        class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
+      >
+        <season-cards
+          :id="anime?.id ?? 0"
+          :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
+          :image-url="anime?.coverImage?.large ?? '-'"
+          :description="anime?.description ?? '-'"
+          :next-episode="anime?.nextAiringEpisode?.episode"
+          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
+          :episodes="anime?.episodes"
+          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
+          :genres="anime?.genres"
+          v-for="anime in mediaBySeasonData?.SHORTS?.media"
+          :key="anime?.id"
+        />
+      </div>
+
+      <ad-container />
+
+      <div
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2 mt-4"
+      >
+        FILMES
+      </div>
+      <div
+        class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
+      >
+        <season-cards
+          :id="anime?.id ?? 0"
+          :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
+          :image-url="anime?.coverImage?.large ?? '-'"
+          :description="anime?.description ?? '-'"
+          :next-episode="anime?.nextAiringEpisode?.episode"
+          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
+          :episodes="anime?.episodes"
+          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
+          :genres="anime?.genres"
+          v-for="anime in mediaBySeasonData?.MOVIES?.media"
+          :key="anime?.id"
+        />
+      </div>
+
+      <div
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2 mt-4"
+      >
+        ESPECIAIS
+      </div>
+      <div
+        class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
+      >
+        <season-cards
+          :id="anime?.id ?? 0"
+          :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
+          :image-url="anime?.coverImage?.large ?? '-'"
+          :description="anime?.description ?? '-'"
+          :next-episode="anime?.nextAiringEpisode?.episode"
+          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
+          :episodes="anime?.episodes"
+          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
+          :genres="anime?.genres"
+          v-for="anime in mediaBySeasonData?.SPECIALS?.media"
+          :key="anime?.id"
+        />
+      </div>
+
+      <ad-container />
+
+      <div :v-if="mediaBySeasonData?.TV?.media?.length === 0">
         Nenhum anime encontrado ainda para a temporada selecionada
       </div>
     </div>
