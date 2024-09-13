@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { MediaSeason, type MediaBySeasonQuery } from "#gql/default";
 import { APP_CONFIGS } from "~/constants";
+import filterIcon from "~/assets/svg/filter-icon.svg";
 
 const router = useRouter(); // Get the router instance
 const route = useRoute(); // Get the current route
@@ -55,7 +56,21 @@ useSeoMeta({
   ogDescription: APP_CONFIGS.description,
   ogUrl: process.env.NUXT_PUBLIC_SITE_URL,
 });
+
+const toggleFilter: Ref<boolean> = ref(false);
+const toggleSearch: Ref<boolean> = ref(false);
+const searchText: Ref<string> = ref("");
 </script>
+
+<style scoped>
+.custom-input .q-field__control {
+  @apply border-2 border-blue-500 bg-gray-100 text-gray-800 focus:border-purple-500 rounded-lg px-4 py-2;
+}
+
+.custom-input .q-field__label {
+  @apply text-sm text-blue-700;
+}
+</style>
 
 <template>
   <div>
@@ -91,6 +106,40 @@ useSeoMeta({
 
       <div class="justify-center w-full h-[90px] flex mb-8">
         <div class="w-[720px] h-[90px] bg-indigo-500 mx-5">ANUNCIO</div>
+      </div>
+
+      <div class="flex flex-row justify-start px-60 mb-4 h-16 items-center">
+        <img
+          id="filter"
+          src="@/assets/svg/filter-icon.svg"
+          alt="Filter Icon"
+          class="text-white w-6 h-6 cursor-pointer mr-6"
+          @click="toggleFilter = !toggleFilter"
+        />
+        <img
+          id="search"
+          src="@/assets/svg/search-icon.svg"
+          alt="Filter Icon"
+          class="text-white w-6 h-6 cursor-pointer mr-6"
+          @click="toggleSearch = !toggleSearch"
+        />
+        <search-input
+          v-if="toggleSearch"
+          type="search"
+          input-id="search"
+          hint="Pesquisar"
+          error-message="Este campo não pode estar vazio"
+          :onSubmit="
+            (isValid, text) => {
+              console.log('isValid', isValid, 'text', text);
+            }
+          "
+          :validation="
+            (value) => {
+              return value.length !== 0 && value.length >= 3;
+            }
+          "
+        ></search-input>
       </div>
 
       <div

@@ -1,3 +1,5 @@
+import { APP_CONFIGS } from "~/constants"
+
 export interface ConstructHead {
     title?: string | null,
     description?: string | null,
@@ -48,6 +50,11 @@ export function constructHead(data: ConstructHead) {
                 property: "twitter:card",
                 content: 'summary',
             },
+            {
+                property: "og:site_name",
+                content: APP_CONFIGS.title,
+            },
+
         ],
         htmlAttrs: {
             lang: 'en'
