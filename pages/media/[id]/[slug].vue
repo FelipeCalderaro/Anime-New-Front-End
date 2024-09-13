@@ -100,7 +100,15 @@ function onEpisodeSelected(url?: string): void {
             bordered
             v-for="media in data.Media?.relations?.edges"
             :key="`${media?.id}`"
-            @click="navigateTo(localePath(`/media/${media?.node?.id}`))"
+            @click="
+              navigateTo(
+                localePath(
+                  `/media/${media?.node?.id}/${slugify(
+                    `${media?.node?.title?.english}`
+                  )}`
+                )
+              )
+            "
           >
             <q-card-section horizontal class="w-full h-full">
               <q-img

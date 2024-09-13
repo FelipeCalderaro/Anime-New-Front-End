@@ -2,6 +2,9 @@ import { APP_CONFIGS } from "./constants";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  imports: {
+    autoImport: true,
+  },
   ssr: true,
   nitro: {
     externals: {

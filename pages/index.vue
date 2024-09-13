@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { MediaSeason, type MediaBySeasonQuery } from "#gql/default";
 import { APP_CONFIGS } from "~/constants";
-import filterIcon from "~/assets/svg/filter-icon.svg";
 
 const router = useRouter(); // Get the router instance
 const route = useRoute(); // Get the current route
@@ -280,3 +279,4 @@ const searchText: Ref<string> = ref("");
     </div>
   </div>
 </template>
+

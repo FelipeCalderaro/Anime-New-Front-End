@@ -105,7 +105,13 @@ let autoplay = useState<boolean>(() => true);
                   no-caps
                   :label="$t('button.about')"
                   class="w-[300px] bg-primary-01 text-white rounded-lg px-4 py-2"
-                  @click="navigateTo(localePath(`/media/${media?.id}`))"
+                  @click="
+                    navigateTo(
+                      localePath(
+                        `/media/${media?.id}/${slugify(media?.title?.english)}`
+                      )
+                    )
+                  "
                 />
               </div>
             </div>
