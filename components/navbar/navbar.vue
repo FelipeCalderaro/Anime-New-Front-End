@@ -10,16 +10,36 @@
         </a>
       </div>
       <div class="button-bar">
-        <q-btn flat class="button font-semibold button-navbar" label="ANIMES"
-          href="https://animenew.com.br/noticias/animes/" />
-        <q-btn flat class="button font-semibold button-navbar" label="MANGAS"
-          href="https://animenew.com.br/noticias/mangas/" />
-        <q-btn flat class="button font-semibold button-navbar" label="GAMES"
-          href="https://animenew.com.br/noticias/games/#" />
-        <q-btn flat class="button font-semibold button-navbar" label="CINEMA"
-          href="https://animenew.com.br/noticias/cinema/#" />
-        <q-btn flat class="button font-semibold button-navbar" label="LIVE ACTION"
-          href="https://animenew.com.br/noticias/live-action/" />
+        <q-btn
+          flat
+          class="button font-semibold button-navbar"
+          label="ANIMES"
+          href="https://animenew.com.br/noticias/animes/"
+        />
+        <q-btn
+          flat
+          class="button font-semibold button-navbar"
+          label="MANGAS"
+          href="https://animenew.com.br/noticias/mangas/"
+        />
+        <q-btn
+          flat
+          class="button font-semibold button-navbar"
+          label="GAMES"
+          href="https://animenew.com.br/noticias/games/#"
+        />
+        <q-btn
+          flat
+          class="button font-semibold button-navbar"
+          label="CINEMA"
+          href="https://animenew.com.br/noticias/cinema/#"
+        />
+        <q-btn
+          flat
+          class="button font-semibold button-navbar"
+          label="LIVE ACTION"
+          href="https://animenew.com.br/noticias/live-action/"
+        />
       </div>
     </div>
   </q-header>
@@ -57,7 +77,6 @@
   /* Cor do texto no hover */
 }
 
-
 .header {
   width: 100%;
   backdrop-filter: blur(16px);
@@ -75,17 +94,16 @@
 
 /* Header bottom border with linear gradient */
 .header::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 1px;
   /* Height of the border */
-  background: linear-gradient(to right, #151515, #7E0829, #151515);
+  background: linear-gradient(to right, #151515, #7e0829, #151515);
   /* Gradient colors */
 }
-
 
 .header-content {
   width: inherit;
@@ -96,7 +114,6 @@
   margin-left: 80px;
   margin-right: 80px;
 }
-
 
 .header-logo {
   display: flex;

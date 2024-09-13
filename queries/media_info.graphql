@@ -1,4 +1,4 @@
-query mediaInfo($id: Int, $isAdult: Boolean = false) {
+query mediaInfo($id: Int, $isAdult: Boolean = false, $charactersPerPage: Int = 9) {
   Media(id: $id, isAdult: $isAdult) {
     id
     type
@@ -78,7 +78,7 @@ query mediaInfo($id: Int, $isAdult: Boolean = false) {
         }
       }
     }
-    charactersPreview: characters(perPage: 6, sort: [ROLE, RELEVANCE, ID]) {
+    charactersPreview: characters(perPage: $charactersPerPage, sort: [ROLE, RELEVANCE, ID]) {
       edges {
         id
         role
@@ -86,16 +86,29 @@ query mediaInfo($id: Int, $isAdult: Boolean = false) {
           id
           name {
             userPreferred
+            full
+            first
+            middle
+            last
+            native
+            alternative
           }
           language: languageV2
           image {
             large
+            medium
           }
         }
         node {
           id
           name {
             userPreferred
+            full
+            first
+            middle
+            last
+            native
+            alternative
           }
           image {
             large
@@ -111,10 +124,17 @@ query mediaInfo($id: Int, $isAdult: Boolean = false) {
           id
           name {
             userPreferred
+            full
+            first
+            middle
+            last
+            native
+            alternative
           }
           language: languageV2
           image {
             large
+            medium
           }
         }
       }

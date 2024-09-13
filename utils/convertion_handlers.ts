@@ -1,4 +1,4 @@
-import { MediaRelation, MediaSeason, MediaStatus } from "#gql/default"
+import { CharacterRole, MediaRelation, MediaSeason, MediaStatus } from "#gql/default"
 
 export function relationTypeTranslation(relation?: MediaRelation | null): string {
     switch (relation) {
@@ -69,6 +69,19 @@ export function getCurrentSeason(): MediaSeason {
         return SEASON[2]
     } else {
         return SEASON[3]
+    }
+}
+
+export function translateCharacterRole(role?: CharacterRole | null): string {
+    switch (role) {
+        case CharacterRole.BACKGROUND:
+            return 'Figurante';
+        case CharacterRole.MAIN:
+            return 'Protagonista';
+        case CharacterRole.SUPPORTING:
+            return 'Coadjuvante';
+        default:
+            return 'Desconhecido';
     }
 }
 
