@@ -1,52 +1,108 @@
-import { CharacterRole, MediaRelation, MediaSeason, MediaStatus } from "#gql/default"
+// i18n-utils.ts
+import { useI18n } from 'vue-i18n';
 
-export function relationTypeTranslation(relation?: MediaRelation | null): string {
+// Assuming you have imported your enums
+import { MediaRelation, MediaStatus, MediaSeason, CharacterRole } from '#gql/default';
+
+/**
+ * Translates MediaRelation enum values to their i18n entries.
+ * @param relation - The MediaRelation enum value.
+ * @returns The translated string.
+ */
+export function translateMediaRelation(relation?: MediaRelation | null): string {
+    const { t } = useI18n();
     switch (relation) {
         case MediaRelation.ADAPTATION:
-            return 'Adaptação';
+            return t('relation.adaptation');
         case MediaRelation.ALTERNATIVE:
-            return 'Alternativa';
+            return t('relation.alternative');
         case MediaRelation.CHARACTER:
-            return 'Personagem';
+            return t('relation.character');
         case MediaRelation.COMPILATION:
-            return 'Compilação';
+            return t('relation.compilation');
         case MediaRelation.CONTAINS:
-            return 'Contém';
+            return t('relation.contains');
         case MediaRelation.OTHER:
-            return 'Outro';
+            return t('relation.other');
         case MediaRelation.PARENT:
-            return 'Original';
+            return t('relation.parent');
         case MediaRelation.PREQUEL:
-            return 'Prelúdio';
+            return t('relation.prequel');
         case MediaRelation.SEQUEL:
-            return 'Sequência';
+            return t('relation.sequel');
         case MediaRelation.SIDE_STORY:
-            return 'História paralela';
+            return t('relation.side_story');
         case MediaRelation.SOURCE:
-            return 'Fonte';
+            return t('relation.source');
         case MediaRelation.SPIN_OFF:
-            return 'Derivada';
+            return t('relation.spin_off');
         case MediaRelation.SUMMARY:
-            return 'Resumo';
+            return t('relation.summary');
         default:
-            return 'Desconhecido';
+            return t('relation.unknown');
     }
 }
 
+/**
+ * Translates MediaStatus enum values to their i18n entries.
+ * @param status - The MediaStatus enum value.
+ * @returns The translated string.
+ */
 export function translateMediaStatus(status?: MediaStatus | null): string {
+    const { t } = useI18n();
     switch (status) {
         case MediaStatus.CANCELLED:
-            return 'Cancelado';
+            return t('status.cancelled');
         case MediaStatus.FINISHED:
-            return 'Finalizado';
+            return t('status.finished');
         case MediaStatus.HIATUS:
-            return 'Em Hiato';
+            return t('status.hiatus');
         case MediaStatus.NOT_YET_RELEASED:
-            return 'Ainda Não Lançado';
+            return t('status.not_yet_released');
         case MediaStatus.RELEASING:
-            return 'Em Lançamento';
+            return t('status.releasing');
         default:
-            return 'Desconhecido';
+            return t('status.unknown');
+    }
+}
+
+/**
+ * Translates CharacterRole enum values to their i18n entries.
+ * @param role - The CharacterRole enum value.
+ * @returns The translated string.
+ */
+export function translateCharacterRole(role?: CharacterRole | null): string {
+    const { t } = useI18n();
+    switch (role) {
+        case CharacterRole.BACKGROUND:
+            return t('role.background');
+        case CharacterRole.MAIN:
+            return t('role.main');
+        case CharacterRole.SUPPORTING:
+            return t('role.supporting');
+        default:
+            return t('role.unknown');
+    }
+}
+
+/**
+ * Translates MediaSeason enum values to their i18n entries.
+ * @param season - The MediaSeason enum value.
+ * @returns The translated string.
+ */
+export function translateMediaSeason(season?: MediaSeason | null): string {
+    const { t } = useI18n();
+    switch (season) {
+        case MediaSeason.WINTER:
+            return t('season.winter');
+        case MediaSeason.SPRING:
+            return t('season.spring');
+        case MediaSeason.SUMMER:
+            return t('season.summer');
+        case MediaSeason.FALL:
+            return t('season.fall');
+        default:
+            return t('season.unknown');
     }
 }
 
@@ -72,18 +128,6 @@ export function getCurrentSeason(): MediaSeason {
     }
 }
 
-export function translateCharacterRole(role?: CharacterRole | null): string {
-    switch (role) {
-        case CharacterRole.BACKGROUND:
-            return 'Figurante';
-        case CharacterRole.MAIN:
-            return 'Protagonista';
-        case CharacterRole.SUPPORTING:
-            return 'Coadjuvante';
-        default:
-            return 'Desconhecido';
-    }
-}
 
 export function timeToAirCountDown(airingAt?: number): string | null {
     if (airingAt === null) return '-'
