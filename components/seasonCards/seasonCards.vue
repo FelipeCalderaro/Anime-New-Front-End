@@ -9,21 +9,21 @@
     <q-card-section horizontal class="flex" style="height: inherit">
       <q-card-section class="flex-1 py-4 px-6" style="height: inherit">
         <div id="content" class="h-5/6 overflow-y-scroll custom-scrollbar">
-          <div id="title" class="wrap text-neutral-50 text-base font-semibold">
+          <h3 id="title" class="wrap text-neutral-50 text-base font-semibold">
             {{ title }}
-          </div>
+          </h3>
 
-          <div class="text-neutral-50/90 text-[10px] font-medium">
-            Estudio {{ studioName ?? "-" }}
-          </div>
+          <h6 class="text-neutral-50/90 text-[10px] font-medium">
+            {{ $t("media.studio") }} {{ studioName ?? "-" }}
+          </h6>
 
           <br />
 
-          <div
+          <p
             id="description"
             class="font-regular text-neutral-50/60 text-[10px] font-normal"
             v-html="description"
-          ></div>
+          ></p>
         </div>
 
         <div
@@ -42,6 +42,8 @@
         fit="cover"
         :style="{ cursor: 'pointer' }"
         :src="imageUrl ?? '-'"
+        :alt="title"
+        :title="title"
       >
         <div
           v-if="nextEpisode !== null && nextEpisode !== undefined"

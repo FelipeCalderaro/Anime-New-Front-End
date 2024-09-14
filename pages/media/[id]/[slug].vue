@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { createLocalePath } from "~/utils/helper_functions";
+
 const route = useRoute();
 const router = useRouter();
 const localePath = useLocalePath();
@@ -180,7 +182,16 @@ function onEpisodeSelected(url?: string): void {
             :key="`${character?.id}`"
           >
             <q-img
-              class="w-[100px] qhd:w-[120px] h-full"
+              class="w-[100px] qhd:w-[120px] h-full cursor-pointer"
+              @click="
+                navigateTo(
+                  createLocalePath(
+                    'character',
+                    character?.id,
+                    character?.node?.name?.full
+                  )
+                )
+              "
               fit="cover"
               :src="character?.node?.image?.large ?? ''"
             />

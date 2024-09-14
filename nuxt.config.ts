@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     }
   },
   app: {
+    baseURL: '/nuxtApp',
     head: {
       title: APP_CONFIGS.title,
       meta: [

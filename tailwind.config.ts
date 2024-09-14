@@ -52,7 +52,7 @@ export default {
         'max-8k': { 'max': '6144px' },     // 8K resolution
       },
       fontFamily: {
-        exo: ['Exo\\ 2', 'sans-serif'],
+        sans: ['Roboto', 'sans-serif']
       },
       scrollbar: {
         width: '12px',
