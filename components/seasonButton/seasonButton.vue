@@ -20,12 +20,6 @@ interface SeasonButtonProps {
 
 const props = defineProps<SeasonButtonProps>();
 
-
-import fallIcon from '@/assets/svg/fall-icon.svg';
-import winterIcon from '@/assets/svg/winter-icon.svg';
-import summerIcon from '@/assets/svg/summer-icon.svg';
-import springIcon from '@/assets/svg/spring-icon.svg';
-
 </script>
 
 <style></style>
