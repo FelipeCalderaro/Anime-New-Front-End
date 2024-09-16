@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { MediaSeason, type MediaBySeasonQuery } from "#gql/default";
 import { APP_CONFIGS } from "~/constants";
+import fallIcon from "@/assets/svg/fall-icon.svg";
+import springIcon from "@/assets/svg/spring-icon.svg";
+import summerIcon from "@/assets/svg/summer-icon.svg";
+import winterIcon from "@/assets/svg/winter-icon.svg";
 
 const router = useRouter(); // Get the router instance
 const route = useRoute(); // Get the current route
@@ -58,7 +62,18 @@ updatePageQuery(seasonSelected.value);
 function handleSeasonChange(season: MediaSeason, year: number) {
   getInitialSeason(season, year);
 }
-
+function getSeasonIcon(season: MediaSeason): string {
+  switch (season) {
+    case MediaSeason.FALL:
+      return fallIcon;
+    case MediaSeason.SPRING:
+      return springIcon;
+    case MediaSeason.SUMMER:
+      return summerIcon;
+    case MediaSeason.WINTER:
+      return winterIcon;
+  }
+}
 useSeoMeta({
   title: APP_CONFIGS.title,
   ogTitle: APP_CONFIGS.title,
@@ -72,8 +87,7 @@ const toggleSearch: Ref<boolean> = ref(false);
 const searchText: Ref<string> = ref("");
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
 
 <template>
   <div>
@@ -101,6 +115,7 @@ const searchText: Ref<string> = ref("");
           :label="`${$t(seasonInfo.seasonEnum.toLowerCase())} ${
             seasonInfo.seasonYear
           }`"
+          :icon="getSeasonIcon(seasonInfo.seasonEnum)"
           :on-click="
             () =>
               handleSeasonChange(seasonInfo.seasonEnum, seasonInfo.seasonYear)

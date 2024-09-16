@@ -2,7 +2,7 @@
   <q-btn
     flat
     @click="onClick"
-    class="w-[130px] py-1 px-2 text-sm font-normal leading-5 cursor-pointer"
+    class="w-[130px] py-1 px-2 text-sm font-normal leading-5 cursor-pointer hover:-translate-y-3 transition delay-150 duration-300 ease-in-out"
     :class="
       selected
         ? 'bg-primary-01'
@@ -10,7 +10,7 @@
     "
   >
     <div class="flex flex-col items-center">
-      <img class="w-7 h-7 mb-1" src="https://via.placeholder.com/28x28" />
+      <img class="w-7 h-7 mb-1" :src="icon" alt="Season Icon" />
       {{ label }}
     </div>
   </q-btn>
@@ -21,10 +21,10 @@ interface SeasonButtonProps {
   label: string;
   onClick: any;
   selected: boolean;
+  icon: string;
 }
 
 const props = defineProps<SeasonButtonProps>();
 </script>
 
-<style>
-</style>
+<style></style>
