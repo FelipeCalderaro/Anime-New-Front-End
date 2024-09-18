@@ -32,6 +32,10 @@ const rating = convertRating(data.value.Media?.averageScore ?? 0);
 function onEpisodeSelected(url?: string): void {
   window.open(url);
 }
+
+onMounted(() => {
+  onMountToggleSpoiler();
+});
 </script>
 
 <template>
@@ -67,8 +71,10 @@ function onEpisodeSelected(url?: string): void {
             />
           </div>
 
-          <div class="text-neutral-50 text-2xl font-semibold my-1">Sinopse</div>
-          <div class="w-[690px] bgc-" v-html="data.Media?.description"></div>
+          <div class="text-neutral-50 text-2xl font-semibold my-1">
+            {{ $t("media.synopsis") }}
+          </div>
+          <div class="w-[690px]" v-html="data.Media?.description"></div>
 
           <div class="text-neutral-50/80 text-base font-medium my-3">
             {{ $t("media.studio") }}:
@@ -88,13 +94,16 @@ function onEpisodeSelected(url?: string): void {
           {{ $t("media.related") }}
         </div>
 
-        <horizontal-list class="h-[180px]">
+        <horizontal-list class="h-[180px] gap-2">
           <q-card
-            class="bg-card-component w-[280px] h-full mr-4 overflow-clip cursor-pointer"
+            class="bg-card-component w-[280px] h-full overflow-clip cursor-pointer"
             flat
             bordered
             v-for="media in data.Media?.relations?.edges"
             :key="`${media?.id}`"
+            :title="
+              media?.node?.title?.english ?? media?.node?.title?.romaji ?? ''
+            "
             @click="
               navigateTo(
                 localePath(
@@ -111,6 +120,16 @@ function onEpisodeSelected(url?: string): void {
                 class="flex-shrink-0"
                 fit="cover"
                 :src="media?.node?.coverImage?.large ?? ''"
+                :title="
+                  media?.node?.title?.english ??
+                  media?.node?.title?.romaji ??
+                  ''
+                "
+                :alt="
+                  media?.node?.title?.english ??
+                  media?.node?.title?.romaji ??
+                  ''
+                "
               />
 
               <q-card-section class="flex-grow">
@@ -183,16 +202,18 @@ function onEpisodeSelected(url?: string): void {
           >
             <q-img
               class="w-[100px] qhd:w-[120px] h-full cursor-pointer"
+              fit="cover"
+              :alt="character?.node?.name?.userPreferred ?? ''"
+              :title="character?.node?.name?.userPreferred ?? ''"
               @click="
                 navigateTo(
-                  createLocalePath(
-                    'character',
-                    character?.id,
+                  constructLocalePath(
+                    '/character',
+                    character?.node?.id,
                     character?.node?.name?.full
                   )
                 )
               "
-              fit="cover"
               :src="character?.node?.image?.large ?? ''"
             />
             <div
@@ -236,6 +257,8 @@ function onEpisodeSelected(url?: string): void {
               fit="cover"
               v-if="character?.voiceActors?.at(0)?.image?.large"
               :src="character?.voiceActors?.at(0)?.image?.large ?? ''"
+              :alt="character?.voiceActors?.at(0)?.name?.userPreferred ?? ''"
+              :title="character?.voiceActors?.at(0)?.name?.userPreferred ?? ''"
             />
             <div
               class="w-[100px] h-full bg-card-countdown-bg flex flex-col justify-center"
@@ -256,6 +279,7 @@ function onEpisodeSelected(url?: string): void {
           <div
             class="flex flex-row bg-card-component items-center h-[160px]"
             v-for="staff in data.Media?.staffPreview?.edges"
+            :title="staff?.node?.name?.userPreferred ?? ''"
             :key="`${staff?.id}`"
           >
             <q-img
