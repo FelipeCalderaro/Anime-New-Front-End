@@ -128,28 +128,25 @@ export function getCurrentSeason(): MediaSeason {
     }
 }
 
+export function timeToAirDate(airingAt?: number): string | null {
+    const { t, locale } = useI18n(); // Get i18n instance
 
-export function timeToAirCountDown(airingAt?: number): string | null {
-    if (airingAt === null) return '-'
-    const now: number = new Date().getTime()
-    const distance: number = (airingAt! * 1000) - now
-    const days: number = Math.floor(distance / (1000 * 3600 * 24))
-    const hours: number = Math.floor((distance % (1000 * 3600 * 24)) / (1000 * 3600))
-    const minutes: number = Math.floor((distance % (1000 * 3600)) / (1000 * 60))
-    if (Number.isNaN(days) || Number.isNaN(hours) || Number.isNaN(minutes)) {
-        return '';
-    }
-    if (days < 1) {
-        if (hours < 1) {
-            return minutes + ' minutos'
-        } else {
-            return hours + ' horas ' + minutes + ' minutos'
-        }
-    } else {
-        if (hours < 1) {
-            return days + ' dias ' + minutes + ' minutos'
-        } else {
-            return days + ' dias ' + hours + ' horas ' + minutes + ' min'
-        }
-    }
+    if (airingAt === null || airingAt === undefined) return '-';
+
+    const airDate = new Date(airingAt * 1000); // Convert UNIX timestamp to milliseconds
+
+    // Format the date based on locale
+    const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: 'long', // Full month name
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false // Use 24-hour format
+    };
+
+    // Get the formatted date string using toLocaleString
+    const formattedDate = airDate.toLocaleString(locale.value, options);
+
+    return formattedDate.replace(',', ''); // Remove comma for better readability
 }
