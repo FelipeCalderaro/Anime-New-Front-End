@@ -5,9 +5,28 @@ import fallIcon from "@/assets/svg/fall-icon.svg";
 import springIcon from "@/assets/svg/spring-icon.svg";
 import summerIcon from "@/assets/svg/summer-icon.svg";
 import winterIcon from "@/assets/svg/winter-icon.svg";
+// import { useTranslationStore } from "~/stores/translationStore";
+// import { useDeepLTranslationService } from "~/services/deeplTranslationService";
 
 const router = useRouter(); // Get the router instance
 const route = useRoute(); // Get the current route
+
+// const { translateMediasDescription } = useTranslationHelper();
+// const { translateBatch } = useDeepLTranslationService();
+// const translationStore = useTranslationStore();
+
+const currentDate = new Date();
+let mediaBySeasonData = ref<MediaBySeasonQuery | null>();
+let loading: Ref<boolean> = ref(true);
+let error = ref<null | Error>(null);
+let currentYear: Ref<number> = ref(currentDate.getFullYear());
+let seasonSelected: Ref<MediaSeason> = ref(
+  (route.query.season as MediaSeason) || getCurrentSeason()
+);
+const toggleFilter: Ref<boolean> = ref(false);
+const toggleSearch: Ref<boolean> = ref(false);
+const searchText: Ref<string> = ref("");
+// let mediasDescription = ref<TranslationMap>();
 
 // Function to update the query parameter
 function updatePageQuery(season: MediaSeason) {
@@ -17,15 +36,49 @@ function updatePageQuery(season: MediaSeason) {
   });
 }
 
-const currentDate = new Date();
+function handleSeasonChange(season: MediaSeason, year: number) {
+  getInitialSeason(season, year);
+}
 
-let mediaBySeasonData = ref<MediaBySeasonQuery | null>();
-let loading: Ref<boolean> = ref(true);
-let error = ref<null | Error>(null);
-let currentYear: Ref<number> = ref(currentDate.getFullYear());
-let seasonSelected: Ref<MediaSeason> = ref(
-  (route.query.season as MediaSeason) || getCurrentSeason()
-);
+function getSeasonIcon(season: MediaSeason): string {
+  switch (season) {
+    case MediaSeason.FALL:
+      return fallIcon;
+    case MediaSeason.SPRING:
+      return springIcon;
+    case MediaSeason.SUMMER:
+      return summerIcon;
+    case MediaSeason.WINTER:
+      return winterIcon;
+  }
+}
+
+// function aglutinateValues(): TranslationMap {
+//   return {
+//     TV: mediaBySeasonData.value!.TV!.media!.map((m) => {
+//       return { [m?.id ?? 0]: m?.description ?? "" };
+//     }),
+//     SHORTS: mediaBySeasonData.value!.SHORTS!.media!.map((m) => {
+//       return { [m?.id ?? 0]: m?.description ?? "" };
+//     }),
+//     MOVIES: mediaBySeasonData.value!.MOVIES!.media!.map((m) => {
+//       return { [m?.id ?? 0]: m?.description ?? "" };
+//     }),
+//     SPECIALS: mediaBySeasonData.value!.SPECIALS!.media!.map((m) => {
+//       return { [m?.id ?? 0]: m?.description ?? "" };
+//     }),
+//     LEFTOVERS: mediaBySeasonData.value!.LEFTOVERS!.media!.map((m) => {
+//       return { [m?.id ?? 0]: m?.description ?? "" };
+//     }),
+//   };
+// }
+
+// async function storeInPinia() {
+//   translationStore.merge(mediasDescription.value!);
+//   // translationStore.mergeTranslation(HomeMedias.TV, mediasDescription.value!.TV);
+//   // const tvTranslations = translationStore.getTranslation(HomeMedias.TV);
+//   console.log("tvTranslations", translationStore.getAll());
+// }
 
 async function getInitialSeason(season: MediaSeason, year: number) {
   loading.value = true;
@@ -48,6 +101,7 @@ async function getInitialSeason(season: MediaSeason, year: number) {
     mediaBySeasonData.value = queryData;
     currentYear.value = year;
     seasonSelected.value = season;
+    // mediasDescription.value = aglutinateValues();
     updatePageQuery(season);
   } catch (e) {
     error.value = e as Error;
@@ -56,24 +110,6 @@ async function getInitialSeason(season: MediaSeason, year: number) {
   }
 }
 
-await getInitialSeason(seasonSelected.value, currentYear.value);
-updatePageQuery(seasonSelected.value);
-
-function handleSeasonChange(season: MediaSeason, year: number) {
-  getInitialSeason(season, year);
-}
-function getSeasonIcon(season: MediaSeason): string {
-  switch (season) {
-    case MediaSeason.FALL:
-      return fallIcon;
-    case MediaSeason.SPRING:
-      return springIcon;
-    case MediaSeason.SUMMER:
-      return summerIcon;
-    case MediaSeason.WINTER:
-      return winterIcon;
-  }
-}
 useSeoMeta({
   title: APP_CONFIGS.title,
   ogTitle: APP_CONFIGS.title,
@@ -82,9 +118,18 @@ useSeoMeta({
   ogUrl: process.env.NUXT_PUBLIC_SITE_URL,
 });
 
-const toggleFilter: Ref<boolean> = ref(false);
-const toggleSearch: Ref<boolean> = ref(false);
-const searchText: Ref<string> = ref("");
+// async function translateDescriptions() {
+//   mediasDescription.value = await translateMediasDescription(
+//     mediasDescription.value!
+//   );
+//   storeInPinia();
+// }
+
+onMounted(async () => {
+  // mediasDescription.value = translationStore.getAll();
+  await getInitialSeason(seasonSelected.value, currentYear.value);
+  // translateDescriptions();
+});
 </script>
 
 <style scoped></style>
@@ -125,7 +170,9 @@ const searchText: Ref<string> = ref("");
 
       <ad-container />
 
-      <div class="flex flex-row justify-start px-60 mb-4 h-16 items-center">
+      <div
+        class="flex flex-row justify-start px-[340px] mb-4 h-16 items-center"
+      >
         <img
           id="filter"
           src="@/assets/svg/filter-icon.svg"
@@ -160,13 +207,13 @@ const searchText: Ref<string> = ref("");
       </div>
 
       <div
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2"
+        id="tv"
+        v-if="mediaBySeasonData?.TV?.media?.length"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2"
       >
         {{ $t("home.body.tv") }}
       </div>
-      <div
-        class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
-      >
+      <home-grid v-if="mediaBySeasonData?.TV?.media?.length">
         <season-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
@@ -180,18 +227,18 @@ const searchText: Ref<string> = ref("");
           v-for="anime in mediaBySeasonData?.TV?.media"
           :key="anime?.id"
         />
-      </div>
+      </home-grid>
 
       <ad-container />
 
       <div
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2 mt-4"
+        id="tv-shorts"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        v-if="mediaBySeasonData?.SHORTS?.media?.length"
       >
         {{ $t("home.body.tv-shorts") }}
       </div>
-      <div
-        class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
-      >
+      <home-grid v-if="mediaBySeasonData?.SHORTS?.media?.length">
         <season-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
@@ -205,18 +252,18 @@ const searchText: Ref<string> = ref("");
           v-for="anime in mediaBySeasonData?.SHORTS?.media"
           :key="anime?.id"
         />
-      </div>
+      </home-grid>
 
-      <ad-container />
+      <ad-container v-if="mediaBySeasonData?.SHORTS?.media?.length" />
 
       <div
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2 mt-4"
+        id="movies"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        v-if="mediaBySeasonData?.MOVIES?.media?.length"
       >
         {{ $t("home.body.movies") }}
       </div>
-      <div
-        class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
-      >
+      <home-grid v-if="mediaBySeasonData?.MOVIES?.media?.length">
         <season-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
@@ -230,23 +277,23 @@ const searchText: Ref<string> = ref("");
           v-for="anime in mediaBySeasonData?.MOVIES?.media"
           :key="anime?.id"
         />
-      </div>
+      </home-grid>
 
       <div
+        id="left-overs"
         v-if="
           mediaBySeasonData?.LEFTOVERS?.media?.length &&
           seasonSelected === getCurrentSeason()
         "
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2 mt-4"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
       >
         {{ $t("home.body.in-progress") }}
       </div>
-      <div
+      <home-grid
         v-if="
           mediaBySeasonData?.LEFTOVERS?.media?.length &&
           seasonSelected === getCurrentSeason()
         "
-        class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
       >
         <season-cards
           :id="anime?.id ?? 0"
@@ -261,16 +308,16 @@ const searchText: Ref<string> = ref("");
           v-for="anime in mediaBySeasonData?.LEFTOVERS?.media"
           :key="anime?.id"
         />
-      </div>
+      </home-grid>
 
       <div
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-60 mb-2 mt-4"
+        id="specials"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        v-if="mediaBySeasonData?.SPECIALS?.media?.length"
       >
         {{ $t("home.body.specials") }}
       </div>
-      <div
-        class="px-2 sm:px-4 xl:px-40 2xl:px-60 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
-      >
+      <home-grid v-if="mediaBySeasonData?.SPECIALS?.media?.length">
         <season-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
@@ -284,7 +331,7 @@ const searchText: Ref<string> = ref("");
           v-for="anime in mediaBySeasonData?.SPECIALS?.media"
           :key="anime?.id"
         />
-      </div>
+      </home-grid>
 
       <ad-container />
 

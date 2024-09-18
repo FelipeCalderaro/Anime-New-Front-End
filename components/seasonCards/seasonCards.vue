@@ -14,7 +14,7 @@
           </div>
 
           <div class="text-neutral-50/90 text-[10px] font-medium">
-            Estudio {{ studioName ?? "-" }}
+            {{ $t("media.studio") }} {{ studioName ?? "-" }}
           </div>
 
           <br />
@@ -27,12 +27,13 @@
         </div>
 
         <div
-          class="h-1/6 mt-1 justify-start items-center gap-2 inline-flex wrap"
+          class="flex h-1/6 mt-1 justify-start items-center gap-2 no-wrap overflow-x-auto"
         >
           <GenreChip
             :genre="genre ?? ''"
-            v-for="genre in genres?.slice(0, 3)"
+            v-for="genre in genres?.slice(0, 2)"
             :key="'genre-' + genre"
+            :title="genre"
           />
         </div>
       </q-card-section>
@@ -46,17 +47,18 @@
         <div
           v-if="nextEpisode !== null && nextEpisode !== undefined"
           class="items-end absolute-bottom text-center"
-          style="height: 60px"
+          style="height: 70px"
         >
-          <p class="text-neutral-50/80 text-xs font-semibold">
+          <h6 class="text-neutral-50/80 text-sm font-semibold">
+            {{ $t("media.episode") }} {{ nextEpisode }}
             {{
-              `Episódio  ${nextEpisode} ${
-                episodes !== null ? " de " + episodes : ""
-              } em:`
+              episodes !== null ? $t("media.episode.of") + "  " + episodes : ""
             }}
             <br />
-            {{ timeToAirCountDown(episodeAiringAt) }}
-          </p>
+            <p class="text-xs">
+              {{ timeToAirDate(episodeAiringAt) }}
+            </p>
+          </h6>
         </div>
       </q-img>
     </q-card-section>

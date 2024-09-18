@@ -1,0 +1,40 @@
+query characterInfo($id: Int) {
+    Character(id: $id) {
+        id
+        name {
+            first
+            middle
+            last
+            full
+            native
+            userPreferred
+            alternative
+            alternativeSpoiler
+        }
+        media @include(if:true){
+            edges{
+                id 
+                characterRole
+                voiceActors(language: JAPANESE){id name{userPreferred full}image{large}language:languageV2}
+                node{id type isAdult bannerImage title{userPreferred english}coverImage{extraLarge large medium}startDate{year}}
+            }
+        }
+        image {
+            large
+            medium
+        }
+        favourites
+        isFavourite
+        isFavouriteBlocked
+        description(asHtml:true)
+        age
+        gender
+        bloodType
+        dateOfBirth {
+            year
+            month
+            day
+        }
+        siteUrl
+    }
+}

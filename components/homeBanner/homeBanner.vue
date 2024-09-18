@@ -79,7 +79,7 @@ let autoplay = useState<boolean>(() => true);
               class="absolute-full bg-gradient-to-r from-background via-background-55 via-20%"
             >
               <div
-                class="m-2 lg:ml-60 text-white w-full lg:w-[700px] h-[264px] mt-[200px] lg:mt-[110px]"
+                class="m-2 lg:ml-[340px] text-white w-full lg:w-[700px] h-[264px] mt-[200px] lg:mt-[110px]"
               >
                 <h2 class="text-neutral-50 text-2xl font-bold">
                   {{ media?.title?.english }}
@@ -107,8 +107,10 @@ let autoplay = useState<boolean>(() => true);
                   class="w-[300px] bg-primary-01 text-white rounded-lg px-4 py-2"
                   @click="
                     navigateTo(
-                      localePath(
-                        `/media/${media?.id}/${slugify(media?.title?.english)}`
+                      constructLocalePath(
+                        '/media',
+                        media?.id,
+                        media?.title?.english ?? media?.title?.romaji
                       )
                     )
                   "
