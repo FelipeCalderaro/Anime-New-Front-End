@@ -3,11 +3,13 @@ export function zip(...arrays: any[]) {
     return Array.from({ length: minLength }, (_, i) => arrays.map(arr => arr[i]));
 }
 
+
 export function constructLocalePath(path: string, id?: number | null, slug?: string | null): string {
     const localePath = useLocalePath();
     let fullPath = path;
     if (!path.includes('/')) {
         fullPath = '/' + path;
+
     }
     if (id !== null && id !== undefined) {
         fullPath += `/${id}`;

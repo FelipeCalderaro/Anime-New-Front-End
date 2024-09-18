@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { createLocalePath } from "~/utils/helper_functions";
+
 const route = useRoute();
 const router = useRouter();
 const localePath = useLocalePath();

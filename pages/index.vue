@@ -138,17 +138,17 @@ onMounted(async () => {
   <div>
     <home-banner id="caroussel" />
     <div id="content">
-      <div
+      <h1
         class="mt-6 text-center text-neutral-50 text-[40px] sm:text-6xl font-medium leading-[60px]"
       >
         {{ $t("home.body.title") }}
-      </div>
+      </h1>
 
-      <div
+      <h3
         class="mt-4 text-center text-neutral-50 text-[16px] sm:text-[22px] font-normal leading-[34px]"
       >
         {{ $t("home.body.subtitle") }}
-      </div>
+      </h3>
 
       <div
         class="w-full h-[140px] sm:h-[60px] my-8 flex flex-row gap-4 justify-center text-white"
