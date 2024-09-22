@@ -1,13 +1,22 @@
 <script setup lang="ts">
-import { createLocalePath } from "~/utils/helper_functions";
+import type { AnimeNewPosts } from "~/types/AnimenewPosts";
 
 const route = useRoute();
-const router = useRouter();
-const localePath = useLocalePath();
 
 const { data, error, status } = await useAsyncGql("mediaInfo", {
   id: Number.parseInt(route.params.id as string),
 });
+
+const {
+  data: newsData,
+  error: newsError,
+  status: newsStatus,
+} = await useFetch<AnimeNewPosts[]>(
+  "https://animenew.com.br/wp-json/custom-api/v1/search",
+  {
+    params: { query: data.value.Media?.title?.english, perPage: 15 },
+  }
+);
 
 if (status.value === "success") {
   const head = constructHead({
@@ -29,7 +38,7 @@ function convertRating(rating: number): number {
 }
 
 const rating = convertRating(data.value.Media?.averageScore ?? 0);
-function onEpisodeSelected(url?: string): void {
+function onNewsSelected(url?: string): void {
   window.open(url);
 }
 
@@ -106,10 +115,10 @@ onMounted(() => {
             "
             @click="
               navigateTo(
-                localePath(
-                  `/media/${media?.node?.id}/${slugify(
-                    `${media?.node?.title?.english}`
-                  )}`
+                constructLocalePath(
+                  '/media',
+                  media?.node?.id,
+                  media?.node?.title?.english
                 )
               )
             "
@@ -158,27 +167,25 @@ onMounted(() => {
         </horizontal-list>
       </div>
 
-      <div id="watch" class="mt-8" v-if="data.Media?.streamingEpisodes?.length">
+      <div id="read" class="mt-8" v-if="newsData?.length">
         <div class="text-white text-2xl font-semibold">
-          {{ $t("media.watch") }}
+          {{ $t("media.news.about") }}
         </div>
         <horizontal-list class="mt-2">
           <q-img
             class="flex-shrink-0 rounded-sm w-[340px] rounded-bl mb-4 cursor-pointer"
-            :src="`${episode?.thumbnail}`"
-            v-for="episode in [...data.Media.streamingEpisodes].reverse()"
-            :key="`${episode?.url}`"
-            @click="if (episode?.url) onEpisodeSelected(episode?.url);"
+            :src="`${news?.image}`"
+            v-for="news in newsData"
+            :key="`${news.id}`"
+            @click="if (news?.url) onNewsSelected(news?.url);"
           >
             <div class="w-full h-full text-white text-xs font-semibold">
               <div
                 class="w-full h-16 text-white text-xs absolute-bottom px-2 py-3 bg-neutral-900/40 line-clamp-2"
-                :title="`${episode?.title}`"
+                :title="`${news?.title}`"
               >
-                <div class="text-neutral-01">
-                  {{ episode?.site }}
-                </div>
-                {{ episode?.title }}
+                <div class="text-neutral-01">AnimeNew</div>
+                <h6 v-html="news?.title" />
               </div>
             </div>
           </q-img>

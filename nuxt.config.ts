@@ -5,6 +5,16 @@ export default defineNuxtConfig({
   imports: {
     autoImport: true,
   },
+  vite: {
+    // Add custom Vite plugins, configure build options, etc.
+    build: {
+      // Increase memory limit if needed for large builds
+      chunkSizeWarningLimit: 1000, // Adjust as necessary
+    },
+    server: {
+      hmr: { overlay: false }, // Example: disable HMR overlay
+    }
+  },
   ssr: true,
   nitro: {
     externals: {
@@ -58,9 +68,9 @@ export default defineNuxtConfig({
   ],
   i18n: {
     locales: [
-      { code: 'pt-br', name: 'Portuguese', iso: 'pt-BR', file: 'pt-br.json' },
+      { code: 'pt-br', name: 'Portuguese', language: 'pt-BR', file: 'pt-br.json' },
       // { code: 'pt-pt', name: 'Portuguese (Portugal)', iso: 'pt-PT', file: 'pt-pt.json' },
-      { code: 'en', name: 'English', iso: 'en', file: 'en.json' },
+      { code: 'en', name: 'English', language: 'en-US', file: 'en.json' },
       // { code: 'it', name: 'Italian', iso: 'it-IT', file: 'it.json' },
       // { code: 'es', name: 'Spanish', iso: 'es-ES', file: 'es.json' },
       // { code: 'bg', name: 'Bulgarian', iso: 'bg-BG', file: 'bg.json' },

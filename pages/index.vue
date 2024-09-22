@@ -125,11 +125,11 @@ useSeoMeta({
 //   storeInPinia();
 // }
 
-onMounted(async () => {
-  // mediasDescription.value = translationStore.getAll();
-  await getInitialSeason(seasonSelected.value, currentYear.value);
-  // translateDescriptions();
-});
+// onMounted(async () => {
+// mediasDescription.value = translationStore.getAll();
+// translateDescriptions();
+// });
+await getInitialSeason(seasonSelected.value, currentYear.value);
 </script>
 
 <style scoped></style>
