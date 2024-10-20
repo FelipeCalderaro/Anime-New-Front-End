@@ -3,8 +3,8 @@ import { MediaSeason, type MediaBySeasonQuery } from "#gql/default";
 import { APP_CONFIGS } from "~/constants";
 import fallIcon from "@/assets/svg/fall-icon.svg";
 import springIcon from "@/assets/svg/spring-icon.svg";
-import summerIcon from "@/assets/svg/summer-icon.svg";
-import winterIcon from "@/assets/svg/winter-icon.svg";
+import summerIcon from "@/assets/svg/summer-icon2.svg";
+import winterIcon from "@/assets/svg/winter-icon2.svg";
 // import { useTranslationStore } from "~/stores/translationStore";
 // import { useDeepLTranslationService } from "~/services/deeplTranslationService";
 
@@ -138,199 +138,106 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
   <div>
     <home-banner id="caroussel" />
     <div id="content">
-      <h1
-        class="mt-6 text-center text-neutral-50 text-[40px] sm:text-6xl font-medium leading-[60px]"
-      >
+      <h1 class="mt-6 text-center text-neutral-50 text-[40px] sm:text-6xl font-medium leading-[60px]">
         {{ $t("home.body.title") }}
       </h1>
 
-      <h3
-        class="mt-4 text-center text-neutral-50 text-[16px] sm:text-[22px] font-normal leading-[34px]"
-      >
+      <h3 class="mt-4 text-center text-neutral-50 text-[16px] sm:text-[22px] font-normal leading-[34px]">
         {{ $t("home.body.subtitle") }}
       </h3>
 
-      <div
-        class="w-full h-[140px] sm:h-[60px] my-8 flex flex-row gap-4 justify-center text-white"
-      >
-        <season-button
-          v-for="(seasonInfo, index) in getYearBySeason()"
-          :key="index"
-          :selected="seasonInfo.seasonEnum === seasonSelected"
-          :label="`${$t(seasonInfo.seasonEnum.toLowerCase())} ${
-            seasonInfo.seasonYear
-          }`"
-          :icon="getSeasonIcon(seasonInfo.seasonEnum)"
-          :on-click="
-            () =>
+      <div class="w-full h-[140px] sm:h-[60px] my-8 flex flex-row gap-4 justify-center text-white">
+        <season-button v-for="(seasonInfo, index) in getYearBySeason()" :key="index"
+          :selected="seasonInfo.seasonEnum === seasonSelected" :label="`${$t(seasonInfo.seasonEnum.toLowerCase())} ${seasonInfo.seasonYear
+            }`" :icon="getSeasonIcon(seasonInfo.seasonEnum)" :on-click="() =>
               handleSeasonChange(seasonInfo.seasonEnum, seasonInfo.seasonYear)
-          "
-        />
+              " />
       </div>
 
       <ad-container />
 
-      <div
-        class="flex flex-row justify-start px-[340px] mb-4 h-16 items-center"
-      >
-        <img
-          id="filter"
-          src="@/assets/svg/filter-icon.svg"
-          alt="Filter Icon"
-          class="text-white w-6 h-6 cursor-pointer mr-6"
-          @click="toggleFilter = !toggleFilter"
-        />
-        <img
-          id="search"
-          src="@/assets/svg/search-icon.svg"
-          alt="Filter Icon"
-          class="text-white w-6 h-6 cursor-pointer mr-6"
-          @click="toggleSearch = !toggleSearch"
-        />
-        <search-input
-          v-if="toggleSearch"
-          type="search"
-          input-id="search"
-          hint="Pesquisar"
-          error-message="Este campo não pode estar vazio"
-          :onSubmit="
-            (isValid, text) => {
-              console.log('isValid', isValid, 'text', text);
-            }
-          "
-          :validation="
-            (value) => {
+      <div class="flex flex-row justify-start px-[340px] mb-4 h-16 items-center">
+        <img id="filter" src="@/assets/svg/filter-icon.svg" alt="Filter Icon"
+          class="text-white w-6 h-6 cursor-pointer mr-6" @click="toggleFilter = !toggleFilter" />
+        <img id="search" src="@/assets/svg/search-icon.svg" alt="Filter Icon"
+          class="text-white w-6 h-6 cursor-pointer mr-6" @click="toggleSearch = !toggleSearch" />
+        <search-input v-if="toggleSearch" type="search" input-id="search" hint="Pesquisar"
+          error-message="Este campo não pode estar vazio" :onSubmit="(isValid, text) => {
+            console.log('isValid', isValid, 'text', text);
+          }
+            " :validation="(value) => {
               return value.length !== 0 && value.length >= 3;
             }
-          "
-        ></search-input>
+              "></search-input>
       </div>
 
-      <div
-        id="tv"
-        v-if="mediaBySeasonData?.TV?.media?.length"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2"
-      >
+      <div id="tv" v-if="mediaBySeasonData?.TV?.media?.length"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2">
         {{ $t("home.body.tv") }}
       </div>
       <home-grid v-if="mediaBySeasonData?.TV?.media?.length">
-        <season-cards
-          :id="anime?.id ?? 0"
-          :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
-          :image-url="anime?.coverImage?.large ?? '-'"
-          :description="anime?.description ?? '-'"
-          :next-episode="anime?.nextAiringEpisode?.episode"
-          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
-          :episodes="anime?.episodes"
-          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
-          :genres="anime?.genres"
-          v-for="anime in mediaBySeasonData?.TV?.media"
-          :key="anime?.id"
-        />
+        <season-cards :id="anime?.id ?? 0" :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
+          :image-url="anime?.coverImage?.large ?? '-'" :description="anime?.description ?? '-'"
+          :next-episode="anime?.nextAiringEpisode?.episode" :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
+          :episodes="anime?.episodes" :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'" :genres="anime?.genres"
+          v-for="anime in mediaBySeasonData?.TV?.media" :key="anime?.id" />
       </home-grid>
 
       <ad-container />
 
-      <div
-        id="tv-shorts"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
-        v-if="mediaBySeasonData?.SHORTS?.media?.length"
-      >
+      <div id="tv-shorts" class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        v-if="mediaBySeasonData?.SHORTS?.media?.length">
         {{ $t("home.body.tv-shorts") }}
       </div>
       <home-grid v-if="mediaBySeasonData?.SHORTS?.media?.length">
-        <season-cards
-          :id="anime?.id ?? 0"
-          :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
-          :image-url="anime?.coverImage?.large ?? '-'"
-          :description="anime?.description ?? '-'"
-          :next-episode="anime?.nextAiringEpisode?.episode"
-          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
-          :episodes="anime?.episodes"
-          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
-          :genres="anime?.genres"
-          v-for="anime in mediaBySeasonData?.SHORTS?.media"
-          :key="anime?.id"
-        />
+        <season-cards :id="anime?.id ?? 0" :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
+          :image-url="anime?.coverImage?.large ?? '-'" :description="anime?.description ?? '-'"
+          :next-episode="anime?.nextAiringEpisode?.episode" :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
+          :episodes="anime?.episodes" :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'" :genres="anime?.genres"
+          v-for="anime in mediaBySeasonData?.SHORTS?.media" :key="anime?.id" />
       </home-grid>
 
       <ad-container v-if="mediaBySeasonData?.SHORTS?.media?.length" />
 
-      <div
-        id="movies"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
-        v-if="mediaBySeasonData?.MOVIES?.media?.length"
-      >
+      <div id="movies" class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        v-if="mediaBySeasonData?.MOVIES?.media?.length">
         {{ $t("home.body.movies") }}
       </div>
       <home-grid v-if="mediaBySeasonData?.MOVIES?.media?.length">
-        <season-cards
-          :id="anime?.id ?? 0"
-          :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
-          :image-url="anime?.coverImage?.large ?? '-'"
-          :description="anime?.description ?? '-'"
-          :next-episode="anime?.nextAiringEpisode?.episode"
-          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
-          :episodes="anime?.episodes"
-          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
-          :genres="anime?.genres"
-          v-for="anime in mediaBySeasonData?.MOVIES?.media"
-          :key="anime?.id"
-        />
+        <season-cards :id="anime?.id ?? 0" :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
+          :image-url="anime?.coverImage?.large ?? '-'" :description="anime?.description ?? '-'"
+          :next-episode="anime?.nextAiringEpisode?.episode" :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
+          :episodes="anime?.episodes" :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'" :genres="anime?.genres"
+          v-for="anime in mediaBySeasonData?.MOVIES?.media" :key="anime?.id" />
       </home-grid>
 
-      <div
-        id="left-overs"
-        v-if="
-          mediaBySeasonData?.LEFTOVERS?.media?.length &&
-          seasonSelected === getCurrentSeason()
-        "
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
-      >
+      <div id="left-overs" v-if="
+        mediaBySeasonData?.LEFTOVERS?.media?.length &&
+        seasonSelected === getCurrentSeason()
+      " class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4">
         {{ $t("home.body.in-progress") }}
       </div>
-      <home-grid
-        v-if="
-          mediaBySeasonData?.LEFTOVERS?.media?.length &&
-          seasonSelected === getCurrentSeason()
-        "
-      >
-        <season-cards
-          :id="anime?.id ?? 0"
-          :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
-          :image-url="anime?.coverImage?.large ?? '-'"
-          :description="anime?.description ?? '-'"
-          :next-episode="anime?.nextAiringEpisode?.episode"
-          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
-          :episodes="anime?.episodes"
-          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
-          :genres="anime?.genres"
-          v-for="anime in mediaBySeasonData?.LEFTOVERS?.media"
-          :key="anime?.id"
-        />
+      <home-grid v-if="
+        mediaBySeasonData?.LEFTOVERS?.media?.length &&
+        seasonSelected === getCurrentSeason()
+      ">
+        <season-cards :id="anime?.id ?? 0" :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
+          :image-url="anime?.coverImage?.large ?? '-'" :description="anime?.description ?? '-'"
+          :next-episode="anime?.nextAiringEpisode?.episode" :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
+          :episodes="anime?.episodes" :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'" :genres="anime?.genres"
+          v-for="anime in mediaBySeasonData?.LEFTOVERS?.media" :key="anime?.id" />
       </home-grid>
 
-      <div
-        id="specials"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
-        v-if="mediaBySeasonData?.SPECIALS?.media?.length"
-      >
+      <div id="specials" class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        v-if="mediaBySeasonData?.SPECIALS?.media?.length">
         {{ $t("home.body.specials") }}
       </div>
       <home-grid v-if="mediaBySeasonData?.SPECIALS?.media?.length">
-        <season-cards
-          :id="anime?.id ?? 0"
-          :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
-          :image-url="anime?.coverImage?.large ?? '-'"
-          :description="anime?.description ?? '-'"
-          :next-episode="anime?.nextAiringEpisode?.episode"
-          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
-          :episodes="anime?.episodes"
-          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
-          :genres="anime?.genres"
-          v-for="anime in mediaBySeasonData?.SPECIALS?.media"
-          :key="anime?.id"
-        />
+        <season-cards :id="anime?.id ?? 0" :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
+          :image-url="anime?.coverImage?.large ?? '-'" :description="anime?.description ?? '-'"
+          :next-episode="anime?.nextAiringEpisode?.episode" :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
+          :episodes="anime?.episodes" :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'" :genres="anime?.genres"
+          v-for="anime in mediaBySeasonData?.SPECIALS?.media" :key="anime?.id" />
       </home-grid>
 
       <ad-container />
@@ -341,4 +248,3 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
     </div>
   </div>
 </template>
-
