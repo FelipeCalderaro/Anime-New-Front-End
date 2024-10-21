@@ -34,14 +34,19 @@ onMounted(() => {
 <template>
   <div>
     <div id="detail-container" class="mb-11">
-      <div id="title-section" class="w-full h-full flex flex-row pt-28 ml-20">
+      <div
+        id="title-section"
+        class="w-full h-full flex flex-col lg:flex-row pt-36 lg:pt-28 md:ml-6 xl:ml-20 items-center md:items-start"
+      >
         <q-img
-          class="w-[340px] h-[500px] rounded-lg"
+          class="w-[170px] h-[240px] 2xl:w-[340px] 2xl:h-[500px] rounded-lg"
           fit="cover"
           :src="data.Character?.image?.large ?? ''"
         />
-        <div class="flex flex-col ml-6">
-          <div class="text-neutral-50 text-5xl font-bold mb-6">
+        <div class="mx-6 md:mx-0 lg:ml-6">
+          <div
+            class="text-neutral-50 text-2xl 2xl:text-5xl font-bold mb-6 text-center md:text-start"
+          >
             {{
               data.Character?.name?.userPreferred ?? data.Character?.name?.full
             }}
@@ -51,7 +56,7 @@ onMounted(() => {
             {{ $t("character.about") }}
           </div>
           <div
-            class="w-[690px] text-white text-base"
+            class="w-full xl:w-[690px] text-white text-base"
             v-html="data.Character?.description"
           ></div>
         </div>
@@ -61,12 +66,12 @@ onMounted(() => {
       class="px-2 sm:px-4 xl:px-40 2xl:px-[340px] grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
     >
       <div
-        class="flex flex-row bg-card-component h-40 items-center justify-between"
+        class="flex flex-row bg-card-component h-32 lg:h-40 items-center justify-start"
         v-for="media in data.Character?.media?.edges"
         :key="`${media?.id}`"
       >
         <q-img
-          class="h-full cursor-pointer w-1/4"
+          class="cursor-pointer w-[90px] h-full md:w-1/4"
           :src="media?.node?.coverImage?.large ?? ''"
           :alt="media?.node?.title?.english ?? ''"
           :title="media?.node?.title?.english ?? ''"
@@ -82,7 +87,7 @@ onMounted(() => {
         />
         <div
           :id="`character-name-${media?.node?.title?.english}`"
-          class="text-xs my-4 flex-initial w-1/3"
+          class="text-xs my-4 ml-4 flex-initial lg:w-1/3"
         >
           <div
             class="font-bold text-neutral-01"
@@ -107,8 +112,10 @@ onMounted(() => {
           </div>
         </div>
 
+        <div class="grow" />
+
         <q-img
-          class="h-full w-1/4"
+          class="w-[90px] h-full md:w-1/4"
           fit="cover"
           :alt="media?.voiceActors?.at(0)?.name?.userPreferred ?? ''"
           :title="media?.voiceActors?.at(0)?.name?.userPreferred ?? ''"
@@ -116,6 +123,6 @@ onMounted(() => {
         />
       </div>
     </div>
-    <div class="h-[400px]"></div>
+    <div class="h-[800px]" />
   </div>
 </template>

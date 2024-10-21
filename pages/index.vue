@@ -171,7 +171,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
       <ad-container />
 
       <div
-        class="flex flex-row justify-start px-[340px] mb-4 h-16 items-center"
+        class="flex flex-row justify-start px-1 md:px-[340px] mb-4 h-16 items-center"
       >
         <img
           id="filter"

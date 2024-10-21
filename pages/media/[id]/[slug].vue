@@ -48,25 +48,33 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-1">
+  <div id="content">
     <q-img
-      class="w-full h-[672px] title-section"
+      id="banner"
+      class="w-full h-[900px] lg:h-[450px] 2xl:h-[672px] title-section"
       :style="{ paddingTop: 112 }"
       fit="cover"
       :src="data.Media?.bannerImage ?? ''"
     >
-      <div id="title-section" class="w-full h-full flex flex-row">
+      <div
+        id="title-section"
+        class="w-full h-full flex flex-col md:flex-row items-center lg:items-start"
+      >
         <q-img
-          class="w-[340px] h-[500px] rounded-lg"
+          class="h-[200px] w-[150px] sm:w-[250px] sm:h-[360px] xl:w-[200px] xl:h-[300px] 2xl:w-[340px] 2xl:h-[500px] mt-8 sm:mt-0 rounded-lg"
           fit="cover"
           :src="data.Media?.coverImage?.extraLarge ?? ''"
         />
-        <div class="flex flex-col ml-6">
-          <div class="text-neutral-50 text-5xl font-bold">
+        <div
+          class="sm:ml-6 sm:w-[350px] md:w-[500px] xl:w-[700px] text-ellipsis h-[300px]"
+        >
+          <div
+            class="text-neutral-50 text-3xl xl:text-4xl 2xl:text-5xl font-bold text-center md:text-left"
+          >
             {{ data.Media?.title?.english ?? data.Media?.title?.romaji }}
           </div>
           <q-rating
-            class="mt-3 text-white"
+            class="mt-3 text-white center"
             v-model="rating"
             size="1.5em"
             icon="star"
@@ -80,10 +88,15 @@ onMounted(() => {
             />
           </div>
 
-          <div class="text-neutral-50 text-2xl font-semibold my-1">
+          <div
+            class="text-neutral-50 text-lg md:text-xl 2xl:text-2xl font-semibold my-1"
+          >
             {{ $t("media.synopsis") }}
           </div>
-          <div class="w-[690px]" v-html="data.Media?.description"></div>
+          <div
+            class="w-full text-ellipsis 2xl:text-pretty"
+            v-html="data.Media?.description"
+          ></div>
 
           <div class="text-neutral-50/80 text-base font-medium my-3">
             {{ $t("media.studio") }}:
@@ -93,7 +106,7 @@ onMounted(() => {
       </div>
     </q-img>
 
-    <div class="mx-64">
+    <div class="mx-4 lg:mx-12 2xl:mx-64">
       <div
         id="related-content"
         class="mt-8"
@@ -173,7 +186,7 @@ onMounted(() => {
         </div>
         <horizontal-list class="mt-2">
           <q-img
-            class="flex-shrink-0 rounded-sm w-[340px] rounded-bl mb-4 cursor-pointer"
+            class="news flex-shrink-0 rounded-sm h-[140px] w-[210px] lg:h-full lg:w-[340px] rounded-bl mb-4 cursor-pointer"
             :src="`${news?.image}`"
             v-for="news in newsData"
             :key="`${news.id}`"
@@ -181,7 +194,7 @@ onMounted(() => {
           >
             <div class="w-full h-full text-white text-xs font-semibold">
               <div
-                class="w-full h-16 text-white text-xs absolute-bottom px-2 py-3 bg-neutral-900/40 line-clamp-2"
+                class="w-full h-16 text-white text-xs absolute-bottom px-2 py-3 bg-neutral-900/60 line-clamp-2"
                 :title="`${news?.title}`"
               >
                 <div class="text-neutral-01">AnimeNew</div>
@@ -201,14 +214,14 @@ onMounted(() => {
           {{ $t("media.characters") }}
         </div>
 
-        <div class="grid grid-cols-3 gap-4 mt-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-2">
           <div
-            class="flex flex-row bg-card-component items-center h-[160px]"
+            class="flex flex-row bg-card-component items-center h-[100px] 2xl:h-[160px]"
             v-for="character in data.Media?.charactersPreview?.edges"
             :key="`${character?.id}`"
           >
             <q-img
-              class="w-[100px] qhd:w-[120px] h-full cursor-pointer"
+              class="w-[60px] 2xl:w-[100px] qhd:w-[120px] h-full cursor-pointer"
               fit="cover"
               :alt="character?.node?.name?.userPreferred ?? ''"
               :title="character?.node?.name?.userPreferred ?? ''"
@@ -225,7 +238,7 @@ onMounted(() => {
             />
             <div
               :id="`character-name-${character?.node?.name?.first}`"
-              class="text-neutral-01 text-xs mx-2 my-4"
+              class="text-neutral-01 text-xs mx-2 my-4 w-[80px]"
             >
               <div class="font-semibold">
                 {{
@@ -244,7 +257,7 @@ onMounted(() => {
               :id="`voice-actor-name-${
                 character?.voiceActors?.at(0)?.name?.first
               }`"
-              class="flex flex-col text-neutral-01 text-xs mx-2 my-4 justify-end items-end"
+              class="flex flex-col text-neutral-01 text-xs mx-2 my-4 justify-center items-center w-[80px] text-pretty"
             >
               <div class="font-semibold">
                 {{
@@ -260,7 +273,7 @@ onMounted(() => {
               </div>
             </div>
             <q-img
-              class="w-[100px] qhd:w-[120px] h-full"
+              class="w-[60px] 2xl:w-[100px] qhd:w-[120px] h-full"
               fit="cover"
               v-if="character?.voiceActors?.at(0)?.image?.large"
               :src="character?.voiceActors?.at(0)?.image?.large ?? ''"
@@ -268,7 +281,7 @@ onMounted(() => {
               :title="character?.voiceActors?.at(0)?.name?.userPreferred ?? ''"
             />
             <div
-              class="w-[100px] h-full bg-card-countdown-bg flex flex-col justify-center"
+              class="w-[60px] 2xl:w-[100px] h-full bg-card-countdown-bg flex flex-col justify-center"
               v-else
             >
               <div class="text-neutral-02 px-2">{{ $t("media.no-image") }}</div>
@@ -282,21 +295,21 @@ onMounted(() => {
           {{ $t("media.staff") }}
         </div>
 
-        <div class="grid grid-cols-4 gap-4 mt-2">
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-2">
           <div
-            class="flex flex-row bg-card-component items-center h-[160px]"
+            class="flex flex-row bg-card-component items-center h-[120px] md:h-[160px]"
             v-for="staff in data.Media?.staffPreview?.edges"
             :title="staff?.node?.name?.userPreferred ?? ''"
             :key="`${staff?.id}`"
           >
             <q-img
-              class="w-[100px] qhd:w-[120px] h-full"
+              class="w-[70px] sm:w-[100px] qhd:w-[120px] h-full"
               fit="cover"
               :src="staff?.node?.image?.large ?? ''"
             />
             <div
               :id="`staff-name-${staff?.node?.name?.first}`"
-              class="text-neutral-01 text-xs mx-2 my-4"
+              class="text-neutral-01 text-xs mx-2 my-4 w-[60px] md:w-2/4"
             >
               <div class="font-semibold">
                 {{
@@ -307,8 +320,6 @@ onMounted(() => {
                 {{ staff?.role }}
               </div>
             </div>
-
-            <div class="flex-grow" />
           </div>
         </div>
       </div>
@@ -321,8 +332,12 @@ onMounted(() => {
 <style>
 /* Overrides the Quasar properties in the title-section  */
 .title-section .q-img__content > div {
-  @apply pt-28 pb-14 px-20;
+  @apply pt-28 mb-14 px-4 md:px-8 lg:px-20;
   @apply bg-gradient-to-t from-background from-0% via-background-55 via-25%;
+}
+
+.news .q-img__content > div {
+  @apply bg-transparent;
 }
 
 .scrollbar-always-visible {
