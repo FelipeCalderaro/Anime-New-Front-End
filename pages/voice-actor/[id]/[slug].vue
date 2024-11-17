@@ -116,7 +116,7 @@ onMounted(() => {
           {{ $t("tba") }}
         </h3>
         <div
-          class="px-2 sm:px-4 xl:px-40 2xl:px-[340px] grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
+          class="md:gap-x-6 gap-y-4 md:gap-y-8 grid grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
         >
           <div
             class="flex flex-row bg-card-component items-center h-[100px] 2xl:h-[160px]"
@@ -157,7 +157,7 @@ onMounted(() => {
 
             <div
               :id="`media-name-${character?.node?.name?.first}`"
-              class="text-neutral-01 text-xs mx-2 my-4 w-[100px] xl:w-40"
+              class="text-neutral-01 text-xs mx-2 my-4 w-[100px]"
             >
               <div class="font-semibold">
                 {{ media.title.english ?? media.title.romaji }}
