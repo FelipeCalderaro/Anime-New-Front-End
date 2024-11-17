@@ -24,6 +24,7 @@
     "media.synopsis": "Synopsis",
     "media.news.about": "News",
     "character.about": "About",
+    "staff.about": "About",
     "relation.adaptation": "Adaptation",
     "relation.alternative": "Alternative",
     "relation.character": "Character",
@@ -48,5 +49,6 @@
     "season.winter": "WINTER",
     "season.spring": "SPRING",
     "season.summer": "SUMMER",
-    "season.fall": "FALL"
+    "season.fall": "FALL",
+    "tba": "To be announced"
 }

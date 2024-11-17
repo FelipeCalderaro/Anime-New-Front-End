@@ -24,6 +24,7 @@
     "media.synopsis": "Sinopse",
     "media.news.about": "Notícias sobre",
     "character.about": "Sobre",
+    "staff.about": "Sobre",
     "relation.adaptation": "Adaptação",
     "relation.alternative": "Alternativa",
     "relation.character": "Personagem",
@@ -48,5 +49,6 @@
     "season.winter": "INVERNO",
     "season.spring": "PRIMAVERA",
     "season.summer": "VERÃO",
-    "season.fall": "OUTONO"
+    "season.fall": "OUTONO",
+    "tba": "Ainda não anunciado"
 }

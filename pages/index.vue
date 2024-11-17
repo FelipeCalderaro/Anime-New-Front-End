@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { MediaSeason, type MediaBySeasonQuery } from "#gql/default";
-import { APP_CONFIGS } from "~/constants";
 import fallIcon from "@/assets/svg/fall-icon.svg";
 import springIcon from "@/assets/svg/spring-icon.svg";
 import summerIcon from "@/assets/svg/summer-icon.svg";
 import winterIcon from "@/assets/svg/winter-icon.svg";
+import { APP_CONFIGS } from "~/constants";
 // import { useTranslationStore } from "~/stores/translationStore";
 // import { useDeepLTranslationService } from "~/services/deeplTranslationService";
 
@@ -173,13 +173,13 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
       <div
         class="flex flex-row justify-start px-1 md:px-[340px] mb-4 h-16 items-center"
       >
-        <img
+        <!-- <img
           id="filter"
           src="@/assets/svg/filter-icon.svg"
           alt="Filter Icon"
           class="text-white w-6 h-6 cursor-pointer mr-6"
           @click="toggleFilter = !toggleFilter"
-        />
+        /> -->
         <img
           id="search"
           src="@/assets/svg/search-icon.svg"

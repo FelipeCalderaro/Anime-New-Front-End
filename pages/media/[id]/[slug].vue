@@ -94,7 +94,7 @@ onMounted(() => {
             {{ $t("media.synopsis") }}
           </div>
           <div
-            class="w-full text-ellipsis 2xl:text-pretty"
+            class="w-full text-ellipsis 2xl:text-pretty max-h-60 overflow-y-auto custom-scrollbar"
             v-html="data.Media?.description"
           ></div>
 
@@ -273,12 +273,21 @@ onMounted(() => {
               </div>
             </div>
             <q-img
-              class="w-[60px] 2xl:w-[100px] qhd:w-[120px] h-full"
+              class="w-[60px] 2xl:w-[100px] qhd:w-[120px] h-full cursor-pointer"
               fit="cover"
               v-if="character?.voiceActors?.at(0)?.image?.large"
               :src="character?.voiceActors?.at(0)?.image?.large ?? ''"
               :alt="character?.voiceActors?.at(0)?.name?.userPreferred ?? ''"
               :title="character?.voiceActors?.at(0)?.name?.userPreferred ?? ''"
+              @click="
+                navigateTo(
+                  constructLocalePath(
+                    '/voice-actor',
+                    character?.voiceActors.at(0)?.id,
+                    character?.voiceActors.at(0)?.name?.full
+                  )
+                )
+              "
             />
             <div
               class="w-[60px] 2xl:w-[100px] h-full bg-card-countdown-bg flex flex-col justify-center"

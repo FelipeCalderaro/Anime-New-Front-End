@@ -71,7 +71,7 @@ onMounted(() => {
         :key="`${media?.id}`"
       >
         <q-img
-          class="cursor-pointer w-[90px] h-full md:w-1/4"
+          class="cursor-pointer w-[80px] h-full md:w-1/4"
           :src="media?.node?.coverImage?.large ?? ''"
           :alt="media?.node?.title?.english ?? ''"
           :title="media?.node?.title?.english ?? ''"
@@ -115,7 +115,7 @@ onMounted(() => {
         <div class="grow" />
 
         <q-img
-          class="w-[90px] h-full md:w-1/4"
+          class="w-[80px] h-full md:w-1/4"
           fit="cover"
           :alt="media?.voiceActors?.at(0)?.name?.userPreferred ?? ''"
           :title="media?.voiceActors?.at(0)?.name?.userPreferred ?? ''"
