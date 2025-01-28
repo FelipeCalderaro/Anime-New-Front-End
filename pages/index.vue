@@ -136,7 +136,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
 
 <template>
   <div>
-    <home-banner id="caroussel" />
+    <home-banner :season="seasonSelected" :year="currentYear" id="caroussel" />
     <div id="content">
       <h1
         class="mt-6 text-center text-neutral-50 text-[40px] sm:text-6xl font-medium leading-[60px]"
@@ -191,10 +191,13 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
           v-if="toggleSearch"
           type="search"
           input-id="search"
-          hint="Pesquisar"
+          :hint="$t('search')"
           error-message="Este campo não pode estar vazio"
           :onSubmit="
             (isValid, text) => {
+              if (isValid) {
+                navigateTo(constructLocalePath('/search', null, text));
+              }
               console.log('isValid', isValid, 'text', text);
             }
           "
@@ -213,7 +216,8 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
       >
         {{ $t("home.body.tv") }}
       </div>
-      <home-grid v-if="mediaBySeasonData?.TV?.media?.length">
+
+      <custom-grid v-if="mediaBySeasonData?.TV?.media?.length">
         <season-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
@@ -227,7 +231,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
           v-for="anime in mediaBySeasonData?.TV?.media"
           :key="anime?.id"
         />
-      </home-grid>
+      </custom-grid>
 
       <ad-container />
 
@@ -238,7 +242,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
       >
         {{ $t("home.body.tv-shorts") }}
       </div>
-      <home-grid v-if="mediaBySeasonData?.SHORTS?.media?.length">
+      <custom-grid v-if="mediaBySeasonData?.SHORTS?.media?.length">
         <season-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
@@ -252,7 +256,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
           v-for="anime in mediaBySeasonData?.SHORTS?.media"
           :key="anime?.id"
         />
-      </home-grid>
+      </custom-grid>
 
       <ad-container v-if="mediaBySeasonData?.SHORTS?.media?.length" />
 
@@ -263,7 +267,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
       >
         {{ $t("home.body.movies") }}
       </div>
-      <home-grid v-if="mediaBySeasonData?.MOVIES?.media?.length">
+      <custom-grid v-if="mediaBySeasonData?.MOVIES?.media?.length">
         <season-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
@@ -277,7 +281,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
           v-for="anime in mediaBySeasonData?.MOVIES?.media"
           :key="anime?.id"
         />
-      </home-grid>
+      </custom-grid>
 
       <div
         id="left-overs"
@@ -289,7 +293,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
       >
         {{ $t("home.body.in-progress") }}
       </div>
-      <home-grid
+      <custom-grid
         v-if="
           mediaBySeasonData?.LEFTOVERS?.media?.length &&
           seasonSelected === getCurrentSeason()
@@ -308,7 +312,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
           v-for="anime in mediaBySeasonData?.LEFTOVERS?.media"
           :key="anime?.id"
         />
-      </home-grid>
+      </custom-grid>
 
       <div
         id="specials"
@@ -317,7 +321,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
       >
         {{ $t("home.body.specials") }}
       </div>
-      <home-grid v-if="mediaBySeasonData?.SPECIALS?.media?.length">
+      <custom-grid v-if="mediaBySeasonData?.SPECIALS?.media?.length">
         <season-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
@@ -331,7 +335,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
           v-for="anime in mediaBySeasonData?.SPECIALS?.media"
           :key="anime?.id"
         />
-      </home-grid>
+      </custom-grid>
 
       <ad-container />
 

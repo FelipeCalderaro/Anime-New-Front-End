@@ -50,5 +50,9 @@
     "season.spring": "PRIMAVERA",
     "season.summer": "VERÃO",
     "season.fall": "OUTONO",
-    "tba": "Ainda não anunciado"
+    "tba": "Ainda não anunciado",
+    "search": "Pesquisar",
+    "results": "Resultados",
+    "anime": "Anime",
+    "search.empty": "Nenhum resultado encontrado"
 }

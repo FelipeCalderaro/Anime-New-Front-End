@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import { MediaSeason, MediaFormat, MediaSort } from "#gql/default";
+import { MediaFormat, MediaSort } from "#gql/default";
 const localePath = useLocalePath();
+// interface HomeBannerProps {
+//   season: MediaSeason;
+//   year: number;
+// }
 
+// const props = defineProps<HomeBannerProps>();
+const seasons = getYearBySeason();
 const trendingBySeasonData = await useAsyncGql({
   operation: "trendingBySeason",
   variables: {
-    season: MediaSeason.SUMMER,
-    year: new Date().getFullYear(),
+    winterYear: seasons[0].seasonYear,
+    springYear: seasons[1].seasonYear,
+    summerYear: seasons[2].seasonYear,
+    fallYear: seasons[3].seasonYear,
     format: MediaFormat.TV,
     page: 1,
     sort: [MediaSort.POPULARITY_DESC, MediaSort.SCORE_DESC],
@@ -72,7 +80,7 @@ let autoplay = useState<boolean>(() => true);
           fit="cover"
           style="height: inherit; width: inherit"
           class="p-0"
-          :src="`${media?.bannerImage}`"
+          :src="`${media?.bannerImage || media?.coverImage?.extraLarge}`"
         >
           <div id="banner-content" class="flex absolute-full no-bg-color">
             <div

@@ -31,6 +31,19 @@ function toggleSpoiler(spoilerElement: HTMLElement, button: HTMLElement) {
     }
 }
 
+/**
+ * Converts a slugified string into a human-readable string.
+ * @param slug - The slugified string (e.g., "hello-world").
+ * @returns A human-readable string (e.g., "Hello World").
+ */
+export function deSlugify(slug?: string | null): string | null {
+    if (slug === null || slug === undefined) return null;
+    return slug
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, char => char.toUpperCase());
+}
+
+
 export function onMountToggleSpoiler() {
     // Find all elements with the 'markdown_spoiler' class after the HTML has been rendered
     const contentElements = document.querySelectorAll(".markdown_spoiler");

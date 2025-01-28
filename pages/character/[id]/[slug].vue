@@ -48,7 +48,7 @@ onMounted(() => {
             class="text-neutral-50 text-2xl 2xl:text-5xl font-bold mb-6 text-center md:text-start"
           >
             {{
-              data.Character?.name?.userPreferred ?? data.Character?.name?.full
+              data.Character?.name?.full ?? data.Character?.name?.userPreferred
             }}
           </div>
 
@@ -80,7 +80,7 @@ onMounted(() => {
               constructLocalePath(
                 '/media',
                 media?.node?.id,
-                media?.node?.title?.userPreferred
+                media?.node?.title?.english
               )
             )
           "
@@ -103,8 +103,8 @@ onMounted(() => {
           </div>
           <div class="font-semibold text-neutral-05">
             {{
-              media?.voiceActors?.at(0)?.name?.userPreferred ??
-              media?.voiceActors?.at(0)?.name?.full
+              media?.voiceActors?.at(0)?.name?.full ??
+              media?.voiceActors?.at(0)?.name?.userPreferred
             }}
           </div>
           <div class="font-medium text-[10px] text-neutral-06">

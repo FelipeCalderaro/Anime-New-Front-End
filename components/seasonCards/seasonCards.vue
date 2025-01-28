@@ -81,7 +81,7 @@ interface SeasonCardsProps {
   nextEpisode?: number;
   episodes?: number | null;
 }
-defineProps<SeasonCardsProps>();
+const props = defineProps<SeasonCardsProps>();
 </script>
 
 <style>

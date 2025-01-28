@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     }
   },
   app: {
-    baseURL: "/lista-de-animes/",
+    baseURL: "",
     head: {
       title: APP_CONFIGS.title,
       meta: [

@@ -50,5 +50,9 @@
     "season.spring": "SPRING",
     "season.summer": "SUMMER",
     "season.fall": "FALL",
-    "tba": "To be announced"
+    "tba": "To be announced",
+    "search": "Search",
+    "results": "Results",
+    "anime": "Anime",
+    "search.empty": "No results found"
 }

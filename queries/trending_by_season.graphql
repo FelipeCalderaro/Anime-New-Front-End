@@ -1,6 +1,9 @@
 
 query trendingBySeason (
-  $year: Int,
+  $winterYear: Int,
+  $springYear: Int,
+  $summerYear: Int,
+  $fallYear: Int,
   $perPage: Int = 1,
   $format: MediaFormat,
   $excludeFormat: MediaFormat,
@@ -11,7 +14,7 @@ query trendingBySeason (
 )  {
   Winter: Page(page: $page, perPage: $perPage) {
     media(
-      seasonYear: $year,
+      seasonYear: $winterYear,
       season: WINTER,
       format: $format,
       format_not: $excludeFormat,
@@ -26,7 +29,7 @@ query trendingBySeason (
   }
   Spring: Page(page: $page, perPage: $perPage) {
     media(
-      seasonYear: $year,
+      seasonYear: $springYear,
       season: SPRING,
       format: $format,
       format_not: $excludeFormat,
@@ -41,7 +44,7 @@ query trendingBySeason (
   }
   Summer: Page(page: $page, perPage: $perPage) {
     media(
-      seasonYear: $year,
+      seasonYear: $summerYear,
       season: SUMMER,
       format: $format,
       format_not: $excludeFormat,
@@ -56,7 +59,7 @@ query trendingBySeason (
   }
   Fall: Page(page: $page, perPage: $perPage) {
     media(
-      seasonYear: $year,
+      seasonYear: $fallYear,
       season: FALL,
       format: $format,
       format_not: $excludeFormat,

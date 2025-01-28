@@ -223,8 +223,8 @@ onMounted(() => {
             <q-img
               class="w-[60px] 2xl:w-[100px] qhd:w-[120px] h-full cursor-pointer"
               fit="cover"
-              :alt="character?.node?.name?.userPreferred ?? ''"
-              :title="character?.node?.name?.userPreferred ?? ''"
+              :alt="character?.node?.name?.full ?? ''"
+              :title="character?.node?.name?.full ?? ''"
               @click="
                 navigateTo(
                   constructLocalePath(
@@ -242,8 +242,8 @@ onMounted(() => {
             >
               <div class="font-semibold">
                 {{
-                  character?.node?.name?.userPreferred ??
-                  character?.node?.name?.full
+                  character?.node?.name?.full ??
+                  character?.node?.name?.userPreferred
                 }}
               </div>
               <div class="font-medium text-[10px] text-neutral-02">
@@ -261,8 +261,8 @@ onMounted(() => {
             >
               <div class="font-semibold">
                 {{
-                  character?.voiceActors?.at(0)?.name?.userPreferred ??
-                  character?.voiceActors?.at(0)?.name?.full
+                  character?.voiceActors?.at(0)?.name?.full ??
+                  character?.voiceActors?.at(0)?.name?.userPreferred
                 }}
               </div>
               <div class="font-semibold">
@@ -277,8 +277,8 @@ onMounted(() => {
               fit="cover"
               v-if="character?.voiceActors?.at(0)?.image?.large"
               :src="character?.voiceActors?.at(0)?.image?.large ?? ''"
-              :alt="character?.voiceActors?.at(0)?.name?.userPreferred ?? ''"
-              :title="character?.voiceActors?.at(0)?.name?.userPreferred ?? ''"
+              :alt="character?.voiceActors?.at(0)?.name?.full ?? ''"
+              :title="character?.voiceActors?.at(0)?.name?.full ?? ''"
               @click="
                 navigateTo(
                   constructLocalePath(
@@ -308,7 +308,7 @@ onMounted(() => {
           <div
             class="flex flex-row bg-card-component items-center h-[120px] md:h-[160px]"
             v-for="staff in data.Media?.staffPreview?.edges"
-            :title="staff?.node?.name?.userPreferred ?? ''"
+            :title="staff?.node?.name?.full ?? ''"
             :key="`${staff?.id}`"
           >
             <q-img
@@ -322,7 +322,7 @@ onMounted(() => {
             >
               <div class="font-semibold">
                 {{
-                  staff?.node?.name?.userPreferred ?? staff?.node?.name?.full
+                  staff?.node?.name?.full ?? staff?.node?.name?.userPreferred
                 }}
               </div>
               <div class="font-medium text-[10px] text-neutral-02">

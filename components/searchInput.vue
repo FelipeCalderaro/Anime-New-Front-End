@@ -30,9 +30,7 @@ const error = ref("");
 
 // Function to validate the input
 function onValidation() {
-  console.log("callingValidation");
   const isValid = props.validation(text.value);
-  console.log("isValid", isValid);
   if (isValid) {
     error.value = "";
   } else {

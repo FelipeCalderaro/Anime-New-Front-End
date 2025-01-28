@@ -156,7 +156,7 @@ onMounted(() => {
             <div class="flex-grow" />
 
             <div
-              :id="`media-name-${character?.node?.name?.first}`"
+              :id="`media-name-${media?.title.english}`"
               class="text-neutral-01 text-xs mx-2 my-4 w-[100px]"
             >
               <div class="font-semibold">
