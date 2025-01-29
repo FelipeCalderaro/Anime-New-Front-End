@@ -29,6 +29,7 @@
           :alt="character?.name?.full ?? ''"
           style="width: inherit; height: inherit"
           :src="character?.image?.large ?? ''"
+          class="cursor-pointer"
           @click="
             navigateTo(
               constructLocalePath(
@@ -71,6 +72,7 @@
           :alt="staff?.name?.full ?? ''"
           style="width: inherit; height: inherit"
           :src="staff?.image?.large ?? ''"
+          class="cursor-pointer"
           @click="
             navigateTo(
               constructLocalePath('/voice-actor', staff?.id, staff?.name?.full)
@@ -111,7 +113,7 @@
     <h2
       id="manga"
       v-if="searchResults?.Manga?.results?.length"
-      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-8"
+      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-11"
     >
       Manga
     </h2>
