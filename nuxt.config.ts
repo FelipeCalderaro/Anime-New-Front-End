@@ -17,13 +17,14 @@ export default defineNuxtConfig({
   },
   ssr: true,
   nitro: {
+    preset: 'node-server', // Related to this https://github.com/nitrojs/nitro/issues/1484
     externals: {
       inline: ['vue', '@vue/server-renderer']
     }
   },
   app: {
     baseURL: "/temporadas/",
-    buildAssetsDir: '/temporadas/_nuxt/',
+    buildAssetsDir: "/_nuxt/",
     head: {
       title: APP_CONFIGS.title,
       meta: [

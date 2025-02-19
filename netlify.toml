@@ -1,5 +1,3 @@
-[[redirects]]
-    from = "/temporadas/_nuxt/*"
-    to = "/_nuxt/:splat"
-    force = true 
-    status = 200
+
+[context.production.environment]
+  NUXT_APP_BASE_URL = "/temporadas"
