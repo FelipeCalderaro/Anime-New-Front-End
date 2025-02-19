@@ -1,9 +1,7 @@
 ---
 deployment:
   tasks:
-    - export NVM_DIR="$HOME/.nvm"
-    - source $NVM_DIR/nvm.sh
-    - npm install
-    - npm run build
-    - pm2 stop nuxt-app || true # Stop previous instance if running
-    - pm2 start .output/server/index.mjs --name nuxt-app # Start new instance
+    - export DEPLOYPATH=/home/animenew/public_html/temporadas/
+    - rsync -a --exclude='.git*' .output/public/ $DEPLOYPATH
+    - cd $DEPLOYPATH && npm install --production
+    - pm2 restart nuxt3-app || pm2 start .output/server/index.mjs --name nuxt3-app
