@@ -21,6 +21,13 @@ export default defineNuxtConfig({
       inline: ['vue', '@vue/server-renderer']
     }
   },
+  hooks: {
+    "nitro:config"(config) {
+      config.publicAssets ||= [{
+        baseURL: "/"
+      }]
+    },
+  },
   app: {
     baseURL: "/temporadas/",
     buildAssetsDir: '/_nuxt/',
