@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     }
   },
   app: {
-    baseURL: "",
+    baseURL: "/temporadas/",
     head: {
       title: APP_CONFIGS.title,
       meta: [
