@@ -26,7 +26,7 @@ useHead({
 </script>
 
 <template>
-  <div class="DefaultLayout">
+  <div class="DefaultLayou">
     <!-- Component import example -->
     <!-- <Example title="Example title" message="This is an example usage message"
             :on-click="() => console.log('Example Click')" /> -->

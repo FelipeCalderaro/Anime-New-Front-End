@@ -16,7 +16,7 @@ const drawerOpen = ref(false);
         </div>
 
         <!-- Desktop button bar, hidden on mobile -->
-        <div class="button-bar hidden xl:flex">
+        <div class="button-bar xl:flex">
           <q-btn
             flat
             class="button font-semibold button-navbar"
@@ -62,7 +62,7 @@ const drawerOpen = ref(false);
     </q-toolbar>
 
     <!-- Drawer for mobile menu -->
-    <q-drawer
+    <!-- <q-drawer
       v-model="drawerOpen"
       side="right"
       overlay
@@ -101,7 +101,7 @@ const drawerOpen = ref(false);
           href="https://animenew.com.br/noticias/live-action/"
         />
       </div>
-    </q-drawer>
+    </q-drawer> -->
   </q-header>
 </template>
 
