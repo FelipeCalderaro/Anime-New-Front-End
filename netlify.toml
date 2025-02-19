@@ -1,4 +1,4 @@
 [[redirects]]
- from = "/_nuxt/*"
- to = "/temporadas/_nuxt/:splat"
- status = 200
+    from = "/_nuxt/*"
+    to = "/temporadas/_nuxt/:splat"
+    status = 200
