@@ -4,19 +4,25 @@ const drawerOpen = ref(false);
 </script>
 
 <template>
-  <q-header elevated class="header font-exo">
+  <q-header elevated class="header">
     <q-toolbar>
       <div
         class="header-content flex flex-row items-center justify-between mx-3 xl:mx-20 h-full"
       >
-        <div class="xl:py-3 xl:gap-3">
-          <a href="https://animenew.com.br">
+        <div class="xl:py-3 xl:gap-3 lg:ml-[246px]">
+          <a href="https://animenew.com.br/temporadas">
             <img class="xl:gap-3 h-6" src="../../assets/logo.png" />
           </a>
         </div>
 
         <!-- Desktop button bar, hidden on mobile -->
         <div class="button-bar xl:flex">
+          <q-btn
+            flat
+            class="button font-semibold button-navbar"
+            label="NOTICIAS"
+            href="https://animenew.com.br"
+          />
           <q-btn
             flat
             class="button font-semibold button-navbar"
@@ -40,12 +46,6 @@ const drawerOpen = ref(false);
             class="button font-semibold button-navbar"
             label="CINEMA"
             href="https://animenew.com.br/noticias/cinema/#"
-          />
-          <q-btn
-            flat
-            class="button font-semibold button-navbar"
-            label="LIVE ACTION"
-            href="https://animenew.com.br/noticias/live-action/"
           />
         </div>
 

@@ -52,6 +52,9 @@ export default defineNuxtConfig({
           name: "google-adsense-platform-domain",
           content: "sitekit.withgoogle.com",
         },
+      ],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       ]
     }
   },
@@ -61,14 +64,19 @@ export default defineNuxtConfig({
     '~/assets/css/main.css'
   ],
   modules: [
+    '@nuxtjs/google-adsense',
     "nuxt-quasar-ui",
     "nuxt-graphql-client",
     "@nuxtjs/strapi",
     "@nuxtjs/tailwindcss",
     'nuxt-simple-robots',
     '@nuxtjs/seo',
-    '@nuxtjs/i18n',
+    '@nuxtjs/i18n'
   ],
+  googleAdsense: {
+    onPageLoad: false,
+    pageLevelAds: false,
+  },
   i18n: {
     locales: [
       { code: 'pt-br', name: 'Portuguese', language: 'pt-BR', file: 'pt-br.json' },
@@ -124,6 +132,10 @@ export default defineNuxtConfig({
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://animenew.com.br',
       siteName: APP_CONFIGS.title,
       language: 'pt-BR',
+      googleAdsense: {
+        id: process.env.GOOGLE_ADSENSE_ID || "ca-pub-3926999916166130",
+        test: process.env.GOOGLE_ADSENSE_TEST_MODE === 'true' || true,
+      },
     },
     strapi: {
       devtools: true
