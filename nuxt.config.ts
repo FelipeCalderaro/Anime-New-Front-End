@@ -17,16 +17,24 @@ export default defineNuxtConfig({
   },
   ssr: true,
   nitro: {
+    baseURL: '/api/',
     preset: 'node-server', // Related to this https://github.com/nitrojs/nitro/issues/1484
     externals: {
       inline: ['vue', '@vue/server-renderer']
     }
+  },
+  build: {
+    transpile: [
+      'deepl-node',
+      'axios',
+    ],
   },
   app: {
     baseURL: "/temporadas/",
     buildAssetsDir: "/_nuxt/",
     head: {
       title: APP_CONFIGS.title,
+      titleTemplate: "%s",
       meta: [
         {
           name: "description",
@@ -69,9 +77,10 @@ export default defineNuxtConfig({
     "nuxt-graphql-client",
     "@nuxtjs/strapi",
     "@nuxtjs/tailwindcss",
-    'nuxt-simple-robots',
+    // '@nuxtjs/robots',
     '@nuxtjs/seo',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    '@nuxtjs/sitemap',
   ],
   googleAdsense: {
     onPageLoad: false,
@@ -118,10 +127,11 @@ export default defineNuxtConfig({
     // debug: process.env.NUXT_ENVIRONMENT !== 'production'
   },
   robots: {
-    enabled: process.env.NUXT_ENVIRONMENT === 'production',
+    enabled: false, //process.env.NUXT_ENVIRONMENT === 'production',
+    robotsTxt: false
   },
   sitemap: {
-    enabled: process.env.NUXT_ENVIRONMENT === 'production',
+    enabled: true, //process.env.NUXT_ENVIRONMENT === 'production',
   },
   runtimeConfig: {
     public: {
@@ -138,7 +148,7 @@ export default defineNuxtConfig({
       },
     },
     strapi: {
-      devtools: true
+      devtools: false
     }
   },
 

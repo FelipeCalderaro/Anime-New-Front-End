@@ -15,7 +15,7 @@ useLocaleHead({
 });
 
 useHead({
-  meta: [{ property: "og:title", content: `AnimeNew - ${route.meta.title}` }],
+  meta: [{ property: "og:title", content: `${route.meta.title}` }],
   link: [
     {
       rel: "stylesheet",
@@ -42,7 +42,7 @@ useHead({
       <div v-if="!route.path.includes('character')">
         <div class="absolute top-1/3 left-5 w-[200px] h-[630px] max-2xl:hidden">
           <div class="w-full h-full bg-indigo-500">
-            <Adsbygoogle />
+            <Adsbygoogle ad-slot="4140966810" />
           </div>
         </div>
 
@@ -50,7 +50,7 @@ useHead({
           class="absolute top-1/3 right-5 w-[200px] h-[630px] max-2xl:hidden"
         >
           <div class="w-full h-full bg-indigo-500">
-            <Adsbygoogle />
+            <Adsbygoogle ad-slot="4140966810" />
           </div>
         </div>
       </div>

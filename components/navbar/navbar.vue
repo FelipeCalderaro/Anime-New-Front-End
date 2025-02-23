@@ -10,8 +10,12 @@ const drawerOpen = ref(false);
         class="header-content flex flex-row items-center justify-between mx-3 xl:mx-20 h-full"
       >
         <div class="xl:py-3 xl:gap-3 lg:ml-[246px]">
-          <a href="https://animenew.com.br/temporadas">
-            <img class="xl:gap-3 h-6" src="../../assets/logo.png" />
+          <a href="/temporadas">
+            <img
+              class="xl:gap-3 h-6"
+              src="../../assets/logo.png"
+              alt="AnimeNew Logo"
+            />
           </a>
         </div>
 
@@ -27,25 +31,25 @@ const drawerOpen = ref(false);
             flat
             class="button font-semibold button-navbar"
             label="ANIMES"
-            href="https://animenew.com.br/noticias/animes/"
+            href="https://animenew.com.br/noticias/animes"
           />
           <q-btn
             flat
             class="button font-semibold button-navbar"
             label="MANGAS"
-            href="https://animenew.com.br/noticias/mangas/"
+            href="https://animenew.com.br/noticias/mangas"
           />
           <q-btn
             flat
             class="button font-semibold button-navbar"
             label="GAMES"
-            href="https://animenew.com.br/noticias/games/#"
+            href="https://animenew.com.br/noticias/games"
           />
           <q-btn
             flat
             class="button font-semibold button-navbar"
             label="CINEMA"
-            href="https://animenew.com.br/noticias/cinema/#"
+            href="https://animenew.com.br/noticias/cinema"
           />
         </div>
 
@@ -86,7 +90,7 @@ const drawerOpen = ref(false);
           flat
           class="button font-semibold button-navbar"
           label="GAMES"
-          href="https://animenew.com.br/noticias/games/#"
+          href="/noticias/games"
         />
         <q-btn
           flat

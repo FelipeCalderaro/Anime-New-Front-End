@@ -81,6 +81,7 @@ let autoplay = useState<boolean>(() => true);
           style="height: inherit; width: inherit"
           class="p-0"
           :src="`${media?.bannerImage || media?.coverImage?.extraLarge}`"
+          :alt="`${media?.title?.english || media?.title?.romaji}`"
         >
           <div id="banner-content" class="flex absolute-full no-bg-color">
             <div

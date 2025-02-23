@@ -157,6 +157,8 @@ interface SearchResultsProps {
 }
 const props = defineProps<SearchResultsProps>();
 const query = deSlugify(route.params.query as string);
+const { locale } = useI18n();
+
 const {
   data: searchResults,
   error,
@@ -168,6 +170,57 @@ const {
     search: query || props.query,
   },
 });
+
+async function translateDescriptions() {
+  if (locale.value !== "pt-br") return;
+  if (!searchResults.value) return;
+  let season = searchResults.value.Anime;
+  if (season?.results) {
+    for (let i = 0; i < season.results.length; i++) {
+      const m = season.results[i];
+      if (m?.id && m?.description) {
+        try {
+          const result = await translate(m?.id, m?.description);
+          searchResults!.value.Anime!.results![i] = {
+            ...m,
+            description:
+              result?.data.translation ||
+              result?.data.description ||
+              m?.description,
+          };
+        } catch (error) {
+          console.error(`Error translating media ${m?.id}:`, error);
+        }
+      }
+    }
+  }
+  season = searchResults.value.Manga;
+  if (season?.results) {
+    for (let i = 0; i < season.results.length; i++) {
+      const m = season.results[i];
+      if (m?.id && m?.description) {
+        try {
+          const result = await translate(m?.id, m?.description);
+          searchResults!.value.Manga!.results![i] = {
+            ...m,
+            description:
+              result?.data.translation ||
+              result?.data.description ||
+              m?.description,
+          };
+        } catch (error) {
+          console.error(`Error translating media ${m?.id}:`, error);
+        }
+      }
+    }
+  }
+}
+
+if (status.value === "success") {
+  if (locale.value === "pt-br") {
+    translateDescriptions();
+  }
+}
 </script>
 
 <style>

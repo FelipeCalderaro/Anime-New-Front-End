@@ -2,11 +2,29 @@
 <script setup lang="ts">
 const route = useRoute();
 
+const { locale } = useI18n();
+
 const { data, error, status } = await useAsyncGql("characterInfo", {
   id: Number.parseInt(route.params.id as string),
 });
 
 if (status.value === "success") {
+  if (locale.value === "pt-br") {
+    const result = await translate(
+      data.value.Character!.id,
+      data.value.Character!.description!
+    );
+    if (result?.success) {
+      const media = data.value.Character!;
+      data.value.Character = {
+        ...media,
+        description:
+          result?.data.translation ||
+          result?.data.description ||
+          media?.description,
+      };
+    }
+  }
   const head = constructHead({
     title:
       data.value.Character?.name?.full ??
@@ -42,6 +60,7 @@ onMounted(() => {
           class="w-[170px] h-[240px] 2xl:w-[340px] 2xl:h-[500px] rounded-lg"
           fit="cover"
           :src="data.Character?.image?.large ?? ''"
+          :alt="data.Character?.name?.full"
         />
         <div class="mx-6 md:mx-0 lg:ml-6">
           <div

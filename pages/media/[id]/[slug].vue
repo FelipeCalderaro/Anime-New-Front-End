@@ -2,6 +2,7 @@
 import type { AnimeNewPosts } from "~/types/AnimenewPosts";
 
 const route = useRoute();
+const { locale } = useI18n();
 
 const { data, error, status } = await useAsyncGql("mediaInfo", {
   id: Number.parseInt(route.params.id as string),
@@ -19,6 +20,22 @@ const {
 );
 
 if (status.value === "success") {
+  if (locale.value === "pt-br") {
+    const result = await translate(
+      data.value.Media!.id,
+      data.value.Media!.description!
+    );
+    if (result?.success) {
+      const media = data.value.Media!;
+      data.value.Media = {
+        ...media,
+        description:
+          result?.data.translation ||
+          result?.data.description ||
+          media?.description,
+      };
+    }
+  }
   const head = constructHead({
     title: data.value.Media?.title?.english ?? data.value.Media?.title?.romaji,
     description: data.value.Media?.description,
@@ -55,6 +72,7 @@ onMounted(() => {
       :style="{ paddingTop: 112 }"
       fit="cover"
       :src="data.Media?.bannerImage ?? ''"
+      :alt="`${data.Media?.title?.english} - Banner`"
     >
       <div
         id="title-section"
@@ -64,15 +82,16 @@ onMounted(() => {
           class="h-[200px] w-[150px] sm:w-[250px] sm:h-[360px] xl:w-[200px] xl:h-[300px] 2xl:w-[340px] 2xl:h-[500px] mt-8 sm:mt-0 rounded-lg"
           fit="cover"
           :src="data.Media?.coverImage?.extraLarge ?? ''"
+          :alt="`${data.Media?.title?.english} - Cover Image`"
         />
         <div
           class="sm:ml-6 sm:w-[350px] md:w-[500px] xl:w-[700px] text-ellipsis h-[300px]"
         >
-          <div
+          <h1
             class="text-neutral-50 text-3xl xl:text-4xl 2xl:text-5xl font-bold text-center md:text-left"
           >
             {{ data.Media?.title?.english ?? data.Media?.title?.romaji }}
-          </div>
+          </h1>
           <q-rating
             class="mt-3 text-white center"
             v-model="rating"
@@ -93,10 +112,10 @@ onMounted(() => {
           >
             {{ $t("media.synopsis") }}
           </div>
-          <div
+          <h3
             class="w-full text-ellipsis 2xl:text-pretty max-h-60 overflow-y-auto custom-scrollbar"
             v-html="data.Media?.description"
-          ></div>
+          ></h3>
 
           <div class="text-neutral-50/80 text-base font-medium my-3">
             {{ $t("media.studio") }}:
@@ -191,6 +210,7 @@ onMounted(() => {
             v-for="news in newsData"
             :key="`${news.id}`"
             @click="if (news?.url) onNewsSelected(news?.url);"
+            :alt="news?.title"
           >
             <div class="w-full h-full text-white text-xs font-semibold">
               <div
@@ -315,6 +335,7 @@ onMounted(() => {
               class="w-[70px] sm:w-[100px] qhd:w-[120px] h-full"
               fit="cover"
               :src="staff?.node?.image?.large ?? ''"
+              :alt="staff?.node?.name?.first"
             />
             <div
               :id="`staff-name-${staff?.node?.name?.first}`"

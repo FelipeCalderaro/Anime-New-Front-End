@@ -5,15 +5,9 @@ import springIcon from "@/assets/svg/spring-icon.svg";
 import summerIcon from "@/assets/svg/summer-icon.svg";
 import winterIcon from "@/assets/svg/winter-icon.svg";
 import { APP_CONFIGS } from "~/constants";
-// import { useTranslationStore } from "~/stores/translationStore";
-// import { useDeepLTranslationService } from "~/services/deeplTranslationService";
 
 const router = useRouter(); // Get the router instance
 const route = useRoute(); // Get the current route
-
-// const { translateMediasDescription } = useTranslationHelper();
-// const { translateBatch } = useDeepLTranslationService();
-// const translationStore = useTranslationStore();
 
 const currentDate = new Date();
 let mediaBySeasonData = ref<MediaBySeasonQuery | null>();
@@ -26,7 +20,7 @@ let seasonSelected: Ref<MediaSeason> = ref(
 const toggleFilter: Ref<boolean> = ref(false);
 const toggleSearch: Ref<boolean> = ref(false);
 const searchText: Ref<string> = ref("");
-// let mediasDescription = ref<TranslationMap>();
+const { locale } = useI18n();
 
 // Function to update the query parameter
 function updatePageQuery(season: MediaSeason) {
@@ -37,7 +31,9 @@ function updatePageQuery(season: MediaSeason) {
 }
 
 function handleSeasonChange(season: MediaSeason, year: number) {
-  getInitialSeason(season, year);
+  getInitialSeason(season, year).then(() => {
+    translateDescriptions();
+  });
 }
 
 function getSeasonIcon(season: MediaSeason): string {
@@ -53,45 +49,18 @@ function getSeasonIcon(season: MediaSeason): string {
   }
 }
 
-// function aglutinateValues(): TranslationMap {
-//   return {
-//     TV: mediaBySeasonData.value!.TV!.media!.map((m) => {
-//       return { [m?.id ?? 0]: m?.description ?? "" };
-//     }),
-//     SHORTS: mediaBySeasonData.value!.SHORTS!.media!.map((m) => {
-//       return { [m?.id ?? 0]: m?.description ?? "" };
-//     }),
-//     MOVIES: mediaBySeasonData.value!.MOVIES!.media!.map((m) => {
-//       return { [m?.id ?? 0]: m?.description ?? "" };
-//     }),
-//     SPECIALS: mediaBySeasonData.value!.SPECIALS!.media!.map((m) => {
-//       return { [m?.id ?? 0]: m?.description ?? "" };
-//     }),
-//     LEFTOVERS: mediaBySeasonData.value!.LEFTOVERS!.media!.map((m) => {
-//       return { [m?.id ?? 0]: m?.description ?? "" };
-//     }),
-//   };
-// }
-
-// async function storeInPinia() {
-//   translationStore.merge(mediasDescription.value!);
-//   // translationStore.mergeTranslation(HomeMedias.TV, mediasDescription.value!.TV);
-//   // const tvTranslations = translationStore.getTranslation(HomeMedias.TV);
-//   console.log("tvTranslations", translationStore.getAll());
-// }
-
 async function getInitialSeason(season: MediaSeason, year: number) {
   loading.value = true;
-  const seasons: MediaSeason[] = [
+  const SEASONS: MediaSeason[] = [
     MediaSeason.WINTER,
     MediaSeason.SPRING,
     MediaSeason.SUMMER,
     MediaSeason.FALL,
   ];
-  const currentSeasonIndex = seasons.findIndex((s) => s === season);
+  const currentSeasonIndex = SEASONS.findIndex((s) => s === season);
   const previousSeasonIndex =
-    currentSeasonIndex - 1 < 0 ? seasons.length - 1 : currentSeasonIndex - 1;
-  const previousSeason: MediaSeason = seasons[previousSeasonIndex];
+    currentSeasonIndex - 1 < 0 ? SEASONS.length - 1 : currentSeasonIndex - 1;
+  const previousSeason: MediaSeason = SEASONS[previousSeasonIndex];
   try {
     const queryData = await GqlMediaBySeason({
       season,
@@ -101,7 +70,7 @@ async function getInitialSeason(season: MediaSeason, year: number) {
     mediaBySeasonData.value = queryData;
     currentYear.value = year;
     seasonSelected.value = season;
-    // mediasDescription.value = aglutinateValues();
+
     updatePageQuery(season);
   } catch (e) {
     error.value = e as Error;
@@ -110,26 +79,67 @@ async function getInitialSeason(season: MediaSeason, year: number) {
   }
 }
 
-useSeoMeta({
-  title: APP_CONFIGS.title,
-  ogTitle: APP_CONFIGS.title,
-  description: APP_CONFIGS.description,
-  ogDescription: APP_CONFIGS.description,
-  ogUrl: process.env.NUXT_PUBLIC_SITE_URL,
+async function translateDescriptions() {
+  if (locale.value !== "pt-br") return;
+  if (!mediaBySeasonData.value) return;
+
+  for (const key in mediaBySeasonData.value) {
+    const season =
+      mediaBySeasonData.value[key as keyof typeof mediaBySeasonData.value];
+
+    if (season?.media) {
+      for (let i = 0; i < season.media.length; i++) {
+        const m = season.media[i];
+
+        // Check if the media item has an ID and description to translate
+        if (m?.id && m?.description) {
+          try {
+            // Wait for the translation to finish
+            const result = await translate(m?.id, m?.description);
+
+            // Immediately update the description after translation
+            mediaBySeasonData!.value[
+              key as keyof typeof mediaBySeasonData.value
+            ]!.media![i] = {
+              ...m,
+              description:
+                result?.data.translation ||
+                result?.data.description ||
+                m?.description,
+            };
+
+            // You could also trigger a manual reactivity update here if needed, though Nuxt's reactivity should automatically update the UI.
+          } catch (error) {
+            console.error(`Error translating media ${m?.id}:`, error);
+          }
+        }
+      }
+    }
+  }
+}
+
+await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
+  translateDescriptions();
+  const head = constructHead({
+    ogUrl: process.env.NUXT_PUBLIC_SITE_URL || APP_CONFIGS.cannonicalUrl,
+    description: APP_CONFIGS.description,
+    ogImage:
+      (mediaBySeasonData?.value?.TV?.media?.at(0)?.bannerImage as string) ||
+      (mediaBySeasonData?.value?.TV?.media?.at(0)?.coverImage as string),
+    title: APP_CONFIGS.title,
+  });
+  useHead({
+    title: head.title,
+    meta: head.meta,
+    link: head.link,
+    htmlAttrs: head.htmlAttrs,
+  });
+  defineOgImage({
+    url:
+      (mediaBySeasonData?.value?.TV?.media?.at(0)?.bannerImage as string) ||
+      (mediaBySeasonData?.value?.TV?.media?.at(0)?.coverImage as string),
+  });
 });
-
-// async function translateDescriptions() {
-//   mediasDescription.value = await translateMediasDescription(
-//     mediasDescription.value!
-//   );
-//   storeInPinia();
-// }
-
-// onMounted(async () => {
-// mediasDescription.value = translationStore.getAll();
-// translateDescriptions();
-// });
-await getInitialSeason(seasonSelected.value, currentYear.value);
 </script>
 
 <style scoped></style>
@@ -198,7 +208,6 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
               if (isValid) {
                 navigateTo(constructLocalePath('/search', null, text));
               }
-              console.log('isValid', isValid, 'text', text);
             }
           "
           :validation="

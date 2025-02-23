@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute();
+const { locale } = useI18n();
 const { data, error, status } = await useAsyncGql("voiceActorInfo", {
   id: Number.parseInt(route.params.id as string),
 });
@@ -7,6 +8,22 @@ const { data, error, status } = await useAsyncGql("voiceActorInfo", {
 let mediasByYear: Ref<Map<number, any>> = ref(new Map());
 
 if (status.value === "success") {
+  if (locale.value === "pt-br") {
+    const result = await translate(
+      data.value.Staff!.id,
+      data.value.Staff!.description!
+    );
+    if (result?.success) {
+      const media = data.value.Staff!;
+      data.value.Staff = {
+        ...media,
+        description:
+          result?.data.translation ||
+          result?.data.description ||
+          media?.description,
+      };
+    }
+  }
   const head = constructHead({
     title:
       data.value.Staff?.name?.full ?? data.value.Staff?.name?.userPreferred,
@@ -20,7 +37,7 @@ if (status.value === "success") {
     link: head.link,
     htmlAttrs: head.htmlAttrs,
   });
-  console.log(data.value.Staff);
+
   let allMedias = data.value.Staff?.characters?.edges?.flatMap((edges) => {
     let medias: any[] = [];
     edges?.media?.forEach((media) => {
@@ -43,7 +60,6 @@ if (status.value === "success") {
       );
     }
   });
-  // console.log(mediasByYear.value.get(null));
 
   // If there is no Year but medias for any reason, merge the last with the null year
   // let mediasByYearKeys = [...mediasByYear.value.keys()];
@@ -82,6 +98,7 @@ onMounted(() => {
           class="w-[170px] h-[240px] 2xl:w-[340px] 2xl:h-[500px] rounded-lg"
           fit="cover"
           :src="data.Staff?.image?.large ?? ''"
+          :alt="data.Staff?.name?.full"
         />
         <div class="mx-6 md:mx-0 lg:ml-6">
           <div
