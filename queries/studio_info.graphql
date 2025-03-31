@@ -1,0 +1,58 @@
+query StudioInfo($id: Int, $perPage: Int = 50, $page: Int, $sort: [MediaSort], $onList: Boolean) {
+  Studio(id: $id) {
+    id
+    name
+    isAnimationStudio
+    favourites
+    isFavourite
+    media(page: $page, sort: $sort, onList: $onList, perPage: $perPage) {
+      pageInfo {
+        total
+        perPage
+        currentPage
+        lastPage
+        hasNextPage
+      }
+      edges {
+        isMainStudio
+        node {
+          id
+          seasonYear
+          title {
+            userPreferred
+            english
+            romaji
+          }
+          coverImage {
+            extraLarge
+            large
+            color
+          }
+          startDate {
+            year
+            month
+            day
+          }
+          endDate {
+            year
+            month
+            day
+          }
+          bannerImage
+          season
+          type
+          format
+          status(version: 2)
+          episodes
+          duration
+          chapters
+          volumes
+          genres
+          isAdult
+          averageScore
+          popularity
+        }
+      }
+    }
+  }
+}

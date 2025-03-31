@@ -20,18 +20,19 @@ const {
 );
 
 if (status.value === "success") {
-  if (locale.value === "pt-br") {
+  if (locale.value !== "en-US") {
     const result = await translate(
       data.value.Media!.id,
-      data.value.Media!.description!
+      data.value.Media!.description!,
+      locale.value
     );
     if (result?.success) {
       const media = data.value.Media!;
       data.value.Media = {
         ...media,
         description:
-          result?.data.translation ||
-          result?.data.description ||
+          result?.data[locale.value] ||
+          result?.data["en-US"] ||
           media?.description,
       };
     }
@@ -69,13 +70,12 @@ onMounted(() => {
     <q-img
       id="banner"
       class="w-full h-[900px] lg:h-[450px] 2xl:h-[672px] title-section"
-      :style="{ paddingTop: 112 }"
       fit="cover"
       :src="data.Media?.bannerImage ?? ''"
       :alt="`${data.Media?.title?.english} - Banner`"
     >
       <div
-        id="title-section"
+        id="title-section-box"
         class="w-full h-full flex flex-col md:flex-row items-center lg:items-start"
       >
         <q-img
@@ -114,18 +114,33 @@ onMounted(() => {
           </div>
           <h3
             class="w-full text-ellipsis 2xl:text-pretty max-h-60 overflow-y-auto custom-scrollbar"
-            v-html="data.Media?.description"
+            v-html="
+              data.Media?.description?.replace(/(<br\s*\/?>){2,}/g, '<br>')
+            "
           ></h3>
 
           <div class="text-neutral-50/80 text-base font-medium my-3">
             {{ $t("media.studio") }}:
-            {{ data.Media?.studios?.edges?.at(0)?.node?.name }}
+            <a
+              class="cursor-pointer text-primary-01 underline"
+              @click="
+                navigateTo(
+                  constructLocalePath(
+                    '/studio',
+                    data.Media?.studios?.edges?.at(0)?.node?.id,
+                    data.Media?.studios?.edges?.at(0)?.node?.name
+                  )
+                )
+              "
+            >
+              {{ data.Media?.studios?.edges?.at(0)?.node?.name }}
+            </a>
           </div>
         </div>
       </div>
     </q-img>
 
-    <div class="mx-4 lg:mx-12 2xl:mx-64">
+    <div class="mx-8 lg:mx-12 2xl:mx-80">
       <div
         id="related-content"
         class="mt-8"
@@ -241,7 +256,7 @@ onMounted(() => {
             :key="`${character?.id}`"
           >
             <q-img
-              class="w-[60px] 2xl:w-[100px] qhd:w-[120px] h-full cursor-pointer"
+              class="w-1/4 h-full cursor-pointer"
               fit="cover"
               :alt="character?.node?.name?.full ?? ''"
               :title="character?.node?.name?.full ?? ''"
@@ -256,44 +271,47 @@ onMounted(() => {
               "
               :src="character?.node?.image?.large ?? ''"
             />
-            <div
-              :id="`character-name-${character?.node?.name?.first}`"
-              class="text-neutral-01 text-xs mx-2 my-4 w-[80px]"
-            >
-              <div class="font-semibold">
-                {{
-                  character?.node?.name?.full ??
-                  character?.node?.name?.userPreferred
-                }}
+            <div class="flex flex-row w-1/2 h-full items-center">
+              <div
+                :id="`character-name-${character?.node?.name?.first}`"
+                class="text-neutral-01 text-xs mx-2 my-4"
+              >
+                <div class="font-semibold">
+                  {{
+                    character?.node?.name?.full ??
+                    character?.node?.name?.userPreferred
+                  }}
+                </div>
+                <div class="font-medium text-[10px] text-neutral-02">
+                  {{ translateCharacterRole(character?.role) }}
+                </div>
               </div>
-              <div class="font-medium text-[10px] text-neutral-02">
-                {{ translateCharacterRole(character?.role) }}
+
+              <div class="flex-grow" />
+
+              <div
+                :id="`voice-actor-name-${
+                  character?.voiceActors?.at(0)?.name?.first
+                }`"
+                class="w-1/3 flex flex-col text-center text-neutral-01 text-xs mx-2 my-4 justify-center items-center text-pretty"
+              >
+                <div class="font-semibold">
+                  {{
+                    character?.voiceActors?.at(0)?.name?.full ??
+                    character?.voiceActors?.at(0)?.name?.userPreferred
+                  }}
+                </div>
+                <div class="font-semibold">
+                  {{ character?.voiceActors?.at(0)?.name?.native }}
+                </div>
+                <div class="font-medium text-[10px] text-neutral-02">
+                  {{ character?.voiceActors?.at(0)?.language }}
+                </div>
               </div>
             </div>
 
-            <div class="flex-grow" />
-
-            <div
-              :id="`voice-actor-name-${
-                character?.voiceActors?.at(0)?.name?.first
-              }`"
-              class="flex flex-col text-neutral-01 text-xs mx-2 my-4 justify-center items-center w-[80px] text-pretty"
-            >
-              <div class="font-semibold">
-                {{
-                  character?.voiceActors?.at(0)?.name?.full ??
-                  character?.voiceActors?.at(0)?.name?.userPreferred
-                }}
-              </div>
-              <div class="font-semibold">
-                {{ character?.voiceActors?.at(0)?.name?.native }}
-              </div>
-              <div class="font-medium text-[10px] text-neutral-02">
-                {{ character?.voiceActors?.at(0)?.language }}
-              </div>
-            </div>
             <q-img
-              class="w-[60px] 2xl:w-[100px] qhd:w-[120px] h-full cursor-pointer"
+              class="w-1/4 h-full cursor-pointer"
               fit="cover"
               v-if="character?.voiceActors?.at(0)?.image?.large"
               :src="character?.voiceActors?.at(0)?.image?.large ?? ''"
@@ -362,7 +380,7 @@ onMounted(() => {
 <style>
 /* Overrides the Quasar properties in the title-section  */
 .title-section .q-img__content > div {
-  @apply pt-28 mb-14 px-4 md:px-8 lg:px-20;
+  @apply pt-28 mb-14 px-4 md:px-8 2xl:px-80;
   @apply bg-gradient-to-t from-background from-0% via-background-55 via-25%;
 }
 

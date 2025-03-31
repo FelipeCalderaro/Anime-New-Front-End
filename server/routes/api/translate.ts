@@ -2,11 +2,6 @@ import deepl from "deepl-node";
 import fs from "fs";
 
 
-interface Translation {
-    id: number,
-    description: string,
-    translation?: string
-}
 
 function ensureJsonFileExists(filePath: string) {
     if (!fs.existsSync(filePath)) {
@@ -38,49 +33,78 @@ function writeJsonFile<T>(path: string, data: T): void {
     }
 }
 
+async function translate(body: any) {
+    try {
+
+        const translator = new deepl.Translator("170d7b1c-c2c4-45c3-8536-ddf369e615be:fx")
+        const loc = body.locale === 'en' ? 'en-US' : body.locale
+        let result = await translator.translateText(body.description, null, loc)
+
+        let translatedContent: any = {};
+
+        if (Array.isArray(result)) {
+            const firstResult = result.at(0)
+
+            translatedContent['id'] = body.id;
+            translatedContent['en-us'] = body.description;
+            translatedContent[body.locale] = firstResult?.text;
+        } else {
+            translatedContent['id'] = body.id;
+            translatedContent['en-us'] = body.description;
+            translatedContent[body.locale] = result?.text;
+        }
+
+        return translatedContent
+    } catch (error) {
+        const locale = body.locale
+        return {
+            id: body.id,
+            'en-us': body.description,
+            locale: body.description
+        }
+    }
+}
+
 
 export default defineEventHandler(async (event) => {
     const filePath = "./translations.json"
 
     const body = await readBody(event)
-    if (!body || !body.id) {
+    if (!body || !body.id || !body.description || !body.locale) {
         return {
             success: false,
-            message: "Must provide: id, description"
+            message: "Must provide: id, description, locale"
         }
     }
 
-    const jsonData = readJsonFile<Translation[]>(filePath);
+    const jsonData = readJsonFile<any[]>(filePath);
     if (jsonData) {
-        const found = jsonData.find((i) => i.id === body.id)
-        if (found !== undefined) {
-            console.log('Entry found, returning')
+        const foundIndex = jsonData.findIndex((i) => i.id === body.id)
+        if (foundIndex !== -1) {
+            console.log('Entry found for ', body.id)
+
+            if (!Object.hasOwn(jsonData[foundIndex], body.locale)) {
+                const translatedContent = await translate(body)
+                const finalContent = {
+                    ...jsonData[foundIndex],
+                    ...translatedContent
+                }
+
+                jsonData[foundIndex] = finalContent
+                writeJsonFile(filePath, jsonData);
+                return {
+                    success: true,
+                    data: finalContent
+                }
+            }
             return {
                 success: true,
-                data: found
+                data: jsonData[foundIndex]
             }
         }
         console.log('Entry not found, translating')
 
-        const translator = new deepl.Translator("85d0a512-2c8d-49a7-91b6-433533887312:fx")
-        let result = await translator.translateText(body.description, null, 'pt-BR')
-
-        let translatedContent: Translation;
-
-        if (Array.isArray(result)) {
-            const firstResult = result.at(0)
-            translatedContent = {
-                id: body.id,
-                description: body.description,
-                translation: firstResult?.text,
-            }
-        } else {
-            translatedContent = {
-                id: body.id,
-                description: body.description,
-                translation: result?.text,
-            }
-        }
+        const translatedContent = await translate(body)
         // 85d0a512-2c8d-49a7-91b6-433533887312:fx
         // DeepL
 

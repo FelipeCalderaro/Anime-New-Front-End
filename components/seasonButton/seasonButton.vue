@@ -10,7 +10,7 @@
     "
   >
     <div class="flex flex-col items-center">
-      <img class="w-7 h-7 mb-1" :src="icon" alt="Season Icon" />
+      <img class="w-7 h-7 mb-1" :src="icon" :alt="label.toLowerCase()" />
       {{ label }}
     </div>
   </q-btn>

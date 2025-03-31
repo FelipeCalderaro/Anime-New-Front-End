@@ -80,7 +80,7 @@ async function getInitialSeason(season: MediaSeason, year: number) {
 }
 
 async function translateDescriptions() {
-  if (locale.value !== "pt-br") return;
+  if (locale.value === "en-us") return;
   if (!mediaBySeasonData.value) return;
 
   for (const key in mediaBySeasonData.value) {
@@ -95,16 +95,15 @@ async function translateDescriptions() {
         if (m?.id && m?.description) {
           try {
             // Wait for the translation to finish
-            const result = await translate(m?.id, m?.description);
-
+            const result = await translate(m?.id, m?.description, locale.value);
             // Immediately update the description after translation
             mediaBySeasonData!.value[
               key as keyof typeof mediaBySeasonData.value
             ]!.media![i] = {
               ...m,
               description:
-                result?.data.translation ||
-                result?.data.description ||
+                result?.data[locale.value] ||
+                result?.data["en-US"] ||
                 m?.description,
             };
 
@@ -136,8 +135,9 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
   });
   defineOgImage({
     url:
-      (mediaBySeasonData?.value?.TV?.media?.at(0)?.bannerImage as string) ||
-      (mediaBySeasonData?.value?.TV?.media?.at(0)?.coverImage as string),
+      mediaBySeasonData?.value?.TV?.media?.at(0)?.bannerImage ||
+      mediaBySeasonData?.value?.TV?.media?.at(0)?.coverImage?.extraLarge ||
+      "",
   });
 });
 </script>
@@ -155,7 +155,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
       </h1>
 
       <h3
-        class="mt-4 text-center text-neutral-50 text-[16px] sm:text-[22px] font-normal leading-[34px]"
+        class="mt-4 text-center text-neutral-50 text-[16px] sm:text-[22px] font-normal leading-[34px] xl:px-8"
       >
         {{ $t("home.body.subtitle") }}
       </h3>
@@ -181,47 +181,9 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
       <ad-container />
 
       <div
-        class="flex flex-row justify-start px-1 md:px-[340px] mb-4 h-16 items-center"
-      >
-        <!-- <img
-          id="filter"
-          src="@/assets/svg/filter-icon.svg"
-          alt="Filter Icon"
-          class="text-white w-6 h-6 cursor-pointer mr-6"
-          @click="toggleFilter = !toggleFilter"
-        /> -->
-        <img
-          id="search"
-          src="@/assets/svg/search-icon.svg"
-          alt="Filter Icon"
-          class="text-white w-6 h-6 cursor-pointer mr-6"
-          @click="toggleSearch = !toggleSearch"
-        />
-        <search-input
-          v-if="toggleSearch"
-          type="search"
-          input-id="search"
-          :hint="$t('search')"
-          error-message="Este campo não pode estar vazio"
-          :onSubmit="
-            (isValid, text) => {
-              if (isValid) {
-                navigateTo(constructLocalePath('/search', null, text));
-              }
-            }
-          "
-          :validation="
-            (value) => {
-              return value.length !== 0 && value.length >= 3;
-            }
-          "
-        ></search-input>
-      </div>
-
-      <div
         id="tv"
         v-if="mediaBySeasonData?.TV?.media?.length"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2"
       >
         {{ $t("home.body.tv") }}
       </div>
@@ -235,6 +197,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
           :next-episode="anime?.nextAiringEpisode?.episode"
           :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
           :episodes="anime?.episodes"
+          :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
           :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
           :genres="anime?.genres"
           v-for="anime in mediaBySeasonData?.TV?.media"
@@ -246,7 +209,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
 
       <div
         id="tv-shorts"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2"
         v-if="mediaBySeasonData?.SHORTS?.media?.length"
       >
         {{ $t("home.body.tv-shorts") }}
@@ -260,6 +223,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
           :next-episode="anime?.nextAiringEpisode?.episode"
           :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
           :episodes="anime?.episodes"
+          :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
           :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
           :genres="anime?.genres"
           v-for="anime in mediaBySeasonData?.SHORTS?.media"
@@ -271,7 +235,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
 
       <div
         id="movies"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2"
         v-if="mediaBySeasonData?.MOVIES?.media?.length"
       >
         {{ $t("home.body.movies") }}
@@ -285,6 +249,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
           :next-episode="anime?.nextAiringEpisode?.episode"
           :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
           :episodes="anime?.episodes"
+          :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
           :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
           :genres="anime?.genres"
           v-for="anime in mediaBySeasonData?.MOVIES?.media"
@@ -298,7 +263,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
           mediaBySeasonData?.LEFTOVERS?.media?.length &&
           seasonSelected === getCurrentSeason()
         "
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 my-2"
       >
         {{ $t("home.body.in-progress") }}
       </div>
@@ -316,6 +281,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
           :next-episode="anime?.nextAiringEpisode?.episode"
           :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
           :episodes="anime?.episodes"
+          :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
           :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
           :genres="anime?.genres"
           v-for="anime in mediaBySeasonData?.LEFTOVERS?.media"
@@ -325,7 +291,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
 
       <div
         id="specials"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2"
         v-if="mediaBySeasonData?.SPECIALS?.media?.length"
       >
         {{ $t("home.body.specials") }}
@@ -339,6 +305,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
           :next-episode="anime?.nextAiringEpisode?.episode"
           :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
           :episodes="anime?.episodes"
+          :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
           :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
           :genres="anime?.genres"
           v-for="anime in mediaBySeasonData?.SPECIALS?.media"

@@ -1,4 +1,4 @@
-export async function translate(id: number, description: string) {
+export async function translate(id: number, description: string, locale: string) {
     try {
         const response = await fetch(
             `/temporadas/api/translate`, // Ensure the correct URL
@@ -8,6 +8,7 @@ export async function translate(id: number, description: string) {
                 body: JSON.stringify({
                     id: id,
                     description: description,
+                    locale: locale,
                 }),
             }
         );
@@ -17,11 +18,7 @@ export async function translate(id: number, description: string) {
 
         const result: {
             success: boolean,
-            data: {
-                id: number;
-                description: string;
-                translation: string;
-            }
+            data: any
         } = await response.json();
         // console.log(`Translated data for ID ${id}:`, result);
 

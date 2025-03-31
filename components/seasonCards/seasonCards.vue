@@ -14,7 +14,16 @@
           </h3>
 
           <div class="text-neutral-50/90 text-[10px] font-medium">
-            {{ $t("media.studio") }} {{ studioName ?? "-" }}
+            {{ $t("media.studio") }}
+            <a
+              v-if="studioName"
+              class="cursor-pointer text-primary-02 underline"
+              @click="
+                navigateTo(constructLocalePath('/studio', studioId, studioName))
+              "
+            >
+              {{ studioName ?? "-" }}
+            </a>
           </div>
 
           <br />
@@ -75,6 +84,7 @@ interface SeasonCardsProps {
   title: string;
   imageUrl: string;
   studioName: string;
+  studioId: number;
   description: string;
   genres?: (string | null)[] | null | undefined;
   episodeAiringAt?: number;

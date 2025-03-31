@@ -1,7 +1,7 @@
 <template>
   <div class="text-white pt-20">
     <h1
-      class="text-white text-2xl font-bold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-6"
+      class="text-white text-2xl font-bold px-2 sm:px-4 xl:px-40 2xl:px-80 mb-6"
     >
       {{ $t("results") }}
     </h1>
@@ -9,13 +9,13 @@
     <h2
       id="characters"
       v-if="searchResults?.Characters?.results?.length"
-      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-8"
+      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-80 mb-2 mt-8"
     >
       {{ $t("media.characters") }}
     </h2>
 
     <horizontal-list
-      class="mx-2 sm:mx-4 xl:mx-40 2xl:mx-[340px]"
+      class="mx-2 sm:mx-4 xl:mx-40 2xl:mx-80"
       v-if="searchResults.Characters?.results?.length"
     >
       <div
@@ -52,13 +52,13 @@
     <h2
       id="staff"
       v-if="searchResults?.Characters?.results?.length"
-      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-8"
+      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-80 mb-2 mt-8"
     >
       {{ $t("media.staff") }}
     </h2>
 
     <horizontal-list
-      class="mx-2 sm:mx-4 xl:mx-40 2xl:mx-[340px]"
+      class="mx-2 sm:mx-4 xl:px-40 2xl:px-80"
       v-if="searchResults.Staff?.results?.length"
     >
       <div
@@ -91,7 +91,7 @@
     <h2
       id="anime"
       v-if="searchResults?.Anime?.results?.length"
-      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-8"
+      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-80 mb-2 mt-8"
     >
       {{ $t("anime") }}
     </h2>
@@ -103,6 +103,7 @@
         :image-url="anime?.coverImage?.large ?? '-'"
         :description="anime?.description ?? '-'"
         :episodes="anime?.episodes"
+        :studio-id="anime?.studios?.nodes?.at(0)?.id ?? '0'"
         :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
         :genres="anime?.genres"
         v-for="anime in searchResults.Anime.results"
@@ -113,7 +114,7 @@
     <h2
       id="manga"
       v-if="searchResults?.Manga?.results?.length"
-      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-11"
+      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-80 mb-2 mt-11"
     >
       Manga
     </h2>
@@ -125,6 +126,7 @@
         :image-url="manga?.coverImage?.large ?? '-'"
         :description="manga?.description ?? '-'"
         :episodes="manga?.episodes"
+        :studio-id="manga?.studios?.nodes?.at(0)?.id ?? '0'"
         :studio-name="manga?.studios?.nodes?.at(0)?.name ?? '-'"
         :genres="manga?.genres"
         v-for="manga in searchResults?.Manga.results"
@@ -172,7 +174,6 @@ const {
 });
 
 async function translateDescriptions() {
-  if (locale.value !== "pt-br") return;
   if (!searchResults.value) return;
   let season = searchResults.value.Anime;
   if (season?.results) {
@@ -180,12 +181,12 @@ async function translateDescriptions() {
       const m = season.results[i];
       if (m?.id && m?.description) {
         try {
-          const result = await translate(m?.id, m?.description);
+          const result = await translate(m?.id, m?.description, locale.value);
           searchResults!.value.Anime!.results![i] = {
             ...m,
             description:
-              result?.data.translation ||
-              result?.data.description ||
+              result?.data[locale.value] ||
+              result?.data["en-US"] ||
               m?.description,
           };
         } catch (error) {
@@ -200,12 +201,12 @@ async function translateDescriptions() {
       const m = season.results[i];
       if (m?.id && m?.description) {
         try {
-          const result = await translate(m?.id, m?.description);
+          const result = await translate(m?.id, m?.description, locale.value);
           searchResults!.value.Manga!.results![i] = {
             ...m,
             description:
-              result?.data.translation ||
-              result?.data.description ||
+              result?.data[locale.value] ||
+              result?.data["en-US"] ||
               m?.description,
           };
         } catch (error) {
@@ -217,7 +218,7 @@ async function translateDescriptions() {
 }
 
 if (status.value === "success") {
-  if (locale.value === "pt-br") {
+  if (locale.value !== "en-US") {
     translateDescriptions();
   }
 }

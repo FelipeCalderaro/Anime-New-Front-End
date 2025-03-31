@@ -1,19 +1,16 @@
-import { colors } from "quasar";
 
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    `~/components/**/*.{vue,js,ts}`,
-    `~/layouts/**/*.vue`,
-    `~/pages/**/*.vue`,
-    `~/composables/**/*.{js,ts}`,
-    `~/plugins/**/*.{js,ts}`,
-    `~/utils/**/*.{js,ts}`,
-    `~/App.{js,ts,vue}`,
-    `~/app.{js,ts,vue}`,
-    `~/Error.{js,ts,vue}`,
-    `~/error.{js,ts,vue}`,
-    `~/app.config.{js,ts}`
+    "./components/**/*.{vue,js,ts}",
+    "./layouts/**/*.vue",
+    "./pages/**/*.vue",
+    "./composables/**/*.{js,ts}",
+    "./plugins/**/*.{js,ts}",
+    "./utils/**/*.{js,ts}",
+    "./app.{js,ts,vue}",
+    "./error.{js,ts,vue}",
+    "./app.config.{js,ts}",
   ],
   darkMode: true,
   theme: {
@@ -59,6 +56,7 @@ export default {
       },
       colors: {
         'background': '#0a0e19',
+        'header-background': 'rgba(21, 21, 21, 0.6)',
         'background-55': 'rgba(10, 14, 25, 0.55)',
         'primary-01': '#ff0048',
         'primary-02': '#E00040',

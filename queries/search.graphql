@@ -1,6 +1,6 @@
 query search($search:String,$isAdult:Boolean){
-    Anime:Page(perPage:20){pageInfo{total}results:media(type:ANIME,isAdult:$isAdult,search:$search){ ...MediaFields }}
-    Manga:Page(perPage:20){pageInfo{total}results:media(type:MANGA,isAdult:$isAdult,search:$search){ ...MediaFields }}
+    Anime:Page(perPage:20){pageInfo{total}results:media(type:ANIME,isAdult:$isAdult,search:$search){ ...SearchMediaFields }}
+    Manga:Page(perPage:20){pageInfo{total}results:media(type:MANGA,isAdult:$isAdult,search:$search){ ...SearchMediaFields }}
     Characters:Page(perPage:20){pageInfo{total}results:characters(search:$search){id name{userPreferred, full, first,}image{large}}}
     Staff:Page(perPage:20){pageInfo{total}results:staff(search:$search){id primaryOccupations name{userPreferred, full, first}image{large}}}
 }
