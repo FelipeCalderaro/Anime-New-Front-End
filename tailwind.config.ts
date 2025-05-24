@@ -55,7 +55,7 @@ export default {
         width: '12px',
       },
       colors: {
-        'background': '#0a0e19',
+        'background': '#191c20',
         'header-background': 'rgba(21, 21, 21, 0.6)',
         'background-55': 'rgba(10, 14, 25, 0.55)',
         'primary-01': '#ff0048',
@@ -79,10 +79,13 @@ export default {
         'full-white': '#FAFAFA',
         'red-gradient': '#7E0829',
         'red-gradient2': '#BE0909',
-        'ui-component': '#897D99',
+        'ui-component': '#252a31',
         'ui-component2': '#2A3547',
-        'card-component': '#1c2431',
-        'card-countdown-bg': "#1E1E22"
+        'card-component': '#1f2226',
+        'card-countdown-bg': "#1E1E22",
+        'subtitle': '#dad9d8',
+        'words': '#9eafc8',
+        'labels': '#6c8091'
       }
     },
   },

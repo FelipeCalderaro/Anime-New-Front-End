@@ -85,6 +85,13 @@ fragment MediaFields on Media {
         english
         userPreferred
     }
+    studios{
+        nodes{
+            name
+            id
+            siteUrl
+        }
+    }
     startDate {
         year
         month

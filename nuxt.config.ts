@@ -29,6 +29,7 @@ export default defineNuxtConfig({
       'axios',
     ],
   },
+
   app: {
     baseURL: "/temporadas/",
     buildAssetsDir: "/_nuxt/",
@@ -85,6 +86,7 @@ export default defineNuxtConfig({
   googleAdsense: {
     onPageLoad: false,
     pageLevelAds: false,
+    id: process.env.GOOGLE_ADSENSE_ID || "ca-pub-3926999916166130"
   },
   i18n: {
     locales: [

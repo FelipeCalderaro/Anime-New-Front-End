@@ -2,7 +2,8 @@
 import { useI18n } from 'vue-i18n';
 
 // Assuming you have imported your enums
-import { CharacterRole, MediaRelation, MediaSeason, MediaStatus } from '#gql/default';
+import { CharacterRole, MediaFormat, MediaRelation, MediaSeason, MediaStatus } from '#gql/default';
+import { All } from '~/types/Enums';
 
 /**
  * Translates MediaRelation enum values to their i18n entries.
@@ -44,13 +45,18 @@ export function translateMediaRelation(relation?: MediaRelation | null): string 
 }
 
 /**
- * Translates MediaStatus enum values to their i18n entries.
- * @param status - The MediaStatus enum value.
+ * Translates Status enum values (MediaStatus + All) to their i18n entries.
+ * @param status - The Status enum value.
  * @returns The translated string.
  */
-export function translateMediaStatus(status?: MediaStatus | null): string {
+export function translateMediaStatus(status?: MediaStatus | All | null): string {
     const { t } = useI18n();
+
     switch (status) {
+        case All.ALL:
+            return t('status.all');
+        case All.OTHER:
+            return t('status.other');
         case MediaStatus.CANCELLED:
             return t('status.cancelled');
         case MediaStatus.FINISHED:
@@ -63,6 +69,44 @@ export function translateMediaStatus(status?: MediaStatus | null): string {
             return t('status.releasing');
         default:
             return t('status.unknown');
+    }
+}
+
+/**
+ * Translates MediaFormat or All enum values to their i18n entries.
+ * @param format - The MediaFormat or All enum value.
+ * @returns The translated string.
+ */
+export function translateMediaFormat(format?: MediaFormat | All | null): string {
+    const { t } = useI18n();
+
+    switch (format) {
+        case All.ALL:
+            return t('media.format.all');
+        case All.OTHER:
+            return t('media.format.other');
+        case MediaFormat.MANGA:
+            return t('media.format.manga');
+        case MediaFormat.MOVIE:
+            return t('media.format.movie');
+        case MediaFormat.MUSIC:
+            return t('media.format.music');
+        case MediaFormat.NOVEL:
+            return t('media.format.novel');
+        case MediaFormat.ONA:
+            return t('media.format.ona');
+        case MediaFormat.ONE_SHOT:
+            return t('media.format.one_shot');
+        case MediaFormat.OVA:
+            return t('media.format.ova');
+        case MediaFormat.SPECIAL:
+            return t('media.format.special');
+        case MediaFormat.TV:
+            return t('media.format.tv');
+        case MediaFormat.TV_SHORT:
+            return t('media.format.tv_short');
+        default:
+            return t('media.format.unknown');
     }
 }
 
@@ -108,25 +152,28 @@ export function translateMediaSeason(season?: MediaSeason | null): string {
 
 
 export function getCurrentSeason(): MediaSeason {
-    var SEASON = [
+    const SEASONS = [
         MediaSeason.WINTER,
         MediaSeason.SPRING,
         MediaSeason.SUMMER,
         MediaSeason.FALL,
-    ]
-    var date = new Date();
-    var month = date.getMonth() + 1;
+    ];
 
-    if (month >= 1 && month <= 3) {
-        return MediaSeason.WINTER;
-    } else if (month >= 4 && month <= 6) {
+    const date = new Date();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    if ((month === 3 && day > 25) || month === 4 || month === 5) {
         return MediaSeason.SPRING;
-    } else if (month >= 7 && month <= 9) {
+    } else if ((month === 6 && day > 24) || month === 7 || month === 8) {
         return MediaSeason.SUMMER;
-    } else {
+    } else if ((month === 9 && day > 24) || month === 10 || month === 11) {
         return MediaSeason.FALL;
+    } else {
+        return MediaSeason.WINTER;
     }
 }
+
 
 export function timeToAirDate(airingAt?: number): string | null {
     const { t, locale } = useI18n(); // Get i18n instance
