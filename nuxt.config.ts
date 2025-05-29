@@ -20,9 +20,9 @@ export default defineNuxtConfig({
     baseURL: '/api/',
     // preset: 'node-server', // Related to this https://github.com/nitrojs/nitro/issues/1484
     preset: 'netlify',
-    externals: {
-      inline: ['vue', '@vue/server-renderer']
-    }
+    // externals: {
+    //   inline: ['vue', '@vue/server-renderer']
+    // }
 
   },
   build: {
@@ -33,7 +33,7 @@ export default defineNuxtConfig({
   },
 
   app: {
-    baseURL: "/temporadas/",
+    // baseURL: "/temporadas/",
     head: {
       title: APP_CONFIGS.title,
       titleTemplate: "%s",
