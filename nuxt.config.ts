@@ -15,7 +15,7 @@ export default defineNuxtConfig({
       hmr: { overlay: false }, // Example: disable HMR overlay
     }
   },
-  ssr: true,
+  ssr: false,
   nitro: {
     baseURL: '/api/',
     // preset: 'node-server', // Related to this https://github.com/nitrojs/nitro/issues/1484
