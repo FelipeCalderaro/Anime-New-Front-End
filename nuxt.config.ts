@@ -5,19 +5,19 @@ export default defineNuxtConfig({
   imports: {
     autoImport: true,
   },
-  vite: {
-    // Add custom Vite plugins, configure build options, etc.
-    build: {
-      // Increase memory limit if needed for large builds
-      chunkSizeWarningLimit: 1000, // Adjust as necessary
-    },
-    server: {
-      hmr: { overlay: false }, // Example: disable HMR overlay
-    }
-  },
+  // vite: {
+  //   // Add custom Vite plugins, configure build options, etc.
+  //   build: {
+  //     // Increase memory limit if needed for large builds
+  //     chunkSizeWarningLimit: 1000, // Adjust as necessary
+  //   },
+  //   server: {
+  //     hmr: { overlay: false }, // Example: disable HMR overlay
+  //   }
+  // },
   ssr: false,
   nitro: {
-    baseURL: '/api/',
+    // baseURL: '/api/',
     // preset: 'node-server', // Related to this https://github.com/nitrojs/nitro/issues/1484
     preset: 'netlify',
     // externals: {
