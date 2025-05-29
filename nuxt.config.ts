@@ -18,10 +18,12 @@ export default defineNuxtConfig({
   ssr: true,
   nitro: {
     baseURL: '/api/',
-    preset: 'node-server', // Related to this https://github.com/nitrojs/nitro/issues/1484
+    // preset: 'node-server', // Related to this https://github.com/nitrojs/nitro/issues/1484
+    preset: 'netlify',
     externals: {
       inline: ['vue', '@vue/server-renderer']
     }
+
   },
   build: {
     transpile: [
