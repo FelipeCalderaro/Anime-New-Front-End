@@ -34,7 +34,6 @@ export default defineNuxtConfig({
 
   app: {
     baseURL: "/temporadas/",
-    buildAssetsDir: "/_nuxt/",
     head: {
       title: APP_CONFIGS.title,
       titleTemplate: "%s",
