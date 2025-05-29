@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   //     hmr: { overlay: false }, // Example: disable HMR overlay
   //   }
   // },
-  ssr: false,
+  ssr: true,
   nitro: {
     // baseURL: '/api/',
     // preset: 'node-server', // Related to this https://github.com/nitrojs/nitro/issues/1484
@@ -23,7 +23,6 @@ export default defineNuxtConfig({
     // externals: {
     //   inline: ['vue', '@vue/server-renderer']
     // }
-
   },
   build: {
     transpile: [
@@ -34,6 +33,7 @@ export default defineNuxtConfig({
 
   app: {
     // baseURL: "/temporadas/",
+    baseURL: '/',
     head: {
       title: APP_CONFIGS.title,
       titleTemplate: "%s",
