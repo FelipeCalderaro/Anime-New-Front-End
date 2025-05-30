@@ -1,29 +1,25 @@
 import { APP_CONFIGS } from "./constants";
 
+const deployTarget = process.env.DEPLOY_TARGET || 'netlify';
+const isNodeServer = deployTarget === 'node-server';
+
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   imports: {
     autoImport: true,
   },
-  // vite: {
-  //   // Add custom Vite plugins, configure build options, etc.
-  //   build: {
-  //     // Increase memory limit if needed for large builds
-  //     chunkSizeWarningLimit: 1000, // Adjust as necessary
-  //   },
-  //   server: {
-  //     hmr: { overlay: false }, // Example: disable HMR overlay
-  //   }
-  // },
   ssr: true,
   nitro: {
-    // baseURL: '/api/',
-    // preset: 'node-server', // Related to this https://github.com/nitrojs/nitro/issues/1484
-    preset: 'netlify',
-    // externals: {
-    //   inline: ['vue', '@vue/server-renderer']
-    // }
+    preset: isNodeServer ? 'node-server' : 'netlify',
   },
+  // nitro: {
+  //   // baseURL: '/api/',
+  //   // preset: 'node-server', // Related to this https://github.com/nitrojs/nitro/issues/1484
+  //   // externals: {
+  //   //   inline: ['vue', '@vue/server-renderer']
+  //   // }
+  // },
   build: {
     transpile: [
       'deepl-node',
@@ -32,8 +28,7 @@ export default defineNuxtConfig({
   },
 
   app: {
-    // baseURL: "/temporadas/",
-    baseURL: '/',
+    baseURL: isNodeServer ? '/temporadas/' : '/',
     head: {
       title: APP_CONFIGS.title,
       titleTemplate: "%s",
