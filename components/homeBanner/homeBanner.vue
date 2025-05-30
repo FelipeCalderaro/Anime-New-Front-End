@@ -191,7 +191,7 @@ onMounted(() => {
 }
 
 .q-carousel__control {
-  @apply text-cyan-400 lg:text-yellow-500 translate-y-[-40%] lg:translate-y-0;
+  @apply translate-y-[-40%] lg:translate-y-0;
 }
 
 /* Padding for navigation dots */
