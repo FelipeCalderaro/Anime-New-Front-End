@@ -5,8 +5,8 @@
     class="w-[130px] py-1 px-2 text-sm font-normal leading-5 cursor-pointer hover:-translate-y-3 transition delay-150 duration-300 ease-in-out"
     :class="
       selected
-        ? 'bg-primary-01'
-        : 'bg-card-component hover:bg-gradient-to-t  hover:from-primary-01 hover:to-65% hover:to-ui-component2 transition duration-300 ease-in-out'
+        ? 'bg-primary01'
+        : 'bg-cardComponent hover:bg-gradient-to-t  hover:from-primary01 hover:to-65% hover:to-uiComponent2 transition duration-300 ease-in-out'
     "
   >
     <div class="flex flex-col items-center">

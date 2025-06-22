@@ -151,7 +151,7 @@ onMounted(() => {
                 <q-btn
                   no-caps
                   :label="$t('button.about')"
-                  class="w-[150px] bg-primary-01 text-white rounded-s px-4 py-2"
+                  class="w-[150px] bg-primary01 text-white rounded-s px-4 py-2"
                   @click="
                     navigateTo(
                       constructLocalePath(
@@ -175,7 +175,7 @@ onMounted(() => {
 .q-img__content > .no-bg-color {
   /* background-color: transparent !important; */
   /* @apply bg-gradient-to-r from-indigo-800 via-transparent; */
-  /* @apply bg-gradient-to-t from-background from-0% via-background-55 via-10%; */
+  /* @apply bg-gradient-to-t from-background from-0% via-background55 via-10%; */
   @apply bg-background bg-opacity-50;
 }
 
@@ -191,7 +191,8 @@ onMounted(() => {
 }
 
 .q-carousel__control {
-  @apply translate-y-[-40%] lg:translate-y-0;
+  @apply lg:translate-y-0;
+  transform: translateY(-40%);
 }
 
 /* Padding for navigation dots */

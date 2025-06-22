@@ -324,10 +324,6 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
           :key="anime?.id"
         />
       </custom-grid>
-
-      <div :v-if="mediaBySeasonData?.TV?.media?.length === 0">
-        {{ $t("home.body.nothing-found") }}
-      </div>
     </div>
   </div>
 </template>

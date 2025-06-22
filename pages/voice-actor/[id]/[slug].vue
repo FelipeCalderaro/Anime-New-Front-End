@@ -124,13 +124,13 @@ onMounted(() => {
     <div id="characters-by-year" class="text-white mx-8 2xl:mx-80">
       <div v-for="[key, medias] in mediasByYear" :key="key">
         <h3
-          class="text-primary-01 text-2xl font-semibold font-sans mt-8 mb-4"
+          class="text-primary01 text-2xl font-semibold font-sans mt-8 mb-4"
           v-if="key !== null"
         >
           {{ key }}
         </h3>
         <h3
-          class="text-primary-01 text-2xl font-semibold font-sans mt-8 mb-4"
+          class="text-primary01 text-2xl font-semibold font-sans mt-8 mb-4"
           v-else
         >
           {{ $t("tba") }}
@@ -139,7 +139,7 @@ onMounted(() => {
           class="md:gap-x-6 gap-y-4 md:gap-y-8 grid grid-cols-1 xl:grid-cols-3 qhd:grid-cols-4"
         >
           <div
-            class="w-full flex flex-row bg-card-component items-center h-[130px] 2xl:h-[160px]"
+            class="w-full flex flex-row bg-cardComponent items-center h-[130px] 2xl:h-[160px]"
             v-for="media in medias"
             :key="media.id"
           >
@@ -164,14 +164,14 @@ onMounted(() => {
             <div class="w-1/2 h-full flex flex-row gap items-center">
               <div
                 :id="`character-name-${media.name.userPreferred}`"
-                class="w-1/3 flex flex-col text-neutral-01 text-xs mx-2 my-4 justify-start items-start text-pretty text-center"
+                class="w-1/3 flex flex-col text-neutral01 text-xs mx-2 my-4 justify-start items-start text-pretty text-center"
               >
                 <h4 class="font-semibold text-nowrap text-left">
                   {{
                     media.name.userPreferred.trim() ?? media.name.full.trim()
                   }}
                 </h4>
-                <h6 class="font-medium text-[10px] text-neutral-02">
+                <h6 class="font-medium text-[10px] text-neutral02">
                   {{ translateCharacterRole(media?.role) }}
                 </h6>
               </div>
@@ -180,7 +180,7 @@ onMounted(() => {
 
               <p
                 :id="`media-name-${media?.title.english}`"
-                class="text-neutral-01 text-xs mx-2 my-4 w-1/3 font-semibold text-balance"
+                class="text-neutral01 text-xs mx-2 my-4 w-1/3 font-semibold text-balance"
               >
                 {{ media.title.english ?? media.title.romaji }}
               </p>

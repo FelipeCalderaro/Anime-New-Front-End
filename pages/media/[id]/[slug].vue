@@ -98,57 +98,6 @@ onMounted(() => {
         >
         </q-img>
       </div>
-      <!-- <div
-      id="title-section-box"
-      class="w-full h-full flex flex-col md:flex-row items-center lg:items-start"
-      >
-      
-      <div
-      class="sm:ml-6 sm:w-[350px] md:w-[500px] xl:w-[700px] text-ellipsis h-[300px]"
-      >
-      <h1
-      class="text-neutral-50 text-3xl xl:text-4xl 2xl:text-5xl font-bold text-center md:text-left"
-      >
-      
-    </h1>
-    <q-rating
-    class="mt-3 text-white center"
-    v-model="rating"
-    size="1.5em"
-    icon="star"
-    />
-    
-    <div
-    class="text-neutral-50 text-lg md:text-xl 2xl:text-2xl font-semibold my-1"
-          >
-          {{ $t("media.synopsis") }}
-        </div>
-        <h3
-        class="w-full text-ellipsis 2xl:text-pretty max-h-60 overflow-y-auto custom-scrollbar"
-        v-html="
-        data.Media?.description?.replace(/(<br\s*\/?>){2,}/g, '<br>')
-        "
-        ></h3>
-        
-        <div class="text-neutral-50/80 text-base font-medium my-3">
-          {{ $t("media.studio") }}:
-          <a
-          class="cursor-pointer text-primary-01 underline"
-          @click="
-          navigateTo(
-            constructLocalePath(
-              '/studio',
-              data.Media?.studios?.edges?.at(0)?.node?.id,
-              data.Media?.studios?.edges?.at(0)?.node?.name
-              )
-              )
-              "
-              >
-              {{ data.Media?.studios?.edges?.at(0)?.node?.name }}
-            </a>
-          </div>
-        </div>
-      </div> -->
     </div>
 
     <div
@@ -209,7 +158,7 @@ onMounted(() => {
             :key="studio?.node?.id"
           >
             <a
-              class="cursor-pointer text-primary-01 underline"
+              class="cursor-pointer text-primary01 underline"
               @click="
                 navigateTo(
                   constructLocalePath(
@@ -237,7 +186,7 @@ onMounted(() => {
         </Box>
       </div>
 
-      <div id="information" class="flex flex-col">
+      <div id="information" class="flex flex-col grow">
         <h1
           id="mediaTitle"
           class="text-words mb-2 text-4xl font-bold text-left collapse md:visible"
@@ -274,7 +223,7 @@ onMounted(() => {
               class="grid grid-cols-2 gap-2 lg:grid-cols-3 2xl:grid-cols-4 md:gap-4"
             >
               <div
-                class="flex flex-row bg-ui-component rounded-md items-center h-[120px] md:h-[140px] 2xl:h-[160px]"
+                class="flex flex-row bg-uiComponent rounded-md items-center h-[120px] md:h-[140px] 2xl:h-[160px]"
                 v-for="character in data.Media?.charactersPreview?.edges"
                 :key="`${character?.id}`"
               >
@@ -297,7 +246,7 @@ onMounted(() => {
                 <div class="flex flex-row w-1/2 h-full items-center">
                   <div
                     :id="`character-name-${character?.node?.name?.first}`"
-                    class="text-neutral-01 text-xs mx-2 my-4"
+                    class="text-neutral01 text-xs mx-2 my-4"
                   >
                     <div class="font-semibold">
                       {{
@@ -308,7 +257,7 @@ onMounted(() => {
                     <div class="text-words">
                       {{ character?.node?.name?.native }}
                     </div>
-                    <div class="font-medium text-[10px] text-primary-01">
+                    <div class="font-medium text-[10px] text-primary01">
                       {{ translateCharacterRole(character?.role) }}
                     </div>
                   </div>
@@ -325,7 +274,7 @@ onMounted(() => {
             class="grid grid-cols-2 gap-2 lg:grid-cols-3 md:gap-4 2xl:grid-cols-4"
           >
             <div
-              class="flex flex-row bg-ui-component items-center rounded-md h-[120px] md:h-[140px] 2xl:h-[160px]"
+              class="flex flex-row bg-uiComponent items-center rounded-md h-[120px] md:h-[140px] 2xl:h-[160px]"
               v-for="staff in data.Media?.staffPreview?.edges"
               :title="staff?.node?.name?.full ?? ''"
               :key="`${staff?.id}`"
@@ -338,14 +287,14 @@ onMounted(() => {
               />
               <div
                 :id="`staff-name-${staff?.node?.name?.first}`"
-                class="text-neutral-01 w-1/2 text-xs px-2 py-4"
+                class="text-neutral01 w-1/2 text-xs px-2 py-4"
               >
                 <div class="font-semibold">
                   {{
                     staff?.node?.name?.full ?? staff?.node?.name?.userPreferred
                   }}
                 </div>
-                <div class="font-medium text-[10px] text-primary-01">
+                <div class="font-medium text-[10px] text-primary01">
                   {{ staff?.role }}
                 </div>
               </div>
@@ -363,7 +312,7 @@ onMounted(() => {
 
           <horizontal-list class="h-[180px] gap-2">
             <q-card
-              class="bg-card-component w-[280px] h-full overflow-clip cursor-pointer"
+              class="bg-cardComponent w-[280px] h-full overflow-clip cursor-pointer"
               flat
               bordered
               v-for="media in data.Media?.relations?.edges"
@@ -405,7 +354,7 @@ onMounted(() => {
                       {{ translateMediaRelation(media?.relationType) }}
                     </div>
                     <div
-                      class="text-neutral-01 text-base font-semibold my-1 line-clamp-2"
+                      class="text-neutral01 text-base font-semibold my-1 line-clamp-2"
                       :title="`${
                         media?.node?.title?.english ??
                         media?.node?.title?.romaji
@@ -445,7 +394,7 @@ onMounted(() => {
                   class="w-full h-16 text-white text-xs absolute-bottom px-2 py-3 bg-neutral-900/60 line-clamp-2"
                   :title="`${news?.title}`"
                 >
-                  <div class="text-neutral-01">AnimeNew</div>
+                  <div class="text-neutral01">AnimeNew</div>
                   <h6 v-html="news?.title" />
                 </div>
               </div>
@@ -467,11 +416,11 @@ onMounted(() => {
 .title-section .q-img__content > div {
   /* width: 100%; */
   @apply pt-28 mb-14 px-4 md:px-8 2xl:px-80;
-  @apply bg-gradient-to-t from-background from-0% via-background-55 via-25%;
+  @apply bg-gradient-to-t from-background from-0% via-background55 via-25%;
 }
 
 .banner-gradient {
-  @apply bg-gradient-to-t from-background from-0% via-background-55 via-25%;
+  @apply bg-gradient-to-t from-background from-0% via-background55 via-25%;
 }
 
 .news .q-img__content > div {

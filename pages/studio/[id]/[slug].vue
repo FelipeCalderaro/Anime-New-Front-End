@@ -180,7 +180,7 @@ onMounted(() => {
       <h3 v-if="studioDetails.links" class="text-neutral-50 text-lg">
         {{ $t("studio.links") }}
       </h3>
-      <ul id="links" class="text-primary-01 flex flex-col list-disc">
+      <ul id="links" class="text-primary01 flex flex-col list-disc">
         <li v-for="(details, i) in studioDetails.links" :key="i">
           <a :href="details">{{ details }}</a>
         </li>
@@ -188,7 +188,7 @@ onMounted(() => {
       <h3 v-if="studioDetails.related" class="text-neutral-50">
         {{ $t("studio.related") }}
       </h3>
-      <ul id="related-links" class="text-primary-01 flex flex-col list-disc">
+      <ul id="related-links" class="text-primary01 flex flex-col list-disc">
         <li v-for="(details, i) in studioDetails.related" :key="i">
           <a :href="details">{{ details }}</a>
         </li>
@@ -199,13 +199,13 @@ onMounted(() => {
   <div id="media-by-year" class="text-white mx-2 xl:px-8 2xl:px-80">
     <div v-for="[key, medias] in mediasByYear" :key="key">
       <h3
-        class="text-primary-01 text-2xl font-semibold font-sans mt-8 mb-4"
+        class="text-primary01 text-2xl font-semibold font-sans mt-8 mb-4"
         v-if="key !== null"
       >
         {{ key }}
       </h3>
       <h3
-        class="text-primary-01 text-2xl font-semibold font-sans mt-8 mb-4"
+        class="text-primary01 text-2xl font-semibold font-sans mt-8 mb-4"
         v-else
       >
         {{ $t("tba") }}
@@ -215,7 +215,7 @@ onMounted(() => {
         class="md:gap-x-6 gap-y-4 md:gap-y-8 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 qhd:grid-cols-6"
       >
         <div
-          class="flex flex-row bg-card-component items-center h-[130px] 2xl:h-[180px] qhd:h-[240px]"
+          class="flex flex-row bg-cardComponent items-center h-[130px] 2xl:h-[180px] qhd:h-[240px]"
           v-for="media in medias"
           :key="media.id"
         >
@@ -238,7 +238,7 @@ onMounted(() => {
 
           <div
             :id="`media-name-${media?.node?.title?.english}`"
-            class="text-neutral-01 text-xs px-6 py-4 w-1/2"
+            class="text-neutral01 text-xs px-6 py-4 w-1/2"
           >
             <div class="font-semibold">
               {{ media?.node?.title?.english ?? media?.node?.title?.romaji }}

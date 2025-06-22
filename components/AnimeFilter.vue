@@ -1,10 +1,10 @@
 <template>
   <form
     @submit.prevent="handleSubmit"
-    class="bg-card-component p-4 rounded-md flex flex-wrap items-center gap-4 place-content-between"
+    class="bg-cardComponent p-4 rounded-md flex flex-wrap items-center gap-4 place-content-between"
   >
     <!-- Search -->
-    <div class="relative flex-1 w-full">
+    <div class="relative flex-grow w-full">
       <div
         class="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none"
       >
@@ -29,12 +29,12 @@
         @input="onValidation"
         type="text"
         :placeholder="hint"
-        class="w-full px-4 py-2 ps-10 rounded-md bg-ui-component text-white placeholder-gray-400 border transition-all focus:outline-none focus:ring-2 focus:ring-primary-01"
+        class="w-full px-4 py-2 ps-10 rounded-md bg-uiComponent text-white placeholder-gray-400 border transition-all focus:outline-none focus:ring-2 focus:ring-primary01"
         :class="{ 'border-red-500': error, 'border-transparent': !error }"
       />
     </div>
 
-    <div class="grow-0 2xl:grow"></div>
+    <!-- <div class="grow-0 2xl:grow"></div> -->
 
     <!-- Format Filters -->
     <div class="flex items-center gap-2 flex-wrap">

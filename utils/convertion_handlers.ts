@@ -152,22 +152,15 @@ export function translateMediaSeason(season?: MediaSeason | null): string {
 
 
 export function getCurrentSeason(): MediaSeason {
-    const SEASONS = [
-        MediaSeason.WINTER,
-        MediaSeason.SPRING,
-        MediaSeason.SUMMER,
-        MediaSeason.FALL,
-    ];
-
     const date = new Date();
     const month = date.getMonth() + 1;
     const day = date.getDate();
 
-    if ((month === 3 && day > 25) || month === 4 || month === 5) {
+    if ((month === 2 && day >= 25) || month === 3 || month === 4 || month === 5) {
         return MediaSeason.SPRING;
-    } else if ((month === 6 && day > 24) || month === 7 || month === 8) {
+    } else if ((month === 5 && day >= 25) || month === 6 || month === 7 || month === 8) {
         return MediaSeason.SUMMER;
-    } else if ((month === 9 && day > 24) || month === 10 || month === 11) {
+    } else if ((month === 8 && day >= 25) || month === 9 || month === 10 || (month === 11 && day < 25)) {
         return MediaSeason.FALL;
     } else {
         return MediaSeason.WINTER;

@@ -13,6 +13,9 @@ export default defineNuxtConfig({
   nitro: {
     preset: isNodeServer ? 'node-server' : 'netlify',
   },
+  vite: {
+    base: isNodeServer ? '/temporadas/' : '/'
+  },
   // nitro: {
   //   // baseURL: '/api/',
   //   // preset: 'node-server', // Related to this https://github.com/nitrojs/nitro/issues/1484
@@ -24,9 +27,9 @@ export default defineNuxtConfig({
     transpile: [
       'deepl-node',
       'axios',
+      'cheerio',
     ],
   },
-
   app: {
     baseURL: isNodeServer ? '/temporadas/' : '/',
     head: {
@@ -72,12 +75,12 @@ export default defineNuxtConfig({
     '@nuxtjs/google-adsense',
     "nuxt-quasar-ui",
     "nuxt-graphql-client",
-    "@nuxtjs/strapi",
     "@nuxtjs/tailwindcss",
+    // "@nuxtjs/strapi",
     // '@nuxtjs/robots',
-    '@nuxtjs/seo',
+    // '@nuxtjs/sitemap',
     '@nuxtjs/i18n',
-    '@nuxtjs/sitemap',
+    '@nuxtjs/seo',
   ],
   googleAdsense: {
     onPageLoad: false,
@@ -85,6 +88,9 @@ export default defineNuxtConfig({
     id: process.env.GOOGLE_ADSENSE_ID || "ca-pub-3926999916166130"
   },
   i18n: {
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
     locales: [
       { code: 'pt-br', name: 'Portuguese', language: 'pt-BR', file: 'pt-br.json' },
       { code: 'ja', name: 'Japanese', language: 'ja-JP', file: 'ja.json' },

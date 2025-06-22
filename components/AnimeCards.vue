@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-card-component rounded-md overflow-hidden w-[180px] shadow-md cursor-pointer transition hover:scale-105"
+    class="bg-cardComponent rounded-md overflow-hidden w-[180px] shadow-md cursor-pointer transition hover:scale-105"
     @click="handleClick"
   >
     <!-- Image -->
@@ -18,7 +18,7 @@
         <span :class="scoreClass" class="text-xs font-semibold">
           {{ averageScore }}%
         </span>
-        <span class="text-xs text-white bg-ui-component px-2 py-0.5 rounded">
+        <span class="text-xs text-white bg-uiComponent px-2 py-0.5 rounded">
           {{ type }}
         </span>
       </div>

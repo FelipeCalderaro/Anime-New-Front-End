@@ -5,8 +5,8 @@ export interface SeasonsRowSelector {
     seasonYear: number
 }
 
-export function getYearBySeason(): SeasonsRowSelector[] {
-    const currentSeason: MediaSeason = getCurrentSeason();
+export function getYearBySeason(season?: MediaSeason): SeasonsRowSelector[] {
+    const currentSeason: MediaSeason = season || getCurrentSeason();
     const date = new Date();
     const year = date.getFullYear()
 

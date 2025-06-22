@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-card-component p-4 text-words rounded-md">
+  <div class="bg-cardComponent p-4 text-words rounded-md">
     <h4 class="font-bold text-lg">{{ title }}</h4>
-    <div class="h-[2px] w-full bg-ui-component my-2" />
+    <div class="h-[2px] w-full bg-uiComponent my-2" />
     <slot />
   </div>
 </template>

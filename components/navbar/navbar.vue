@@ -79,7 +79,7 @@ const drawerOpen = ref(false);
 
         <div
           v-if="drawerOpen"
-          class="absolute z-10 text-white right-8 top-24 bg-background p-6 flex flex-col rounded-lg border-primary-04 border-[0.5px]"
+          class="absolute z-10 text-white right-8 top-24 bg-background p-6 flex flex-col rounded-lg border-primary04 border-[0.5px]"
         >
           <q-btn
             flat
@@ -142,7 +142,7 @@ const drawerOpen = ref(false);
 .button-navbar:hover {
   height: 100%;
   color: #fafafa;
-  @apply bg-primary-01;
+  @apply bg-primary01;
 }
 
 .header {

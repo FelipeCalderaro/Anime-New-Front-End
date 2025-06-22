@@ -228,7 +228,7 @@ if (status.value === "success") {
 .q-img__content > .character-name {
   /* background-color: transparent !important; */
   /* @apply bg-gradient-to-r from-indigo-800 via-transparent; */
-  /* @apply bg-gradient-to-t from-background from-0% via-background-55 via-25%; */
+  /* @apply bg-gradient-to-t from-background from-0% via-background55 via-25%; */
   @apply py-1 px-1 line-clamp-1;
 }
 </style>
