@@ -83,6 +83,24 @@ Apache acts as a **reverse proxy**, forwarding requests to the Node.js backend w
 
 ### ✅ Apache Configuration (via WHM → Apache Include Editor → Pre VirtualHost Include):
 
+First we need to create a systemd service to run the application 
+```apache
+[Unit]
+Description=AnimeNew Temporadas Node.js Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/animenew/temporadas/server
+ExecStart=/opt/cpanel/ea-nodejs22/bin/node index.mjs
+Restart=always
+User=animenew
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
+```
+
 We add this inside the **Pre VirtualHost Include for All Versions**:
 
 ```apache

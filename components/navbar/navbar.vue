@@ -169,6 +169,6 @@ const drawerOpen = ref(false);
 }
 
 .q-toolbar {
-  @apply p-0 md:px-8 items-center;
+  @apply p-0 items-center;
 }
 </style>
