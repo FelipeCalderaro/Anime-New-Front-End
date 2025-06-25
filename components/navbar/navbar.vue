@@ -6,7 +6,9 @@ const drawerOpen = ref(false);
 <template>
   <div class="header">
     <q-toolbar>
-      <div class="header-content flex flex-row 2xl:px-80 h-full w-full">
+      <div
+        class="header-content flex flex-row px-2 sm:px-4 xl:px-8 2xl:px-80 h-full w-full"
+      >
         <div class="xl:py-3">
           <a href="/temporadas">
             <img

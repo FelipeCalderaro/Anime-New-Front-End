@@ -196,31 +196,28 @@ onMounted(() => {
     </div>
   </div>
 
-  <div id="media-by-year" class="text-white mx-2 xl:px-8 2xl:px-80">
+  <div id="media-by-year" class="text-white">
     <div v-for="[key, medias] in mediasByYear" :key="key">
       <h3
-        class="text-primary01 text-2xl font-semibold font-sans mt-8 mb-4"
+        class="text-primary01 text-2xl font-semibold font-sans mt-8 mb-4 mx-2 xl:mx-8 2xl:mx-80"
         v-if="key !== null"
       >
         {{ key }}
       </h3>
       <h3
-        class="text-primary01 text-2xl font-semibold font-sans mt-8 mb-4"
+        class="text-primary01 text-2xl font-semibold font-sans mt-8 mb-4 mx-2 xl:mx-8 2xl:mx-80"
         v-else
       >
         {{ $t("tba") }}
       </h3>
-
-      <div
-        class="md:gap-x-6 gap-y-4 md:gap-y-8 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 qhd:grid-cols-6"
-      >
+      <custom-grid>
         <div
-          class="flex flex-row bg-cardComponent items-center h-[130px] 2xl:h-[180px] qhd:h-[240px]"
+          class="flex-col bg-cardComponent items-center max-h-[350px] max-w-[200px]"
           v-for="media in medias"
           :key="media.id"
         >
           <q-img
-            class="w-1/2 h-full cursor-pointer"
+            class="h-5/6 cursor-pointer"
             fit="cover"
             :alt="media.node?.title?.english ?? ''"
             :title="media?.node?.title?.english ?? ''"
@@ -238,18 +235,18 @@ onMounted(() => {
 
           <div
             :id="`media-name-${media?.node?.title?.english}`"
-            class="text-neutral01 text-xs px-6 py-4 w-1/2"
+            class="text-neutral01 text-xs px-6 py-4"
           >
-            <div class="font-semibold">
+            <div class="font-semibold line-clamp-2">
               {{ media?.node?.title?.english ?? media?.node?.title?.romaji }}
             </div>
           </div>
         </div>
-      </div>
+      </custom-grid>
     </div>
   </div>
 
-  <div class="h-[400px] w-[10px]" />
+  <div class="h-[240px] w-[10px]" />
   <!-- This triggers loading when visible -->
   <div ref="loadMoreTrigger"></div>
 </template>

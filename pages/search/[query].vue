@@ -1,7 +1,7 @@
 <template>
   <div class="text-white pt-20">
     <h1
-      class="text-white text-2xl font-bold px-2 sm:px-4 xl:px-40 2xl:px-80 mb-6"
+      class="text-white text-2xl font-bold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-6"
     >
       {{ $t("results") }}
     </h1>
@@ -9,7 +9,7 @@
     <h2
       id="characters"
       v-if="searchResults?.Characters?.results?.length"
-      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-80 mb-2 mt-8"
+      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2 mt-8"
     >
       {{ $t("media.characters") }}
     </h2>
@@ -52,7 +52,7 @@
     <h2
       id="staff"
       v-if="searchResults?.Characters?.results?.length"
-      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-80 mb-2 mt-8"
+      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2 mt-8"
     >
       {{ $t("media.staff") }}
     </h2>
@@ -91,21 +91,21 @@
     <h2
       id="anime"
       v-if="searchResults?.Anime?.results?.length"
-      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-80 mb-2 mt-8"
+      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2 mt-8"
     >
       {{ $t("anime") }}
     </h2>
 
     <custom-grid v-if="searchResults.Anime?.results?.length">
-      <season-cards
+      <anime-cards
         :id="anime?.id ?? 0"
         :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
         :image-url="anime?.coverImage?.large ?? '-'"
-        :description="anime?.description ?? '-'"
-        :episodes="anime?.episodes"
-        :studio-id="anime?.studios?.nodes?.at(0)?.id ?? '0'"
-        :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
-        :genres="anime?.genres"
+        :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
+        :studio="anime?.studios?.nodes?.at(0)?.name ?? '-'"
+        :average-score="anime?.averageScore ?? 0"
+        :type="anime?.format ?? '-'"
+        :synopsis="anime?.description ?? '-'"
         v-for="anime in searchResults.Anime.results"
         :key="anime?.id"
       />
@@ -114,23 +114,23 @@
     <h2
       id="manga"
       v-if="searchResults?.Manga?.results?.length"
-      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-80 mb-2 mt-11"
+      class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2 mt-11"
     >
       Manga
     </h2>
 
     <custom-grid v-if="searchResults?.Manga?.results?.length">
-      <season-cards
-        :id="manga?.id ?? 0"
-        :title="manga?.title?.english ?? manga?.title?.romaji ?? '-'"
-        :image-url="manga?.coverImage?.large ?? '-'"
-        :description="manga?.description ?? '-'"
-        :episodes="manga?.episodes"
-        :studio-id="manga?.studios?.nodes?.at(0)?.id ?? '0'"
-        :studio-name="manga?.studios?.nodes?.at(0)?.name ?? '-'"
-        :genres="manga?.genres"
-        v-for="manga in searchResults?.Manga.results"
-        :key="manga?.id"
+      <anime-cards
+        :id="anime?.id ?? 0"
+        :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
+        :image-url="anime?.coverImage?.large ?? '-'"
+        :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
+        :studio="anime?.studios?.nodes?.at(0)?.name ?? '-'"
+        :average-score="anime?.averageScore ?? 0"
+        :type="anime?.format ?? '-'"
+        :synopsis="anime?.description ?? '-'"
+        v-for="anime in searchResults.Manga.results"
+        :key="anime?.id"
       />
     </custom-grid>
     <div

@@ -11,8 +11,12 @@
       <h3 class="text-white text-sm font-semibold truncate" :alt="title">
         {{ title }}
       </h3>
-      <p class="text-gray-400 text-xs truncate">{{ studio }}</p>
-
+      <a
+        v-if="studio"
+        class="text-gray-400 text-xs truncate underline"
+        @click="navigateTo(constructLocalePath('/studio', studioId, studio))"
+        >{{ studio }}</a
+      >
       <!-- Score + Type -->
       <div class="flex items-center justify-between mt-2">
         <span :class="scoreClass" class="text-xs font-semibold">
@@ -34,6 +38,7 @@ const props = defineProps<{
   imageUrl: string;
   title: string;
   studio: string;
+  studioId: number;
   type: string;
   averageScore: number;
   synopsis?: string;
