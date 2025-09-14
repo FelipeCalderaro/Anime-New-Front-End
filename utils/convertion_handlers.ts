@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n';
 
 // Assuming you have imported your enums
-import { MediaRelation, MediaStatus, MediaSeason, CharacterRole } from '#gql/default';
+import { CharacterRole, MediaRelation, MediaSeason, MediaStatus } from '#gql/default';
 
 /**
  * Translates MediaRelation enum values to their i18n entries.
@@ -114,17 +114,17 @@ export function getCurrentSeason(): MediaSeason {
         MediaSeason.SUMMER,
         MediaSeason.FALL,
     ]
-    var date = new Date()
-    var month = date.getMonth()
+    var date = new Date();
+    var month = date.getMonth() + 1;
 
     if (month >= 1 && month <= 3) {
-        return SEASON[0]
+        return MediaSeason.WINTER;
     } else if (month >= 4 && month <= 6) {
-        return SEASON[1]
+        return MediaSeason.SPRING;
     } else if (month >= 7 && month <= 9) {
-        return SEASON[2]
+        return MediaSeason.SUMMER;
     } else {
-        return SEASON[3]
+        return MediaSeason.FALL;
     }
 }
 

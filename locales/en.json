@@ -1,6 +1,11 @@
 {
-    "home.body.title": "AnimeNew's Anime Season Guide",
-    "home.body.subtitle": "Explore Anime Seasons on AnimeNew: Releases, Timetables, and Summaries",
+    "navbar.news": "News",
+    "navbar.animes": "Animes",
+    "navbar.mangas": "Mangas",
+    "navbar.games": "Games",
+    "navbar.cinema": "Cinema",
+    "home.body.title": "Animes Season Guide",
+    "home.body.subtitle": "Check out this year's biggest anime releases! Get the latest schedules, synopses, and official premiere dates.",
     "input.error-message": "This field cannot be empty",
     "home.body.tv": "TV",
     "home.body.tv-shorts": "TV SHORTS",
@@ -25,6 +30,7 @@
     "media.news.about": "News",
     "character.about": "About",
     "staff.about": "About",
+    "studio.about": "About",
     "relation.adaptation": "Adaptation",
     "relation.alternative": "Alternative",
     "relation.character": "Character",
@@ -50,5 +56,13 @@
     "season.spring": "SPRING",
     "season.summer": "SUMMER",
     "season.fall": "FALL",
-    "tba": "To be announced"
+    "tba": "To be announced",
+    "search": "Search",
+    "search.placeholder": "Search Animes, Mangas ...",
+    "results": "Results",
+    "anime": "Anime",
+    "search.empty": "No results found",
+    "studio.established": "Established",
+    "studio.links": "Links",
+    "studio.related": "Related"
 }

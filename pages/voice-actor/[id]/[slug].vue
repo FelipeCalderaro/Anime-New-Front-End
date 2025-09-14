@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute();
+const { locale } = useI18n();
 const { data, error, status } = await useAsyncGql("voiceActorInfo", {
   id: Number.parseInt(route.params.id as string),
 });
@@ -7,6 +8,23 @@ const { data, error, status } = await useAsyncGql("voiceActorInfo", {
 let mediasByYear: Ref<Map<number, any>> = ref(new Map());
 
 if (status.value === "success") {
+  if (locale.value !== "en-US") {
+    const result = await translate(
+      data.value.Staff!.id,
+      data.value.Staff!.description!,
+      locale.value
+    );
+    if (result?.success) {
+      const media = data.value.Staff!;
+      data.value.Staff = {
+        ...media,
+        description:
+          result?.data[locale.value] ||
+          result?.data["en-US"] ||
+          media?.description,
+      };
+    }
+  }
   const head = constructHead({
     title:
       data.value.Staff?.name?.full ?? data.value.Staff?.name?.userPreferred,
@@ -20,7 +38,7 @@ if (status.value === "success") {
     link: head.link,
     htmlAttrs: head.htmlAttrs,
   });
-  console.log(data.value.Staff);
+
   let allMedias = data.value.Staff?.characters?.edges?.flatMap((edges) => {
     let medias: any[] = [];
     edges?.media?.forEach((media) => {
@@ -43,7 +61,6 @@ if (status.value === "success") {
       );
     }
   });
-  // console.log(mediasByYear.value.get(null));
 
   // If there is no Year but medias for any reason, merge the last with the null year
   // let mediasByYearKeys = [...mediasByYear.value.keys()];
@@ -76,12 +93,13 @@ onMounted(() => {
     <div id="detail-container" class="mb-11">
       <div
         id="title-section"
-        class="w-full h-full flex flex-col lg:flex-row pt-36 lg:pt-28 md:ml-6 xl:ml-20 items-center md:items-start"
+        class="w-full h-full flex flex-col lg:flex-row pt-36 lg:pt-28 md:px-8 2xl:px-80 items-center md:items-start"
       >
         <q-img
           class="w-[170px] h-[240px] 2xl:w-[340px] 2xl:h-[500px] rounded-lg"
           fit="cover"
           :src="data.Staff?.image?.large ?? ''"
+          :alt="data.Staff?.name?.full"
         />
         <div class="mx-6 md:mx-0 lg:ml-6">
           <div
@@ -95,13 +113,15 @@ onMounted(() => {
           </div>
           <div
             class="w-full xl:w-[690px] text-white text-base"
-            v-html="data.Staff?.description"
+            v-html="
+              data.Staff?.description?.replace(/(<br\s*\/?>){2,}/g, '<br>')
+            "
           ></div>
         </div>
       </div>
     </div>
     <!-- <div class="text-white">{{ [...mediasByYear.entries()] }}</div> -->
-    <div id="characters-by-year" class="text-white mx-2 xl:mx-60">
+    <div id="characters-by-year" class="text-white mx-8 2xl:mx-80">
       <div v-for="[key, medias] in mediasByYear" :key="key">
         <h3
           class="text-primary-01 text-2xl font-semibold font-sans mt-8 mb-4"
@@ -116,15 +136,15 @@ onMounted(() => {
           {{ $t("tba") }}
         </h3>
         <div
-          class="md:gap-x-6 gap-y-4 md:gap-y-8 grid grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
+          class="md:gap-x-6 gap-y-4 md:gap-y-8 grid grid-cols-1 xl:grid-cols-3 qhd:grid-cols-4"
         >
           <div
-            class="flex flex-row bg-card-component items-center h-[100px] 2xl:h-[160px]"
+            class="w-full flex flex-row bg-card-component items-center h-[130px] 2xl:h-[160px]"
             v-for="media in medias"
             :key="media.id"
           >
             <q-img
-              class="w-[60px] 2xl:w-[100px] qhd:w-[120px] h-full cursor-pointer"
+              class="w-1/4 h-full cursor-pointer"
               fit="cover"
               v-if="media.image?.large"
               :src="media.image?.large ?? ''"
@@ -141,31 +161,33 @@ onMounted(() => {
               "
             />
 
-            <div
-              :id="`character-name-${media.name.userPreferred}`"
-              class="flex flex-row text-neutral-01 text-xs mx-2 my-4 justify-center items-center w-[80px] text-pretty text-center"
-            >
-              <div class="font-semibold">
-                {{ media.name.userPreferred.trim() ?? media.name.full.trim() }}
+            <div class="w-1/2 h-full flex flex-row gap items-center">
+              <div
+                :id="`character-name-${media.name.userPreferred}`"
+                class="w-1/3 flex flex-col text-neutral-01 text-xs mx-2 my-4 justify-start items-start text-pretty text-center"
+              >
+                <h4 class="font-semibold text-nowrap text-left">
+                  {{
+                    media.name.userPreferred.trim() ?? media.name.full.trim()
+                  }}
+                </h4>
+                <h6 class="font-medium text-[10px] text-neutral-02">
+                  {{ translateCharacterRole(media?.role) }}
+                </h6>
               </div>
-              <div class="font-medium text-[10px] text-neutral-02">
-                {{ translateCharacterRole(media?.role) }}
-              </div>
-            </div>
 
-            <div class="flex-grow" />
+              <div class="flex-grow" />
 
-            <div
-              :id="`media-name-${character?.node?.name?.first}`"
-              class="text-neutral-01 text-xs mx-2 my-4 w-[100px]"
-            >
-              <div class="font-semibold">
+              <p
+                :id="`media-name-${media?.title.english}`"
+                class="text-neutral-01 text-xs mx-2 my-4 w-1/3 font-semibold text-balance"
+              >
                 {{ media.title.english ?? media.title.romaji }}
-              </div>
+              </p>
             </div>
 
             <q-img
-              class="w-[60px] 2xl:w-[100px] qhd:w-[120px] h-full cursor-pointer"
+              class="w-1/4 h-full cursor-pointer"
               fit="cover"
               :alt="media.title.userPreferred ?? ''"
               :title="media.title.userPreferred ?? ''"

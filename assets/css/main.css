@@ -40,19 +40,19 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: azure; /* Color when hovering over the scroll thumb */
+  background-color: #00000000; /* Color when hovering over the scroll thumb */
 }
 
 .spoiler-toggle-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    text-decoration: underline;
-    font-size: 1em;
-    margin-bottom: 0.5rem;
-    @apply text-primary-01 mr-3;
-  }
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 1em;
+  margin-bottom: 0.5rem;
+  @apply text-primary-01 mr-3;
+}
   
-  .markdown_spoiler span {
-    display: none; /* Ensure spoiler is hidden by default */
-  }
+.markdown_spoiler span {
+  display: none; /* Ensure spoiler is hidden by default */
+}

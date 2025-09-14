@@ -1,6 +1,11 @@
 {
-    "home.body.title": "Guia de Temporadas de Anime do AnimeNew",
-    "home.body.subtitle": "Explore as Temporadas de Anime no AnimeNew: Lançamentos, Horários e Resumos",
+    "navbar.news": "Notícias",
+    "navbar.animes": "Animes",
+    "navbar.mangas": "Mangás",
+    "navbar.games": "Jogos",
+    "navbar.cinema": "Cinema",
+    "home.body.title": "Lista de Animes da Temporada",
+    "home.body.subtitle": "Confira os principais lançamentos de animes do ano: horários, sinopses e datas de estreia oficiais.",
     "input.error-message": "Este campo não pode estar vazio",
     "home.body.tv": "TV",
     "home.body.tv-shorts": "CURTAS DE TV",
@@ -25,6 +30,7 @@
     "media.news.about": "Notícias sobre",
     "character.about": "Sobre",
     "staff.about": "Sobre",
+    "studio.about": "Sobre",
     "relation.adaptation": "Adaptação",
     "relation.alternative": "Alternativa",
     "relation.character": "Personagem",
@@ -50,5 +56,13 @@
     "season.spring": "PRIMAVERA",
     "season.summer": "VERÃO",
     "season.fall": "OUTONO",
-    "tba": "Ainda não anunciado"
+    "tba": "Ainda não anunciado",
+    "search": "Pesquisar",
+    "search.placeholder": "Buscar Animes, Mangas ...",
+    "results": "Resultados",
+    "anime": "Anime",
+    "search.empty": "Nenhum resultado encontrado",
+    "studio.established": "Criado em",
+    "studio.links": "Links",
+    "studio.related": "Relacionados"
 }

@@ -2,11 +2,30 @@
 <script setup lang="ts">
 const route = useRoute();
 
+const { locale } = useI18n();
+
 const { data, error, status } = await useAsyncGql("characterInfo", {
   id: Number.parseInt(route.params.id as string),
 });
 
 if (status.value === "success") {
+  if (locale.value !== "en-US") {
+    const result = await translate(
+      data.value.Character!.id,
+      data.value.Character!.description!,
+      locale.value
+    );
+    if (result?.success) {
+      const media = data.value.Character!;
+      data.value.Character = {
+        ...media,
+        description:
+          result?.data[locale.value] ||
+          result?.data["en-US"] ||
+          media?.description,
+      };
+    }
+  }
   const head = constructHead({
     title:
       data.value.Character?.name?.full ??
@@ -36,19 +55,20 @@ onMounted(() => {
     <div id="detail-container" class="mb-11">
       <div
         id="title-section"
-        class="w-full h-full flex flex-col lg:flex-row pt-36 lg:pt-28 md:ml-6 xl:ml-20 items-center md:items-start"
+        class="w-full h-full flex flex-col lg:flex-row pt-36 lg:pt-28 md:px-8 2xl:px-80 items-center md:items-start"
       >
         <q-img
           class="w-[170px] h-[240px] 2xl:w-[340px] 2xl:h-[500px] rounded-lg"
           fit="cover"
           :src="data.Character?.image?.large ?? ''"
+          :alt="data.Character?.name?.full"
         />
         <div class="mx-6 md:mx-0 lg:ml-6">
           <div
             class="text-neutral-50 text-2xl 2xl:text-5xl font-bold mb-6 text-center md:text-start"
           >
             {{
-              data.Character?.name?.userPreferred ?? data.Character?.name?.full
+              data.Character?.name?.full ?? data.Character?.name?.userPreferred
             }}
           </div>
 
@@ -57,14 +77,15 @@ onMounted(() => {
           </div>
           <div
             class="w-full xl:w-[690px] text-white text-base"
-            v-html="data.Character?.description"
+            v-html="
+              data.Character?.description?.replace(/(<br\s*\/?>){2,}/g, '<br>')
+            "
           ></div>
         </div>
       </div>
     </div>
-    <div
-      class="px-2 sm:px-4 xl:px-40 2xl:px-[340px] grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 md:grid-cols-2 fhd:grid-cols-3 qhd:grid-cols-4"
-    >
+
+    <custom-grid>
       <div
         class="flex flex-row bg-card-component h-32 lg:h-40 items-center justify-start"
         v-for="media in data.Character?.media?.edges"
@@ -80,7 +101,7 @@ onMounted(() => {
               constructLocalePath(
                 '/media',
                 media?.node?.id,
-                media?.node?.title?.userPreferred
+                media?.node?.title?.english
               )
             )
           "
@@ -103,8 +124,8 @@ onMounted(() => {
           </div>
           <div class="font-semibold text-neutral-05">
             {{
-              media?.voiceActors?.at(0)?.name?.userPreferred ??
-              media?.voiceActors?.at(0)?.name?.full
+              media?.voiceActors?.at(0)?.name?.full ??
+              media?.voiceActors?.at(0)?.name?.userPreferred
             }}
           </div>
           <div class="font-medium text-[10px] text-neutral-06">
@@ -115,14 +136,24 @@ onMounted(() => {
         <div class="grow" />
 
         <q-img
-          class="w-[80px] h-full md:w-1/4"
+          class="cursor-pointer w-[80px] h-full md:w-1/4"
           fit="cover"
           :alt="media?.voiceActors?.at(0)?.name?.userPreferred ?? ''"
           :title="media?.voiceActors?.at(0)?.name?.userPreferred ?? ''"
           :src="media?.voiceActors?.at(0)?.image?.large ?? ''"
+          @click="
+            navigateTo(
+              constructLocalePath(
+                '/voice-actor',
+                media?.voiceActors?.at(0)?.id,
+                media?.voiceActors?.at(0)?.name?.full
+              )
+            )
+          "
         />
       </div>
-    </div>
+    </custom-grid>
+
     <div class="h-[800px]" />
   </div>
 </template>

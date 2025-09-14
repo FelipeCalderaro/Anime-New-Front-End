@@ -5,15 +5,9 @@ import springIcon from "@/assets/svg/spring-icon.svg";
 import summerIcon from "@/assets/svg/summer-icon.svg";
 import winterIcon from "@/assets/svg/winter-icon.svg";
 import { APP_CONFIGS } from "~/constants";
-// import { useTranslationStore } from "~/stores/translationStore";
-// import { useDeepLTranslationService } from "~/services/deeplTranslationService";
 
 const router = useRouter(); // Get the router instance
 const route = useRoute(); // Get the current route
-
-// const { translateMediasDescription } = useTranslationHelper();
-// const { translateBatch } = useDeepLTranslationService();
-// const translationStore = useTranslationStore();
 
 const currentDate = new Date();
 let mediaBySeasonData = ref<MediaBySeasonQuery | null>();
@@ -26,7 +20,7 @@ let seasonSelected: Ref<MediaSeason> = ref(
 const toggleFilter: Ref<boolean> = ref(false);
 const toggleSearch: Ref<boolean> = ref(false);
 const searchText: Ref<string> = ref("");
-// let mediasDescription = ref<TranslationMap>();
+const { locale } = useI18n();
 
 // Function to update the query parameter
 function updatePageQuery(season: MediaSeason) {
@@ -37,7 +31,9 @@ function updatePageQuery(season: MediaSeason) {
 }
 
 function handleSeasonChange(season: MediaSeason, year: number) {
-  getInitialSeason(season, year);
+  getInitialSeason(season, year).then(() => {
+    translateDescriptions();
+  });
 }
 
 function getSeasonIcon(season: MediaSeason): string {
@@ -53,45 +49,18 @@ function getSeasonIcon(season: MediaSeason): string {
   }
 }
 
-// function aglutinateValues(): TranslationMap {
-//   return {
-//     TV: mediaBySeasonData.value!.TV!.media!.map((m) => {
-//       return { [m?.id ?? 0]: m?.description ?? "" };
-//     }),
-//     SHORTS: mediaBySeasonData.value!.SHORTS!.media!.map((m) => {
-//       return { [m?.id ?? 0]: m?.description ?? "" };
-//     }),
-//     MOVIES: mediaBySeasonData.value!.MOVIES!.media!.map((m) => {
-//       return { [m?.id ?? 0]: m?.description ?? "" };
-//     }),
-//     SPECIALS: mediaBySeasonData.value!.SPECIALS!.media!.map((m) => {
-//       return { [m?.id ?? 0]: m?.description ?? "" };
-//     }),
-//     LEFTOVERS: mediaBySeasonData.value!.LEFTOVERS!.media!.map((m) => {
-//       return { [m?.id ?? 0]: m?.description ?? "" };
-//     }),
-//   };
-// }
-
-// async function storeInPinia() {
-//   translationStore.merge(mediasDescription.value!);
-//   // translationStore.mergeTranslation(HomeMedias.TV, mediasDescription.value!.TV);
-//   // const tvTranslations = translationStore.getTranslation(HomeMedias.TV);
-//   console.log("tvTranslations", translationStore.getAll());
-// }
-
 async function getInitialSeason(season: MediaSeason, year: number) {
   loading.value = true;
-  const seasons: MediaSeason[] = [
+  const SEASONS: MediaSeason[] = [
     MediaSeason.WINTER,
     MediaSeason.SPRING,
     MediaSeason.SUMMER,
     MediaSeason.FALL,
   ];
-  const currentSeasonIndex = seasons.findIndex((s) => s === season);
+  const currentSeasonIndex = SEASONS.findIndex((s) => s === season);
   const previousSeasonIndex =
-    currentSeasonIndex - 1 < 0 ? seasons.length - 1 : currentSeasonIndex - 1;
-  const previousSeason: MediaSeason = seasons[previousSeasonIndex];
+    currentSeasonIndex - 1 < 0 ? SEASONS.length - 1 : currentSeasonIndex - 1;
+  const previousSeason: MediaSeason = SEASONS[previousSeasonIndex];
   try {
     const queryData = await GqlMediaBySeason({
       season,
@@ -101,7 +70,7 @@ async function getInitialSeason(season: MediaSeason, year: number) {
     mediaBySeasonData.value = queryData;
     currentYear.value = year;
     seasonSelected.value = season;
-    // mediasDescription.value = aglutinateValues();
+
     updatePageQuery(season);
   } catch (e) {
     error.value = e as Error;
@@ -110,33 +79,74 @@ async function getInitialSeason(season: MediaSeason, year: number) {
   }
 }
 
-useSeoMeta({
-  title: APP_CONFIGS.title,
-  ogTitle: APP_CONFIGS.title,
-  description: APP_CONFIGS.description,
-  ogDescription: APP_CONFIGS.description,
-  ogUrl: process.env.NUXT_PUBLIC_SITE_URL,
+async function translateDescriptions() {
+  if (locale.value === "en-us") return;
+  if (!mediaBySeasonData.value) return;
+
+  for (const key in mediaBySeasonData.value) {
+    const season =
+      mediaBySeasonData.value[key as keyof typeof mediaBySeasonData.value];
+
+    if (season?.media) {
+      for (let i = 0; i < season.media.length; i++) {
+        const m = season.media[i];
+
+        // Check if the media item has an ID and description to translate
+        if (m?.id && m?.description) {
+          try {
+            // Wait for the translation to finish
+            const result = await translate(m?.id, m?.description, locale.value);
+            // Immediately update the description after translation
+            mediaBySeasonData!.value[
+              key as keyof typeof mediaBySeasonData.value
+            ]!.media![i] = {
+              ...m,
+              description:
+                result?.data[locale.value] ||
+                result?.data["en-US"] ||
+                m?.description,
+            };
+
+            // You could also trigger a manual reactivity update here if needed, though Nuxt's reactivity should automatically update the UI.
+          } catch (error) {
+            console.error(`Error translating media ${m?.id}:`, error);
+          }
+        }
+      }
+    }
+  }
+}
+
+await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
+  translateDescriptions();
+  const head = constructHead({
+    ogUrl: process.env.NUXT_PUBLIC_SITE_URL || APP_CONFIGS.cannonicalUrl,
+    description: APP_CONFIGS.description,
+    ogImage:
+      (mediaBySeasonData?.value?.TV?.media?.at(0)?.bannerImage as string) ||
+      (mediaBySeasonData?.value?.TV?.media?.at(0)?.coverImage as string),
+    title: APP_CONFIGS.title,
+  });
+  useHead({
+    title: head.title,
+    meta: head.meta,
+    link: head.link,
+    htmlAttrs: head.htmlAttrs,
+  });
+  defineOgImage({
+    url:
+      mediaBySeasonData?.value?.TV?.media?.at(0)?.bannerImage ||
+      mediaBySeasonData?.value?.TV?.media?.at(0)?.coverImage?.extraLarge ||
+      "",
+  });
 });
-
-// async function translateDescriptions() {
-//   mediasDescription.value = await translateMediasDescription(
-//     mediasDescription.value!
-//   );
-//   storeInPinia();
-// }
-
-// onMounted(async () => {
-// mediasDescription.value = translationStore.getAll();
-// translateDescriptions();
-// });
-await getInitialSeason(seasonSelected.value, currentYear.value);
 </script>
 
 <style scoped></style>
 
 <template>
   <div>
-    <home-banner id="caroussel" />
+    <home-banner :season="seasonSelected" :year="currentYear" id="caroussel" />
     <div id="content">
       <h1
         class="mt-6 text-center text-neutral-50 text-[40px] sm:text-6xl font-medium leading-[60px]"
@@ -145,7 +155,7 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
       </h1>
 
       <h3
-        class="mt-4 text-center text-neutral-50 text-[16px] sm:text-[22px] font-normal leading-[34px]"
+        class="mt-4 text-center text-neutral-50 text-[16px] sm:text-[22px] font-normal leading-[34px] xl:px-8"
       >
         {{ $t("home.body.subtitle") }}
       </h3>
@@ -171,49 +181,14 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
       <ad-container />
 
       <div
-        class="flex flex-row justify-start px-1 md:px-[340px] mb-4 h-16 items-center"
-      >
-        <!-- <img
-          id="filter"
-          src="@/assets/svg/filter-icon.svg"
-          alt="Filter Icon"
-          class="text-white w-6 h-6 cursor-pointer mr-6"
-          @click="toggleFilter = !toggleFilter"
-        /> -->
-        <img
-          id="search"
-          src="@/assets/svg/search-icon.svg"
-          alt="Filter Icon"
-          class="text-white w-6 h-6 cursor-pointer mr-6"
-          @click="toggleSearch = !toggleSearch"
-        />
-        <search-input
-          v-if="toggleSearch"
-          type="search"
-          input-id="search"
-          hint="Pesquisar"
-          error-message="Este campo não pode estar vazio"
-          :onSubmit="
-            (isValid, text) => {
-              console.log('isValid', isValid, 'text', text);
-            }
-          "
-          :validation="
-            (value) => {
-              return value.length !== 0 && value.length >= 3;
-            }
-          "
-        ></search-input>
-      </div>
-
-      <div
         id="tv"
         v-if="mediaBySeasonData?.TV?.media?.length"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2"
       >
         {{ $t("home.body.tv") }}
       </div>
-      <home-grid v-if="mediaBySeasonData?.TV?.media?.length">
+
+      <custom-grid v-if="mediaBySeasonData?.TV?.media?.length">
         <season-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
@@ -222,23 +197,24 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
           :next-episode="anime?.nextAiringEpisode?.episode"
           :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
           :episodes="anime?.episodes"
+          :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
           :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
           :genres="anime?.genres"
           v-for="anime in mediaBySeasonData?.TV?.media"
           :key="anime?.id"
         />
-      </home-grid>
+      </custom-grid>
 
       <ad-container />
 
       <div
         id="tv-shorts"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2"
         v-if="mediaBySeasonData?.SHORTS?.media?.length"
       >
         {{ $t("home.body.tv-shorts") }}
       </div>
-      <home-grid v-if="mediaBySeasonData?.SHORTS?.media?.length">
+      <custom-grid v-if="mediaBySeasonData?.SHORTS?.media?.length">
         <season-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
@@ -247,23 +223,24 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
           :next-episode="anime?.nextAiringEpisode?.episode"
           :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
           :episodes="anime?.episodes"
+          :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
           :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
           :genres="anime?.genres"
           v-for="anime in mediaBySeasonData?.SHORTS?.media"
           :key="anime?.id"
         />
-      </home-grid>
+      </custom-grid>
 
       <ad-container v-if="mediaBySeasonData?.SHORTS?.media?.length" />
 
       <div
         id="movies"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2"
         v-if="mediaBySeasonData?.MOVIES?.media?.length"
       >
         {{ $t("home.body.movies") }}
       </div>
-      <home-grid v-if="mediaBySeasonData?.MOVIES?.media?.length">
+      <custom-grid v-if="mediaBySeasonData?.MOVIES?.media?.length">
         <season-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
@@ -272,12 +249,13 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
           :next-episode="anime?.nextAiringEpisode?.episode"
           :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
           :episodes="anime?.episodes"
+          :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
           :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
           :genres="anime?.genres"
           v-for="anime in mediaBySeasonData?.MOVIES?.media"
           :key="anime?.id"
         />
-      </home-grid>
+      </custom-grid>
 
       <div
         id="left-overs"
@@ -285,11 +263,11 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
           mediaBySeasonData?.LEFTOVERS?.media?.length &&
           seasonSelected === getCurrentSeason()
         "
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 my-2"
       >
         {{ $t("home.body.in-progress") }}
       </div>
-      <home-grid
+      <custom-grid
         v-if="
           mediaBySeasonData?.LEFTOVERS?.media?.length &&
           seasonSelected === getCurrentSeason()
@@ -303,21 +281,22 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
           :next-episode="anime?.nextAiringEpisode?.episode"
           :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
           :episodes="anime?.episodes"
+          :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
           :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
           :genres="anime?.genres"
           v-for="anime in mediaBySeasonData?.LEFTOVERS?.media"
           :key="anime?.id"
         />
-      </home-grid>
+      </custom-grid>
 
       <div
         id="specials"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-40 2xl:px-[340px] mb-2 mt-4"
+        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2"
         v-if="mediaBySeasonData?.SPECIALS?.media?.length"
       >
         {{ $t("home.body.specials") }}
       </div>
-      <home-grid v-if="mediaBySeasonData?.SPECIALS?.media?.length">
+      <custom-grid v-if="mediaBySeasonData?.SPECIALS?.media?.length">
         <season-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
@@ -326,12 +305,13 @@ await getInitialSeason(seasonSelected.value, currentYear.value);
           :next-episode="anime?.nextAiringEpisode?.episode"
           :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
           :episodes="anime?.episodes"
+          :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
           :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
           :genres="anime?.genres"
           v-for="anime in mediaBySeasonData?.SPECIALS?.media"
           :key="anime?.id"
         />
-      </home-grid>
+      </custom-grid>
 
       <ad-container />
 

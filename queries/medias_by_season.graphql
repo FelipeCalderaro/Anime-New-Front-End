@@ -1,31 +1,3 @@
-query mediaBySeason($season: MediaSeason, $previousSeason: MediaSeason, $year: Int){
-    TV: Page(perPage: 100, page: 1){
-        media(season: $season, seasonYear: $year, format: TV, sort: POPULARITY_DESC, isAdult: false){
-            ...MediaBySeasonFields
-        }
-    }
-    SHORTS: Page(perPage: 100, page: 1){
-        media(season: $season, seasonYear: $year, format: TV_SHORT, sort: POPULARITY_DESC, isAdult: false){
-            ...MediaBySeasonFields
-        }
-    }
-    MOVIES: Page(perPage: 100, page: 1){
-        media(season: $season, seasonYear: $year, format: MOVIE, sort: POPULARITY_DESC, isAdult: false){
-            ...MediaBySeasonFields
-        }
-    }
-    LEFTOVERS: Page(perPage: 100, page: 1){
-        media(season: $previousSeason, seasonYear: $year, format_in: [ TV, TV_SHORT, MOVIE ], status: RELEASING ,  sort: POPULARITY_DESC, isAdult: false){
-            ...MediaBySeasonFields
-        }
-    }
-    SPECIALS: Page(perPage: 100, page: 1){
-        media(season: $season, seasonYear: $year, format_not_in: [ TV, TV_SHORT, MOVIE ] , sort: POPULARITY_DESC, isAdult: false){
-            ...MediaBySeasonFields
-        }
-    }
-}
-
 
 fragment MediaBySeasonFields on Media {
     title {
@@ -65,3 +37,32 @@ fragment MediaBySeasonFields on Media {
     episodes
     duration
 }
+
+query mediaBySeason($season: MediaSeason, $previousSeason: MediaSeason, $year: Int){
+    TV: Page(perPage: 100, page: 1){
+        media(season: $season, seasonYear: $year, format: TV, sort: POPULARITY_DESC, isAdult: false){
+            ...MediaBySeasonFields
+        }
+    }
+    SHORTS: Page(perPage: 100, page: 1){
+        media(season: $season, seasonYear: $year, format: TV_SHORT, sort: POPULARITY_DESC, isAdult: false){
+            ...MediaBySeasonFields
+        }
+    }
+    MOVIES: Page(perPage: 100, page: 1){
+        media(season: $season, seasonYear: $year, format: MOVIE, sort: POPULARITY_DESC, isAdult: false){
+            ...MediaBySeasonFields
+        }
+    }
+    LEFTOVERS: Page(perPage: 100, page: 1){
+        media(season: $previousSeason, seasonYear: $year, format_in: [ TV, TV_SHORT, MOVIE ], status: RELEASING ,  sort: POPULARITY_DESC, isAdult: false){
+            ...MediaBySeasonFields
+        }
+    }
+    SPECIALS: Page(perPage: 100, page: 1){
+        media(season: $season, seasonYear: $year, format_not_in: [ TV, TV_SHORT, MOVIE ] , sort: POPULARITY_DESC, isAdult: false){
+            ...MediaBySeasonFields
+        }
+    }
+}
+
