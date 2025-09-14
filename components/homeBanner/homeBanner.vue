@@ -82,14 +82,14 @@ onMounted(() => {
       transition-prev="slide-right"
       transition-next="slide-left"
       :padding="false"
-      class="bg-background p-0 m-0 h-[480px] lg:h-[520px]"
+      class="bg-background p-0 m-0 h-[300px] lg:h-[520px]"
       @mouseenter="autoplay = false"
       @mouseleave="autoplay = true"
     >
       <template v-slot:navigation-icon="{ active, btnProps, onClick }">
         <q-btn
           v-if="active"
-          class="text-primary-01"
+          class="text-white"
           size="5px"
           :icon="btnProps.icon"
           flat
@@ -99,7 +99,7 @@ onMounted(() => {
         ></q-btn>
         <q-btn
           v-else
-          class="text-primary-10"
+          class="text-gray-400"
           size="5px"
           :icon="btnProps.icon"
           flat
@@ -122,27 +122,27 @@ onMounted(() => {
           loading="lazy"
           :alt="`${media?.title?.english || media?.title?.romaji}`"
         >
-          <div id="banner-content" class="flex absolute-full no-bg-color">
-            <div class="absolute-full w-full px-4 xl:px-8 2xl:px-80">
-              <div class="text-white w-full h-[264px] mt-[200px] lg:mt-[110px]">
-                <h2 class="text-neutral-50 text-2xl font-bold">
-                  {{ media?.title?.english }}
+          <div id="banner-content" class="absolute-full no-bg-color">
+            <div class="absolute-full flex items-end p-4 xl:pb-11 xl:px-80">
+              <div class="text-white">
+                <h2 class="text-neutral-50 text-xl lg:text-2xl font-bold">
+                  {{ media?.title?.english ?? media?.title?.romaji }}
                 </h2>
-                <p class="text-full-white text-base font-medium mb-3">
-                  Top 1 {{ $t(`${media?.season?.toLowerCase()}`) }}
-                </p>
-                <div
-                  class="h-1/6 justify-start items-center gap-2 inline-flex wrap"
-                >
-                  <GenreChip
-                    :genre="`${genre}`"
-                    v-for="genre in media?.genres?.slice(0, 4)"
-                    :key="'genre-' + genre"
-                  />
+
+                <div class="row align-middle items-center text-subtitle">
+                  <p class="mr-2 text-lg">
+                    {{ media?.studios?.nodes?.at(0)?.name }}
+                  </p>
+                  <div
+                    v-if:="media?.averageScore"
+                    class="bg-green text-white py-1 px-2 rounded"
+                  >
+                    {{ media?.averageScore + "%" }}
+                  </div>
                 </div>
 
                 <div
-                  class="w-full xl:w-1/2 mr-4 overflow-y-scroll custom-scrollbar text-wrap text-xs h-[100px] font-normal leading-[18px] text-neutral-04 my-4 bg-card-component rounded-md bg-opacity-45 p-3"
+                  class="w-full xl:w-1/2 xl:mr-4 my-2 overflow-y-scroll custom-scrollbar text-wrap h-[100px] text-ellipsis font-normal leading-[18px] text-subtitle"
                   v-html="
                     media?.description.replace(/(<br\s*\/?>){2,}/g, '<br>')
                   "
@@ -151,7 +151,7 @@ onMounted(() => {
                 <q-btn
                   no-caps
                   :label="$t('button.about')"
-                  class="w-[300px] bg-primary-01 text-white rounded-lg px-4 py-2"
+                  class="w-[150px] bg-primary01 text-white rounded-s px-4 py-2"
                   @click="
                     navigateTo(
                       constructLocalePath(
@@ -173,9 +173,10 @@ onMounted(() => {
 
 <style>
 .q-img__content > .no-bg-color {
-  background-color: transparent !important;
+  /* background-color: transparent !important; */
   /* @apply bg-gradient-to-r from-indigo-800 via-transparent; */
-  @apply bg-gradient-to-t from-background from-0% via-background-55 via-25%;
+  /* @apply bg-gradient-to-t from-background from-0% via-background55 via-10%; */
+  @apply bg-background bg-opacity-50;
 }
 
 .q-carousel__slide,
@@ -183,14 +184,19 @@ onMounted(() => {
   padding: 0px;
 }
 
-/* Padding for navigation dots */
-.q-carousel__navigation--bottom {
-  transform: translateY(70%);
-}
-
 .q-carousel__navigation .q-btn {
   margin-left: 1px;
   margin-right: 1px;
   padding: 0px;
+}
+
+.q-carousel__control {
+  @apply lg:translate-y-0;
+  transform: translateY(-40%);
+}
+
+/* Padding for navigation dots */
+.q-carousel__navigation--bottom {
+  transform: translateX(45%) translateY(70%);
 }
 </style>

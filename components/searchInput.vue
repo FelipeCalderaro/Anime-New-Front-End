@@ -31,13 +31,13 @@
         @input="onValidation"
         type="search"
         id="default-search"
-        class="header-search block w-full p-4 ps-10 text-sm text-white border border-transparent rounded-lg bg-header-background focus:bg-background focus:border-primary-10"
+        class="header-search block w-full p-4 ps-10 text-sm text-white border border-transparent rounded-lg bg-headerBackground focus:bg-background focus:border-primary10"
         :class="{ 'border-red-500': error, 'border-transparent': !error }"
         :placeholder="hint"
       />
       <!-- <button
         type="submit"
-        class="block xs:hidden sm:block text-white absolute end-2.5 bottom-2.5 bg-background hover:bg-primary-01 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
+        class="block xs:hidden sm:block text-white absolute end-2.5 bottom-2.5 bg-background hover:bg-primary01 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
       >
         {{ $t("search") }}
       </button> -->

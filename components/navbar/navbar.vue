@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import SearchInput from "../searchInput.vue";
 const drawerOpen = ref(false);
 </script>
 
 <template>
-  <q-header elevated class="header">
+  <div class="header">
     <q-toolbar>
       <div
-        class="header-content flex flex-col sm:flex-row 2xl:px-80 h-full w-full"
+        class="header-content flex flex-row px-2 sm:px-4 xl:px-8 2xl:px-80 h-full w-full"
       >
         <div class="xl:py-3">
           <a href="/temporadas">
@@ -25,26 +24,6 @@ const drawerOpen = ref(false);
         <div
           class="flex flex-row flex-1 md:inline w-full sm:w-96 justify-center"
         >
-          <SearchInput
-            class="header-search flex-1"
-            type="search"
-            input-id="search"
-            :hint="$t('search.placeholder')"
-            error-message="Este campo não pode estar vazio"
-            :onSubmit="
-              (isValid, text) => {
-                if (isValid) {
-                  navigateTo(constructLocalePath('/search', null, text));
-                }
-              }
-            "
-            :validation="
-              (value) => {
-                return value.length !== 0 && value.length >= 3;
-              }
-            "
-          ></SearchInput>
-
           <button class="md:hidden" @click="drawerOpen = !drawerOpen">
             <svg
               class="text-neutral-50 ml-auto w-8"
@@ -102,7 +81,7 @@ const drawerOpen = ref(false);
 
         <div
           v-if="drawerOpen"
-          class="absolute z-10 text-white right-8 top-24 bg-background p-6 flex flex-col rounded-lg border-primary-04 border-[0.5px]"
+          class="absolute z-10 text-white right-8 top-24 bg-background p-6 flex flex-col rounded-lg border-primary04 border-[0.5px]"
         >
           <q-btn
             flat
@@ -137,7 +116,7 @@ const drawerOpen = ref(false);
         </div>
       </div>
     </q-toolbar>
-  </q-header>
+  </div>
 </template>
 
 <style scoped>
@@ -165,7 +144,7 @@ const drawerOpen = ref(false);
 .button-navbar:hover {
   height: 100%;
   color: #fafafa;
-  @apply bg-primary-01;
+  @apply bg-primary01;
 }
 
 .header {
@@ -191,11 +170,7 @@ const drawerOpen = ref(false);
   @apply justify-center items-center;
 }
 
-.header-search {
-  @apply mx-0 w-60 lg:w-80;
-}
-
 .q-toolbar {
-  @apply p-0 md:px-8 items-center;
+  @apply p-0 items-center;
 }
 </style>

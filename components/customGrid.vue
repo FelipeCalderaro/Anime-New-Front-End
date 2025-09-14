@@ -1,8 +1,10 @@
 <template>
-  <div
-    class="px-2 sm:px-4 xl:px-8 2xl:px-80 grid md:gap-x-6 gap-y-4 md:gap-y-8 grid-cols-1 xl:grid-cols-3 qhd:grid-cols-4"
-  >
-    <slot />
+  <div class="my-5 px-2 sm:px-4 xl:px-8 2xl:px-80">
+    <div
+      class="grid gap-y-5 gap-x-2 sm:gap-5-x 2xl:gap-x-10 [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] justify-start"
+    >
+      <slot />
+    </div>
   </div>
 </template>
 

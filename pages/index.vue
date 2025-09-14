@@ -1,19 +1,33 @@
 <script setup lang="ts">
-import { MediaSeason, type MediaBySeasonQuery } from "#gql/default";
+import {
+  MediaFormat,
+  MediaSeason,
+  type MediaBySeasonQuery,
+} from "#gql/default";
 import fallIcon from "@/assets/svg/fall-icon.svg";
 import springIcon from "@/assets/svg/spring-icon.svg";
 import summerIcon from "@/assets/svg/summer-icon.svg";
 import winterIcon from "@/assets/svg/winter-icon.svg";
 import { APP_CONFIGS } from "~/constants";
+import { All, type Format, type Status } from "~/types/Enums";
 
 const router = useRouter(); // Get the router instance
 const route = useRoute(); // Get the current route
+
+enum SelectedStatus {
+  ALL,
+  AIRING,
+  FINISHED,
+  SOON,
+}
 
 const currentDate = new Date();
 let mediaBySeasonData = ref<MediaBySeasonQuery | null>();
 let loading: Ref<boolean> = ref(true);
 let error = ref<null | Error>(null);
 let currentYear: Ref<number> = ref(currentDate.getFullYear());
+let formatSelected: Ref<Format> = ref(All.ALL);
+let statusSelected: Ref<Status> = ref(All.ALL);
 let seasonSelected: Ref<MediaSeason> = ref(
   (route.query.season as MediaSeason) || getCurrentSeason()
 );
@@ -21,6 +35,14 @@ const toggleFilter: Ref<boolean> = ref(false);
 const toggleSearch: Ref<boolean> = ref(false);
 const searchText: Ref<string> = ref("");
 const { locale } = useI18n();
+
+function formatSelectedCallback(format: Format) {
+  formatSelected.value = format;
+}
+
+function statusSelectedCallback(status: Status) {
+  statusSelected.value = status;
+}
 
 // Function to update the query parameter
 function updatePageQuery(season: MediaSeason) {
@@ -178,146 +200,130 @@ await getInitialSeason(seasonSelected.value, currentYear.value).then(() => {
         />
       </div>
 
+      <anime-filter
+        class="mx-4 2xl:mx-80"
+        :hint="$t('search.placeholder')"
+        :error-message="$t('search.error')"
+        :selected-format="formatSelected"
+        :selected-status="statusSelected"
+        :onSubmit="
+          (isValid, text) => {
+            if (isValid) {
+              navigateTo(constructLocalePath('/search', null, text));
+            }
+          }
+        "
+        :validation="
+          (value) => {
+            return value.length !== 0 && value.length >= 3;
+          }
+        "
+        :onFormatSelected="formatSelectedCallback"
+        :onStatusSelected="statusSelectedCallback"
+      />
+
       <ad-container />
 
-      <div
-        id="tv"
-        v-if="mediaBySeasonData?.TV?.media?.length"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2"
+      <custom-grid
+        v-if="
+          mediaBySeasonData?.TV?.media?.length &&
+          (formatSelected === All.ALL || formatSelected === MediaFormat.TV)
+        "
       >
-        {{ $t("home.body.tv") }}
-      </div>
-
-      <custom-grid v-if="mediaBySeasonData?.TV?.media?.length">
-        <season-cards
+        <anime-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
           :image-url="anime?.coverImage?.large ?? '-'"
-          :description="anime?.description ?? '-'"
-          :next-episode="anime?.nextAiringEpisode?.episode"
-          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
-          :episodes="anime?.episodes"
           :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
-          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
-          :genres="anime?.genres"
+          :studio="anime?.studios?.nodes?.at(0)?.name ?? '-'"
+          :average-score="anime?.averageScore ?? 0"
+          :type="anime?.format ?? '-'"
+          :synopsis="anime?.description ?? '-'"
           v-for="anime in mediaBySeasonData?.TV?.media"
           :key="anime?.id"
         />
       </custom-grid>
 
-      <ad-container />
-
-      <div
-        id="tv-shorts"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2"
-        v-if="mediaBySeasonData?.SHORTS?.media?.length"
+      <custom-grid
+        v-if="
+          mediaBySeasonData?.MOVIES?.media?.length &&
+          (formatSelected === All.ALL || formatSelected === MediaFormat.MOVIE)
+        "
       >
-        {{ $t("home.body.tv-shorts") }}
-      </div>
-      <custom-grid v-if="mediaBySeasonData?.SHORTS?.media?.length">
-        <season-cards
+        <anime-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
           :image-url="anime?.coverImage?.large ?? '-'"
-          :description="anime?.description ?? '-'"
-          :next-episode="anime?.nextAiringEpisode?.episode"
-          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
-          :episodes="anime?.episodes"
           :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
-          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
-          :genres="anime?.genres"
-          v-for="anime in mediaBySeasonData?.SHORTS?.media"
-          :key="anime?.id"
-        />
-      </custom-grid>
-
-      <ad-container v-if="mediaBySeasonData?.SHORTS?.media?.length" />
-
-      <div
-        id="movies"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2"
-        v-if="mediaBySeasonData?.MOVIES?.media?.length"
-      >
-        {{ $t("home.body.movies") }}
-      </div>
-      <custom-grid v-if="mediaBySeasonData?.MOVIES?.media?.length">
-        <season-cards
-          :id="anime?.id ?? 0"
-          :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
-          :image-url="anime?.coverImage?.large ?? '-'"
-          :description="anime?.description ?? '-'"
-          :next-episode="anime?.nextAiringEpisode?.episode"
-          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
-          :episodes="anime?.episodes"
-          :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
-          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
-          :genres="anime?.genres"
+          :studio="anime?.studios?.nodes?.at(0)?.name ?? '-'"
+          :average-score="anime?.averageScore ?? 0"
+          :type="anime?.format ?? '-'"
+          :synopsis="anime?.description ?? '-'"
           v-for="anime in mediaBySeasonData?.MOVIES?.media"
           :key="anime?.id"
         />
       </custom-grid>
 
-      <div
-        id="left-overs"
-        v-if="
-          mediaBySeasonData?.LEFTOVERS?.media?.length &&
-          seasonSelected === getCurrentSeason()
-        "
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 my-2"
-      >
-        {{ $t("home.body.in-progress") }}
-      </div>
       <custom-grid
         v-if="
-          mediaBySeasonData?.LEFTOVERS?.media?.length &&
-          seasonSelected === getCurrentSeason()
+          mediaBySeasonData?.SHORTS?.media?.length &&
+          (formatSelected === All.ALL ||
+            formatSelected === MediaFormat.TV_SHORT)
         "
       >
-        <season-cards
+        <anime-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
           :image-url="anime?.coverImage?.large ?? '-'"
-          :description="anime?.description ?? '-'"
-          :next-episode="anime?.nextAiringEpisode?.episode"
-          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
-          :episodes="anime?.episodes"
           :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
-          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
-          :genres="anime?.genres"
-          v-for="anime in mediaBySeasonData?.LEFTOVERS?.media"
+          :studio="anime?.studios?.nodes?.at(0)?.name ?? '-'"
+          :average-score="anime?.averageScore ?? 0"
+          type="SHORTS"
+          :synopsis="anime?.description ?? '-'"
+          v-for="anime in mediaBySeasonData?.SHORTS?.media"
           :key="anime?.id"
         />
       </custom-grid>
 
-      <div
-        id="specials"
-        class="text-white text-2xl font-semibold px-2 sm:px-4 xl:px-8 2xl:px-80 mb-2"
-        v-if="mediaBySeasonData?.SPECIALS?.media?.length"
+      <custom-grid
+        v-if="
+          mediaBySeasonData?.SPECIALS?.media?.length &&
+          (formatSelected === All.ALL || formatSelected === MediaFormat.SPECIAL)
+        "
       >
-        {{ $t("home.body.specials") }}
-      </div>
-      <custom-grid v-if="mediaBySeasonData?.SPECIALS?.media?.length">
-        <season-cards
+        <anime-cards
           :id="anime?.id ?? 0"
           :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
           :image-url="anime?.coverImage?.large ?? '-'"
-          :description="anime?.description ?? '-'"
-          :next-episode="anime?.nextAiringEpisode?.episode"
-          :episode-airing-at="anime?.nextAiringEpisode?.airingAt"
-          :episodes="anime?.episodes"
           :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
-          :studio-name="anime?.studios?.nodes?.at(0)?.name ?? '-'"
-          :genres="anime?.genres"
+          :studio="anime?.studios?.nodes?.at(0)?.name ?? '-'"
+          :average-score="anime?.averageScore ?? 0"
+          :type="anime?.format ?? '-'"
+          :synopsis="anime?.description ?? '-'"
           v-for="anime in mediaBySeasonData?.SPECIALS?.media"
           :key="anime?.id"
         />
       </custom-grid>
 
-      <ad-container />
-
-      <div :v-if="mediaBySeasonData?.TV?.media?.length === 0">
-        {{ $t("home.body.nothing-found") }}
-      </div>
+      <custom-grid
+        v-if="
+          mediaBySeasonData?.LEFTOVERS?.media?.length &&
+          (formatSelected === All.ALL || formatSelected === All.OTHER)
+        "
+      >
+        <anime-cards
+          :id="anime?.id ?? 0"
+          :title="anime?.title?.english ?? anime?.title?.romaji ?? '-'"
+          :image-url="anime?.coverImage?.large ?? '-'"
+          :studio-id="anime?.studios?.nodes?.at(0)?.id ?? 0"
+          :studio="anime?.studios?.nodes?.at(0)?.name ?? '-'"
+          :average-score="anime?.averageScore ?? 0"
+          :type="anime?.format ?? '-'"
+          :synopsis="anime?.description ?? '-'"
+          v-for="anime in mediaBySeasonData?.LEFTOVERS?.media"
+          :key="anime?.id"
+        />
+      </custom-grid>
     </div>
   </div>
 </template>

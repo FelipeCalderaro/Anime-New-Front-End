@@ -1,6 +1,6 @@
 <template>
   <div
-    class="custom-scroll h-[200px] px-6 py-4 bg-card-component rounded-md border border-ui-component2 flex-col justify-start items-center gap-3 inline-flex"
+    class="custom-scroll h-[200px] px-6 py-4 bg-cardComponent rounded-md border border-uiComponent2 flex-col justify-start items-center gap-3 inline-flex"
   >
     <div
       class="self-stretch h-[21px] flex-col justify-start items-start gap-1 flex"

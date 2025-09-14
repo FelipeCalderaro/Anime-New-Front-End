@@ -50,7 +50,7 @@
   text-decoration: underline;
   font-size: 1em;
   margin-bottom: 0.5rem;
-  @apply text-primary-01 mr-3;
+  /* @apply text-primary01 mr-3; */
 }
   
 .markdown_spoiler span {

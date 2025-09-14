@@ -33,7 +33,7 @@ useHead({
     <q-ajax-bar
       ref="bar"
       position="bottom"
-      color="primary-09"
+      color="primary09"
       size="6px"
       :hijack-filter="hijackFilter"
     />

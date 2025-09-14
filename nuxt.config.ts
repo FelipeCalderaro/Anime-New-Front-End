@@ -1,37 +1,37 @@
 import { APP_CONFIGS } from "./constants";
 
+const deployTarget = process.env.DEPLOY_TARGET || 'netlify';
+const isNodeServer = deployTarget === 'node-server';
+
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   imports: {
     autoImport: true,
   },
-  vite: {
-    // Add custom Vite plugins, configure build options, etc.
-    build: {
-      // Increase memory limit if needed for large builds
-      chunkSizeWarningLimit: 1000, // Adjust as necessary
-    },
-    server: {
-      hmr: { overlay: false }, // Example: disable HMR overlay
-    }
-  },
   ssr: true,
   nitro: {
-    baseURL: '/api/',
-    preset: 'node-server', // Related to this https://github.com/nitrojs/nitro/issues/1484
-    externals: {
-      inline: ['vue', '@vue/server-renderer']
-    }
+    preset: isNodeServer ? 'node-server' : 'netlify',
   },
+  vite: {
+    base: isNodeServer ? '/temporadas/' : '/'
+  },
+  // nitro: {
+  //   // baseURL: '/api/',
+  //   // preset: 'node-server', // Related to this https://github.com/nitrojs/nitro/issues/1484
+  //   // externals: {
+  //   //   inline: ['vue', '@vue/server-renderer']
+  //   // }
+  // },
   build: {
     transpile: [
       'deepl-node',
       'axios',
+      'cheerio',
     ],
   },
   app: {
-    baseURL: "/temporadas/",
-    buildAssetsDir: "/_nuxt/",
+    baseURL: isNodeServer ? '/temporadas/' : '/',
     head: {
       title: APP_CONFIGS.title,
       titleTemplate: "%s",
@@ -75,18 +75,22 @@ export default defineNuxtConfig({
     '@nuxtjs/google-adsense',
     "nuxt-quasar-ui",
     "nuxt-graphql-client",
-    "@nuxtjs/strapi",
     "@nuxtjs/tailwindcss",
+    // "@nuxtjs/strapi",
     // '@nuxtjs/robots',
-    '@nuxtjs/seo',
+    // '@nuxtjs/sitemap',
     '@nuxtjs/i18n',
-    '@nuxtjs/sitemap',
+    '@nuxtjs/seo',
   ],
   googleAdsense: {
     onPageLoad: false,
     pageLevelAds: false,
+    id: process.env.GOOGLE_ADSENSE_ID || "ca-pub-3926999916166130"
   },
   i18n: {
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
     locales: [
       { code: 'pt-br', name: 'Portuguese', language: 'pt-BR', file: 'pt-br.json' },
       { code: 'ja', name: 'Japanese', language: 'ja-JP', file: 'ja.json' },

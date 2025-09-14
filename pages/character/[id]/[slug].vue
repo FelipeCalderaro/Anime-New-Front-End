@@ -87,7 +87,7 @@ onMounted(() => {
 
     <custom-grid>
       <div
-        class="flex flex-row bg-card-component h-32 lg:h-40 items-center justify-start"
+        class="flex flex-row bg-cardComponent h-32 lg:h-40 items-center justify-start"
         v-for="media in data.Character?.media?.edges"
         :key="`${media?.id}`"
       >
@@ -111,7 +111,7 @@ onMounted(() => {
           class="text-xs my-4 ml-4 flex-initial lg:w-1/3"
         >
           <div
-            class="font-bold text-neutral-01"
+            class="font-bold text-neutral01"
             :title="
               media?.node?.title?.userPreferred ??
               media?.node?.title?.english ??
@@ -122,13 +122,13 @@ onMounted(() => {
               media?.node?.title?.userPreferred ?? media?.node?.title?.english
             }}
           </div>
-          <div class="font-semibold text-neutral-05">
+          <div class="font-semibold text-neutral05">
             {{
               media?.voiceActors?.at(0)?.name?.full ??
               media?.voiceActors?.at(0)?.name?.userPreferred
             }}
           </div>
-          <div class="font-medium text-[10px] text-neutral-06">
+          <div class="font-medium text-[10px] text-neutral06">
             {{ media?.voiceActors?.at(0)?.language }}
           </div>
         </div>

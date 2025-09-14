@@ -26,6 +26,7 @@ fragment SearchMediaFields on Media {
         year
     }
     bannerImage
+    averageScore
     coverImage{
         extraLarge
         large

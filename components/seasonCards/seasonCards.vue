@@ -1,7 +1,7 @@
 <template>
   <q-card
     :id="'div-' + id"
-    class="bg-card-component text-white w-full h-[280px] cursor-pointer"
+    class="bg-cardComponent text-white w-full h-[280px] cursor-pointer"
     v-on:click="
       async () => await navigateTo(localePath(`/media/${id}/${slugify(title)}`))
     "
@@ -17,7 +17,7 @@
             {{ $t("media.studio") }}
             <a
               v-if="studioName"
-              class="cursor-pointer text-primary-02 underline"
+              class="cursor-pointer text-primary02 underline"
               @click="
                 navigateTo(constructLocalePath('/studio', studioId, studioName))
               "
@@ -96,6 +96,6 @@ const props = defineProps<SeasonCardsProps>();
 
 <style>
 .q-img__content > div {
-  @apply py-3 bg-card-countdown-bg bg-opacity-80;
+  @apply py-3 bg-cardCountdownBg bg-opacity-80;
 }
 </style>
